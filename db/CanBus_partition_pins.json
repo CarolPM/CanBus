@@ -1,0 +1,337 @@
+{
+	"partitions" : [
+		{
+			"name" : "Top",
+			"pins" : [
+				{
+					"name" : "o_Rx_DV",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[0]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[1]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[2]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[3]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[4]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[5]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[6]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[7]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[8]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[9]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[10]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[11]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[12]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[13]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[14]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[15]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[16]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[17]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[18]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[19]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[20]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[21]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[22]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[23]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[24]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[25]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[26]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[27]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[28]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[29]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[30]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[31]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[32]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[33]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[34]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[35]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[36]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[37]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[38]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[39]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[40]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[41]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[42]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[43]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[44]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[45]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[46]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[47]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[48]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[49]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[50]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[51]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[52]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[53]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[54]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[55]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[56]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[57]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[58]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[59]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[60]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[61]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[62]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[63]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[64]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[65]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[66]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[67]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[68]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[69]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[70]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[71]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[72]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[73]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[74]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[75]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[76]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[77]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[78]",
+					"strict" : false
+				},
+				{
+					"name" : "i_Clock",
+					"strict" : false
+				},
+				{
+					"name" : "i_Rx_Serial",
+					"strict" : false
+				}
+			]
+		}
+	]
+}
