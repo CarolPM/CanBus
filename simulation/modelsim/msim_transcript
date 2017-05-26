@@ -13,18 +13,18 @@
 # 
 # vlog -vlog01compat -work work +incdir+C:/Users/Carol/Documents/quartusworkspace/CanBus {C:/Users/Carol/Documents/quartusworkspace/CanBus/can_rx.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 19:09:25 on May 25,2017
+# Start time: 03:18:25 on May 26,2017
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+C:/Users/Carol/Documents/quartusworkspace/CanBus" C:/Users/Carol/Documents/quartusworkspace/CanBus/can_rx.v 
 # -- Compiling module can_rx
 # 
 # Top level modules:
 # 	can_rx
-# End time: 19:09:25 on May 25,2017, Elapsed time: 0:00:00
+# End time: 03:18:25 on May 26,2017, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # 
 # vlog -vlog01compat -work work +incdir+C:/Users/Carol/Documents/quartusworkspace/CanBus {C:/Users/Carol/Documents/quartusworkspace/CanBus/can_tb.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 19:09:25 on May 25,2017
+# Start time: 03:18:25 on May 26,2017
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+C:/Users/Carol/Documents/quartusworkspace/CanBus" C:/Users/Carol/Documents/quartusworkspace/CanBus/can_tb.v 
 # -- Compiling module can_tx
 # -- Compiling module can_rx
@@ -33,12 +33,12 @@
 # Top level modules:
 # 	can_tx
 # 	can_tb
-# End time: 19:09:25 on May 25,2017, Elapsed time: 0:00:00
+# End time: 03:18:25 on May 26,2017, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # 
 # vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cycloneive_ver -L rtl_work -L work -voptargs="+acc"  can_tb
 # vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cycloneive_ver -L rtl_work -L work -voptargs=""+acc"" can_tb 
-# Start time: 19:09:25 on May 25,2017
+# Start time: 03:18:25 on May 26,2017
 # Loading work.can_tb
 # Loading work.can_rx
 # 
@@ -54,19 +54,19 @@
 # r_Bit_Index(  1)=00000001
 # Valor Data (  2)=0
 # r_Bit_Index(  2)=00000010
-# Valor Data (  3)=1
+# Valor Data (  3)=0
 # r_Bit_Index(  3)=00000011
 # Valor Data (  4)=0
 # r_Bit_Index(  4)=00000100
-# Valor Data (  5)=1
+# Valor Data (  5)=0
 # r_Bit_Index(  5)=00000101
 # Valor Data (  6)=0
 # r_Bit_Index(  6)=00000110
-# Valor Data (  7)=0
+# Valor Data (  7)=1
 # r_Bit_Index(  7)=00000111
 # Valor Data (  8)=0
 # r_Bit_Index(  8)=00001000
-# Valor Data (  9)=0
+# Valor Data (  9)=1
 # r_Bit_Index(  9)=00001001
 # Valor Data ( 10)=0
 # r_Bit_Index( 10)=00001010
@@ -78,145 +78,145 @@
 # r_Bit_Index( 13)=00001101
 # Valor Data ( 14)=0
 # r_Bit_Index( 14)=00001110
-# Valor Data ( 15)=1
+# Valor Data ( 15)=0
 # r_Bit_Index( 15)=00001111
 # Valor Data ( 16)=0
 # r_Bit_Index( 16)=00010000
 # Valor Data ( 17)=0
 # r_Bit_Index( 17)=00010001
-# Valor Data ( 18)=0
+# Valor Data ( 18)=1
 # r_Bit_Index( 18)=00010010
-# Valor Data ( 19)=0
+# Valor Data ( 19)=1
 # r_Bit_Index( 19)=00010011
-# Valor Data ( 20)=1
+# Valor Data ( 20)=0
 # r_Bit_Index( 20)=00010100
-# Valor Data ( 21)=0
+# Valor Data ( 21)=1
 # r_Bit_Index( 21)=00010101
-# Valor Data ( 22)=1
+# Valor Data ( 22)=0
 # r_Bit_Index( 22)=00010110
-# Valor Data ( 23)=0
+# Valor Data ( 23)=1
 # r_Bit_Index( 23)=00010111
-# Valor Data ( 24)=1
+# Valor Data ( 24)=0
 # r_Bit_Index( 24)=00011000
-# Valor Data ( 25)=0
+# Valor Data ( 25)=1
 # r_Bit_Index( 25)=00011001
-# Valor Data ( 26)=1
+# Valor Data ( 26)=0
 # r_Bit_Index( 26)=00011010
-# Valor Data ( 27)=0
+# Valor Data ( 27)=1
 # r_Bit_Index( 27)=00011011
-# Valor Data ( 28)=1
+# Valor Data ( 28)=0
 # r_Bit_Index( 28)=00011100
-# Valor Data ( 29)=0
+# Valor Data ( 29)=1
 # r_Bit_Index( 29)=00011101
-# Valor Data ( 30)=1
+# Valor Data ( 30)=0
 # r_Bit_Index( 30)=00011110
-# Valor Data ( 31)=0
+# Valor Data ( 31)=1
 # r_Bit_Index( 31)=00011111
-# Valor Data ( 32)=1
+# Valor Data ( 32)=0
 # r_Bit_Index( 32)=00100000
-# Valor Data ( 33)=0
+# Valor Data ( 33)=1
 # r_Bit_Index( 33)=00100001
-# Valor Data ( 34)=1
+# Valor Data ( 34)=0
 # r_Bit_Index( 34)=00100010
-# Valor Data ( 35)=0
+# Valor Data ( 35)=1
 # r_Bit_Index( 35)=00100011
-# Valor Data ( 36)=1
+# Valor Data ( 36)=0
 # r_Bit_Index( 36)=00100100
-# Valor Data ( 37)=0
+# Valor Data ( 37)=1
 # r_Bit_Index( 37)=00100101
-# Valor Data ( 38)=1
+# Valor Data ( 38)=0
 # r_Bit_Index( 38)=00100110
-# Valor Data ( 39)=0
+# Valor Data ( 39)=1
 # r_Bit_Index( 39)=00100111
-# Valor Data ( 40)=1
+# Valor Data ( 40)=0
 # r_Bit_Index( 40)=00101000
-# Valor Data ( 41)=0
+# Valor Data ( 41)=1
 # r_Bit_Index( 41)=00101001
-# Valor Data ( 42)=1
+# Valor Data ( 42)=0
 # r_Bit_Index( 42)=00101010
-# Valor Data ( 43)=0
+# Valor Data ( 43)=1
 # r_Bit_Index( 43)=00101011
-# Valor Data ( 44)=1
+# Valor Data ( 44)=0
 # r_Bit_Index( 44)=00101100
-# Valor Data ( 45)=0
+# Valor Data ( 45)=1
 # r_Bit_Index( 45)=00101101
-# Valor Data ( 46)=1
+# Valor Data ( 46)=0
 # r_Bit_Index( 46)=00101110
-# Valor Data ( 47)=0
+# Valor Data ( 47)=1
 # r_Bit_Index( 47)=00101111
-# Valor Data ( 48)=1
+# Valor Data ( 48)=0
 # r_Bit_Index( 48)=00110000
-# Valor Data ( 49)=0
+# Valor Data ( 49)=1
 # r_Bit_Index( 49)=00110001
-# Valor Data ( 50)=1
+# Valor Data ( 50)=0
 # r_Bit_Index( 50)=00110010
-# Valor Data ( 51)=0
+# Valor Data ( 51)=1
 # r_Bit_Index( 51)=00110011
-# Valor Data ( 52)=1
+# Valor Data ( 52)=0
 # r_Bit_Index( 52)=00110100
-# Valor Data ( 53)=0
+# Valor Data ( 53)=1
 # r_Bit_Index( 53)=00110101
-# Valor Data ( 54)=1
+# Valor Data ( 54)=0
 # r_Bit_Index( 54)=00110110
-# Valor Data ( 55)=0
+# Valor Data ( 55)=1
 # r_Bit_Index( 55)=00110111
-# Valor Data ( 56)=1
+# Valor Data ( 56)=0
 # r_Bit_Index( 56)=00111000
-# Valor Data ( 57)=0
+# Valor Data ( 57)=1
 # r_Bit_Index( 57)=00111001
-# Valor Data ( 58)=1
+# Valor Data ( 58)=0
 # r_Bit_Index( 58)=00111010
-# Valor Data ( 59)=0
+# Valor Data ( 59)=1
 # r_Bit_Index( 59)=00111011
-# Valor Data ( 60)=1
+# Valor Data ( 60)=0
 # r_Bit_Index( 60)=00111100
-# Valor Data ( 61)=0
+# Valor Data ( 61)=1
 # r_Bit_Index( 61)=00111101
-# Valor Data ( 62)=1
+# Valor Data ( 62)=0
 # r_Bit_Index( 62)=00111110
-# Valor Data ( 63)=0
+# Valor Data ( 63)=1
 # r_Bit_Index( 63)=00111111
-# Valor Data ( 64)=1
+# Valor Data ( 64)=0
 # r_Bit_Index( 64)=01000000
-# Valor Data ( 65)=0
+# Valor Data ( 65)=1
 # r_Bit_Index( 65)=01000001
-# Valor Data ( 66)=1
+# Valor Data ( 66)=0
 # r_Bit_Index( 66)=01000010
-# Valor Data ( 67)=0
+# Valor Data ( 67)=1
 # r_Bit_Index( 67)=01000011
-# Valor Data ( 68)=1
+# Valor Data ( 68)=0
 # r_Bit_Index( 68)=01000100
-# Valor Data ( 69)=0
+# Valor Data ( 69)=1
 # r_Bit_Index( 69)=01000101
-# Valor Data ( 70)=1
+# Valor Data ( 70)=0
 # r_Bit_Index( 70)=01000110
-# Valor Data ( 71)=0
+# Valor Data ( 71)=1
 # r_Bit_Index( 71)=01000111
-# Valor Data ( 72)=1
+# Valor Data ( 72)=0
 # r_Bit_Index( 72)=01001000
-# Valor Data ( 73)=0
+# Valor Data ( 73)=1
 # r_Bit_Index( 73)=01001001
-# Valor Data ( 74)=1
+# Valor Data ( 74)=0
 # r_Bit_Index( 74)=01001010
-# Valor Data ( 75)=0
+# Valor Data ( 75)=1
 # r_Bit_Index( 75)=01001011
-# Valor Data ( 76)=1
+# Valor Data ( 76)=0
 # r_Bit_Index( 76)=01001100
-# Valor Data ( 77)=0
+# Valor Data ( 77)=1
 # r_Bit_Index( 77)=01001101
-# Valor Data ( 78)=1
+# Valor Data ( 78)=0
 # r_Bit_Index( 78)=01001110
-# Valor Data ( 79)=0
+# Valor Data ( 79)=1
 # r_Bit_Index( 79)=01001111
-# Valor Data ( 80)=1
+# Valor Data ( 80)=0
 # r_Bit_Index( 80)=01010000
-# Valor Data ( 81)=0
+# Valor Data ( 81)=1
 # r_Bit_Index( 81)=01010001
-# Valor Data ( 82)=1
+# Valor Data ( 82)=0
 # r_Bit_Index( 82)=01010010
 # Valor Data ( 83)=0
 # r_Bit_Index( 83)=01010011
-# Valor Data ( 84)=0
+# Valor Data ( 84)=1
 # r_Bit_Index( 84)=01010100
 # Valor Data ( 85)=0
 # r_Bit_Index( 85)=01010101
@@ -226,11 +226,11 @@
 # r_Bit_Index( 87)=01010111
 # Valor Data ( 88)=0
 # r_Bit_Index( 88)=01011000
-# Valor Data ( 89)=0
+# Valor Data ( 89)=1
 # r_Bit_Index( 89)=01011001
 # Valor Data ( 90)=1
 # r_Bit_Index( 90)=01011010
-# Valor Data ( 91)=1
+# Valor Data ( 91)=0
 # r_Bit_Index( 91)=01011011
 # Valor Data ( 92)=0
 # r_Bit_Index( 92)=01011100
@@ -240,7 +240,7 @@
 # r_Bit_Index( 94)=01011110
 # Valor Data ( 95)=0
 # r_Bit_Index( 95)=01011111
-# Valor Data ( 96)=1
+# Valor Data ( 96)=0
 # r_Bit_Index( 96)=01100000
 # Valor Data ( 97)=0
 # r_Bit_Index( 97)=01100001
@@ -252,8 +252,20 @@
 # r_Bit_Index(100)=01100100
 # Valor Data (101)=1
 # r_Bit_Index(101)=01100101
+# Valor Data (102)=1
+# r_Bit_Index(102)=01100110
+# Valor Data (103)=1
+# r_Bit_Index(103)=01100111
+# Valor Data (104)=1
+# r_Bit_Index(104)=01101000
+# Valor Data (105)=1
+# r_Bit_Index(105)=01101001
+# Valor Data (106)=1
+# r_Bit_Index(106)=01101010
+# Valor Data (107)=1
+# r_Bit_Index(107)=01101011
 # Test Passed - Correct Byte Received
 # Break key hit
-# Break in Module can_tb at C:/Users/Carol/Documents/quartusworkspace/CanBus/can_tb.v line 129
-# End time: 20:59:30 on May 25,2017, Elapsed time: 1:50:05
+# Simulation stop requested.
+# End time: 03:42:00 on May 26,2017, Elapsed time: 0:23:35
 # Errors: 0, Warnings: 0
