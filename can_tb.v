@@ -24,20 +24,28 @@ module can_tb ();
   wire w_Tx_Done;
   //reg [7:0] r_Tx_Byte = 0;
   reg r_Rx_Serial = 1;
-  wire [78:0] w_Rx_Byte; //start+identifier+data
+  wire [101:0] w_Rx_Byte; //start+identifier+RTR+IDE+RESERVED0+data
    
  
   // Takes in input byte and serializes it 
   task CAN_WRITE_BYTE;
+	 input		  i_start; //
 	 input [10:0] i_identifier; //
-	 //input [3:0] i_length; //
+	 input		  i_RTR; //
+	 input		  i_IDE; //
+	 input		  i_RESERVED0; //
+	 input [3:0] i_length; //
 	 input [63:0] i_Data; //
-	 //input [14:0] i_CRC; //
+	 input [14:0] i_CRC; //
+	 input		  i_CRC_DELIM; //
+	 input		  i_ACK; //
+	 input		  i_ACK_DELIM; //
+	 input		  i_STOP; //
     integer     ii;
     begin
        
       // Send Start Bit
-      r_Rx_Serial <= 1'b0;
+      r_Rx_Serial <= i_start;
       #(c_BIT_PERIOD);
       //#1000;
 		
@@ -49,31 +57,31 @@ module can_tb ();
         end
       
 		// Send RTR Bit
-		r_Rx_Serial <= 1'b0;
+		r_Rx_Serial <= i_RTR;
 		#(c_BIT_PERIOD);
 		
 		// Send IDE Bit
-		r_Rx_Serial <= 1'b0;
+		r_Rx_Serial <= i_IDE;
 		#(c_BIT_PERIOD);
 		
 		// Send Reserved0 Bit
-		r_Rx_Serial <= 1'b0;
+		r_Rx_Serial <= i_RESERVED0;
 		#(c_BIT_PERIOD);
-		/*
-		// Send lenght
+		
+		// Send length
       for (ii=0; ii<4; ii=ii+1)
         begin
           r_Rx_Serial <= i_length[ii];
           #(c_BIT_PERIOD);
         end
-		*/
+		
 		// Send Data
       for (ii=0; ii<64; ii=ii+1)
         begin
           r_Rx_Serial <= i_Data[ii];
           #(c_BIT_PERIOD);
         end
-		/*  
+		 
 		// Send CRC
 		for (ii=0; ii<15; ii=ii+1)
         begin
@@ -82,19 +90,19 @@ module can_tb ();
         end
 		
 		// Send CRC Delimiter
-      r_Rx_Serial <= 1'b1;
+      r_Rx_Serial <= i_CRC_DELIM;
       #(c_BIT_PERIOD);
 		
 		// Send ACK
-      r_Rx_Serial <= 1'b0;
+      r_Rx_Serial <= i_ACK;
       #(c_BIT_PERIOD);
 		
 		// Send ACK Delimiter
-      r_Rx_Serial <= 1'b1;
+      r_Rx_Serial <= i_ACK_DELIM;
       #(c_BIT_PERIOD);
-		*/
+		
       // Send Stop Bit
-      r_Rx_Serial <= 1'b1;
+      r_Rx_Serial <= i_STOP;
       #(c_BIT_PERIOD);
      end
   endtask // CAN_WRITE_BYTE
@@ -137,11 +145,11 @@ module can_tb ();
       // Send a command to the CAN (exercise Rx)
       @(posedge r_Clock);
       //CAN_WRITE_BYTE(11'b00000010100, 4'b0001, 64'h1, 15'b0100001100000001);
-		CAN_WRITE_BYTE(11'b00000010100, 64'b1010101010101010101010101010101010101010101010101010101010101010);
+		CAN_WRITE_BYTE(1'b0, 11'b00000010100, 1'b0, 1'b0, 1'b0, 4'b0001, 64'b1010101010101010101010101010101010101010101010101010101010101010, 15'b010000110000000, 1'b1, 1'b0, 1'b1, 1'b1);
       @(posedge r_Clock);
              
       // Check that the correct command was received
-      if (w_Rx_Byte == 79'b1010101010101010101010101010101010101010101010101010101010101010000000000101000)
+      if (w_Rx_Byte == 102'b110101000011000000010101010101010101010101010101010101010101010101010101010101010100001000000000101000)
         $display("Test Passed - Correct Byte Received");
       else
         $display("Test Failed - Incorrect Byte Received");

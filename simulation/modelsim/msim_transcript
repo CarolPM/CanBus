@@ -13,18 +13,18 @@
 # 
 # vlog -vlog01compat -work work +incdir+C:/Users/Carol/Documents/quartusworkspace/CanBus {C:/Users/Carol/Documents/quartusworkspace/CanBus/can_rx.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 03:46:35 on May 25,2017
+# Start time: 19:09:25 on May 25,2017
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+C:/Users/Carol/Documents/quartusworkspace/CanBus" C:/Users/Carol/Documents/quartusworkspace/CanBus/can_rx.v 
 # -- Compiling module can_rx
 # 
 # Top level modules:
 # 	can_rx
-# End time: 03:46:35 on May 25,2017, Elapsed time: 0:00:00
+# End time: 19:09:25 on May 25,2017, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # 
 # vlog -vlog01compat -work work +incdir+C:/Users/Carol/Documents/quartusworkspace/CanBus {C:/Users/Carol/Documents/quartusworkspace/CanBus/can_tb.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 03:46:35 on May 25,2017
+# Start time: 19:09:25 on May 25,2017
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+C:/Users/Carol/Documents/quartusworkspace/CanBus" C:/Users/Carol/Documents/quartusworkspace/CanBus/can_tb.v 
 # -- Compiling module can_tx
 # -- Compiling module can_rx
@@ -33,12 +33,12 @@
 # Top level modules:
 # 	can_tx
 # 	can_tb
-# End time: 03:46:35 on May 25,2017, Elapsed time: 0:00:00
+# End time: 19:09:25 on May 25,2017, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # 
 # vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cycloneive_ver -L rtl_work -L work -voptargs="+acc"  can_tb
 # vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cycloneive_ver -L rtl_work -L work -voptargs=""+acc"" can_tb 
-# Start time: 03:46:36 on May 25,2017
+# Start time: 19:09:25 on May 25,2017
 # Loading work.can_tb
 # Loading work.can_rx
 # 
@@ -48,6 +48,8 @@
 # view signals
 # .main_pane.objects.interior.cs.body.tree
 # run -all
+# Valor Data (  0)=0
+# r_Bit_Index(  0)=00000000
 # Valor Data (  1)=0
 # r_Bit_Index(  1)=00000001
 # Valor Data (  2)=0
@@ -76,13 +78,13 @@
 # r_Bit_Index( 13)=00001101
 # Valor Data ( 14)=0
 # r_Bit_Index( 14)=00001110
-# Valor Data ( 15)=0
+# Valor Data ( 15)=1
 # r_Bit_Index( 15)=00001111
-# Valor Data ( 16)=1
+# Valor Data ( 16)=0
 # r_Bit_Index( 16)=00010000
 # Valor Data ( 17)=0
 # r_Bit_Index( 17)=00010001
-# Valor Data ( 18)=1
+# Valor Data ( 18)=0
 # r_Bit_Index( 18)=00010010
 # Valor Data ( 19)=0
 # r_Bit_Index( 19)=00010011
@@ -204,8 +206,54 @@
 # r_Bit_Index( 77)=01001101
 # Valor Data ( 78)=1
 # r_Bit_Index( 78)=01001110
+# Valor Data ( 79)=0
+# r_Bit_Index( 79)=01001111
+# Valor Data ( 80)=1
+# r_Bit_Index( 80)=01010000
+# Valor Data ( 81)=0
+# r_Bit_Index( 81)=01010001
+# Valor Data ( 82)=1
+# r_Bit_Index( 82)=01010010
+# Valor Data ( 83)=0
+# r_Bit_Index( 83)=01010011
+# Valor Data ( 84)=0
+# r_Bit_Index( 84)=01010100
+# Valor Data ( 85)=0
+# r_Bit_Index( 85)=01010101
+# Valor Data ( 86)=0
+# r_Bit_Index( 86)=01010110
+# Valor Data ( 87)=0
+# r_Bit_Index( 87)=01010111
+# Valor Data ( 88)=0
+# r_Bit_Index( 88)=01011000
+# Valor Data ( 89)=0
+# r_Bit_Index( 89)=01011001
+# Valor Data ( 90)=1
+# r_Bit_Index( 90)=01011010
+# Valor Data ( 91)=1
+# r_Bit_Index( 91)=01011011
+# Valor Data ( 92)=0
+# r_Bit_Index( 92)=01011100
+# Valor Data ( 93)=0
+# r_Bit_Index( 93)=01011101
+# Valor Data ( 94)=0
+# r_Bit_Index( 94)=01011110
+# Valor Data ( 95)=0
+# r_Bit_Index( 95)=01011111
+# Valor Data ( 96)=1
+# r_Bit_Index( 96)=01100000
+# Valor Data ( 97)=0
+# r_Bit_Index( 97)=01100001
+# Valor Data ( 98)=1
+# r_Bit_Index( 98)=01100010
+# Valor Data ( 99)=0
+# r_Bit_Index( 99)=01100011
+# Valor Data (100)=1
+# r_Bit_Index(100)=01100100
+# Valor Data (101)=1
+# r_Bit_Index(101)=01100101
 # Test Passed - Correct Byte Received
 # Break key hit
-# Simulation stop requested.
-# End time: 03:47:11 on May 25,2017, Elapsed time: 0:00:35
+# Break in Module can_tb at C:/Users/Carol/Documents/quartusworkspace/CanBus/can_tb.v line 129
+# End time: 20:59:30 on May 25,2017, Elapsed time: 1:50:05
 # Errors: 0, Warnings: 0

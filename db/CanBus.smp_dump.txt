@@ -1,12 +1,17 @@
 
 State Machine - |can_rx|r_SM_Main
-Name r_SM_Main.s_RX_IDE_BIT r_SM_Main.s_RX_RTR_BIT r_SM_Main.s_RX_IDENTIFIER_BITS r_SM_Main.s_CLEANUP r_SM_Main.s_RX_STOP_BIT r_SM_Main.s_RX_DATA_BITS r_SM_Main.s_RX_START_BIT r_SM_Main.0000 r_SM_Main.s_RX_RESERVED0_BIT 
-r_SM_Main.0000 0 0 0 0 0 0 0 0 0 
-r_SM_Main.s_RX_START_BIT 0 0 0 0 0 0 1 1 0 
-r_SM_Main.s_RX_DATA_BITS 0 0 0 0 0 1 0 1 0 
-r_SM_Main.s_RX_STOP_BIT 0 0 0 0 1 0 0 1 0 
-r_SM_Main.s_CLEANUP 0 0 0 1 0 0 0 1 0 
-r_SM_Main.s_RX_IDENTIFIER_BITS 0 0 1 0 0 0 0 1 0 
-r_SM_Main.s_RX_RTR_BIT 0 1 0 0 0 0 0 1 0 
-r_SM_Main.s_RX_IDE_BIT 1 0 0 0 0 0 0 1 0 
-r_SM_Main.s_RX_RESERVED0_BIT 0 0 0 0 0 0 0 1 1 
+Name r_SM_Main.s_RX_ACK_DELIM_BIT r_SM_Main.s_RX_ACK_BIT r_SM_Main.s_RX_CRC_DELIM_BIT r_SM_Main.s_RX_CRC_BITS r_SM_Main.s_RX_LENGTH_BITS r_SM_Main.s_RX_RESERVED0_BIT r_SM_Main.s_RX_IDE_BIT r_SM_Main.s_RX_RTR_BIT r_SM_Main.s_RX_IDENTIFIER_BITS r_SM_Main.s_CLEANUP r_SM_Main.s_RX_STOP_BIT r_SM_Main.s_RX_DATA_BITS r_SM_Main.s_RX_START_BIT r_SM_Main.0000 
+r_SM_Main.0000 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+r_SM_Main.s_RX_START_BIT 0 0 0 0 0 0 0 0 0 0 0 0 1 1 
+r_SM_Main.s_RX_DATA_BITS 0 0 0 0 0 0 0 0 0 0 0 1 0 1 
+r_SM_Main.s_RX_STOP_BIT 0 0 0 0 0 0 0 0 0 0 1 0 0 1 
+r_SM_Main.s_CLEANUP 0 0 0 0 0 0 0 0 0 1 0 0 0 1 
+r_SM_Main.s_RX_IDENTIFIER_BITS 0 0 0 0 0 0 0 0 1 0 0 0 0 1 
+r_SM_Main.s_RX_RTR_BIT 0 0 0 0 0 0 0 1 0 0 0 0 0 1 
+r_SM_Main.s_RX_IDE_BIT 0 0 0 0 0 0 1 0 0 0 0 0 0 1 
+r_SM_Main.s_RX_RESERVED0_BIT 0 0 0 0 0 1 0 0 0 0 0 0 0 1 
+r_SM_Main.s_RX_LENGTH_BITS 0 0 0 0 1 0 0 0 0 0 0 0 0 1 
+r_SM_Main.s_RX_CRC_BITS 0 0 0 1 0 0 0 0 0 0 0 0 0 1 
+r_SM_Main.s_RX_CRC_DELIM_BIT 0 0 1 0 0 0 0 0 0 0 0 0 0 1 
+r_SM_Main.s_RX_ACK_BIT 0 1 0 0 0 0 0 0 0 0 0 0 0 1 
+r_SM_Main.s_RX_ACK_DELIM_BIT 1 0 0 0 0 0 0 0 0 0 0 0 0 1 

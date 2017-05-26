@@ -1,5 +1,5 @@
 Analysis & Synthesis report for CanBus
-Thu May 25 03:45:37 2017
+Thu May 25 19:08:56 2017
 Quartus Prime Version 17.0.0 Build 595 04/25/2017 SJ Lite Edition
 
 
@@ -49,16 +49,16 @@ agreement for further details.
 +----------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                     ;
 +------------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Thu May 25 03:45:37 2017       ;
+; Analysis & Synthesis Status        ; Successful - Thu May 25 19:08:56 2017       ;
 ; Quartus Prime Version              ; 17.0.0 Build 595 04/25/2017 SJ Lite Edition ;
 ; Revision Name                      ; CanBus                                      ;
 ; Top-level Entity Name              ; can_rx                                      ;
 ; Family                             ; Cyclone IV E                                ;
-; Total logic elements               ; 474                                         ;
-;     Total combinational functions  ; 473                                         ;
-;     Dedicated logic registers      ; 160                                         ;
-; Total registers                    ; 160                                         ;
-; Total pins                         ; 82                                          ;
+; Total logic elements               ; 560                                         ;
+;     Total combinational functions  ; 556                                         ;
+;     Dedicated logic registers      ; 187                                         ;
+; Total registers                    ; 187                                         ;
+; Total pins                         ; 105                                         ;
 ; Total virtual pins                 ; 0                                           ;
 ; Total memory bits                  ; 0                                           ;
 ; Embedded Multiplier 9-bit elements ; 0                                           ;
@@ -182,30 +182,30 @@ agreement for further details.
 +---------------------------------------------+---------------+
 ; Resource                                    ; Usage         ;
 +---------------------------------------------+---------------+
-; Estimated Total logic elements              ; 474           ;
+; Estimated Total logic elements              ; 560           ;
 ;                                             ;               ;
-; Total combinational functions               ; 473           ;
+; Total combinational functions               ; 556           ;
 ; Logic element usage by number of LUT inputs ;               ;
-;     -- 4 input functions                    ; 341           ;
-;     -- 3 input functions                    ; 49            ;
-;     -- <=2 input functions                  ; 83            ;
+;     -- 4 input functions                    ; 379           ;
+;     -- 3 input functions                    ; 74            ;
+;     -- <=2 input functions                  ; 103           ;
 ;                                             ;               ;
 ; Logic elements by mode                      ;               ;
-;     -- normal mode                          ; 403           ;
+;     -- normal mode                          ; 486           ;
 ;     -- arithmetic mode                      ; 70            ;
 ;                                             ;               ;
-; Total registers                             ; 160           ;
-;     -- Dedicated logic registers            ; 160           ;
+; Total registers                             ; 187           ;
+;     -- Dedicated logic registers            ; 187           ;
 ;     -- I/O registers                        ; 0             ;
 ;                                             ;               ;
-; I/O pins                                    ; 82            ;
+; I/O pins                                    ; 105           ;
 ;                                             ;               ;
 ; Embedded Multiplier 9-bit elements          ; 0             ;
 ;                                             ;               ;
 ; Maximum fan-out node                        ; i_Clock~input ;
-; Maximum fan-out                             ; 160           ;
-; Total fan-out                               ; 2300          ;
-; Average fan-out                             ; 2.89          ;
+; Maximum fan-out                             ; 187           ;
+; Total fan-out                               ; 2671          ;
+; Average fan-out                             ; 2.80          ;
 +---------------------------------------------+---------------+
 
 
@@ -214,27 +214,32 @@ agreement for further details.
 +----------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+---------------------+-------------+--------------+
 ; Compilation Hierarchy Node ; Combinational ALUTs ; Dedicated Logic Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name ; Entity Name ; Library Name ;
 +----------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+---------------------+-------------+--------------+
-; |can_rx                    ; 473 (473)           ; 160 (160)                 ; 0           ; 0            ; 0       ; 0         ; 82   ; 0            ; |can_rx             ; can_rx      ; work         ;
+; |can_rx                    ; 556 (556)           ; 187 (187)                 ; 0           ; 0            ; 0       ; 0         ; 105  ; 0            ; |can_rx             ; can_rx      ; work         ;
 +----------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+---------------------+-------------+--------------+
 Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
 
 
 Encoding Type:  One-Hot
-+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; State Machine - |can_rx|r_SM_Main                                                                                                                                                                                                                                       ;
-+--------------------------------+------------------------+------------------------+--------------------------------+---------------------+-------------------------+--------------------------+--------------------------+----------------+------------------------------+
-; Name                           ; r_SM_Main.s_RX_IDE_BIT ; r_SM_Main.s_RX_RTR_BIT ; r_SM_Main.s_RX_IDENTIFIER_BITS ; r_SM_Main.s_CLEANUP ; r_SM_Main.s_RX_STOP_BIT ; r_SM_Main.s_RX_DATA_BITS ; r_SM_Main.s_RX_START_BIT ; r_SM_Main.0000 ; r_SM_Main.s_RX_RESERVED0_BIT ;
-+--------------------------------+------------------------+------------------------+--------------------------------+---------------------+-------------------------+--------------------------+--------------------------+----------------+------------------------------+
-; r_SM_Main.0000                 ; 0                      ; 0                      ; 0                              ; 0                   ; 0                       ; 0                        ; 0                        ; 0              ; 0                            ;
-; r_SM_Main.s_RX_START_BIT       ; 0                      ; 0                      ; 0                              ; 0                   ; 0                       ; 0                        ; 1                        ; 1              ; 0                            ;
-; r_SM_Main.s_RX_DATA_BITS       ; 0                      ; 0                      ; 0                              ; 0                   ; 0                       ; 1                        ; 0                        ; 1              ; 0                            ;
-; r_SM_Main.s_RX_STOP_BIT        ; 0                      ; 0                      ; 0                              ; 0                   ; 1                       ; 0                        ; 0                        ; 1              ; 0                            ;
-; r_SM_Main.s_CLEANUP            ; 0                      ; 0                      ; 0                              ; 1                   ; 0                       ; 0                        ; 0                        ; 1              ; 0                            ;
-; r_SM_Main.s_RX_IDENTIFIER_BITS ; 0                      ; 0                      ; 1                              ; 0                   ; 0                       ; 0                        ; 0                        ; 1              ; 0                            ;
-; r_SM_Main.s_RX_RTR_BIT         ; 0                      ; 1                      ; 0                              ; 0                   ; 0                       ; 0                        ; 0                        ; 1              ; 0                            ;
-; r_SM_Main.s_RX_IDE_BIT         ; 1                      ; 0                      ; 0                              ; 0                   ; 0                       ; 0                        ; 0                        ; 1              ; 0                            ;
-; r_SM_Main.s_RX_RESERVED0_BIT   ; 0                      ; 0                      ; 0                              ; 0                   ; 0                       ; 0                        ; 0                        ; 1              ; 1                            ;
-+--------------------------------+------------------------+------------------------+--------------------------------+---------------------+-------------------------+--------------------------+--------------------------+----------------+------------------------------+
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; State Machine - |can_rx|r_SM_Main                                                                                                                                                                                                                                                                                                                                                                                     ;
++--------------------------------+------------------------------+------------------------+------------------------------+-------------------------+----------------------------+------------------------------+------------------------+------------------------+--------------------------------+---------------------+-------------------------+--------------------------+--------------------------+----------------+
+; Name                           ; r_SM_Main.s_RX_ACK_DELIM_BIT ; r_SM_Main.s_RX_ACK_BIT ; r_SM_Main.s_RX_CRC_DELIM_BIT ; r_SM_Main.s_RX_CRC_BITS ; r_SM_Main.s_RX_LENGTH_BITS ; r_SM_Main.s_RX_RESERVED0_BIT ; r_SM_Main.s_RX_IDE_BIT ; r_SM_Main.s_RX_RTR_BIT ; r_SM_Main.s_RX_IDENTIFIER_BITS ; r_SM_Main.s_CLEANUP ; r_SM_Main.s_RX_STOP_BIT ; r_SM_Main.s_RX_DATA_BITS ; r_SM_Main.s_RX_START_BIT ; r_SM_Main.0000 ;
++--------------------------------+------------------------------+------------------------+------------------------------+-------------------------+----------------------------+------------------------------+------------------------+------------------------+--------------------------------+---------------------+-------------------------+--------------------------+--------------------------+----------------+
+; r_SM_Main.0000                 ; 0                            ; 0                      ; 0                            ; 0                       ; 0                          ; 0                            ; 0                      ; 0                      ; 0                              ; 0                   ; 0                       ; 0                        ; 0                        ; 0              ;
+; r_SM_Main.s_RX_START_BIT       ; 0                            ; 0                      ; 0                            ; 0                       ; 0                          ; 0                            ; 0                      ; 0                      ; 0                              ; 0                   ; 0                       ; 0                        ; 1                        ; 1              ;
+; r_SM_Main.s_RX_DATA_BITS       ; 0                            ; 0                      ; 0                            ; 0                       ; 0                          ; 0                            ; 0                      ; 0                      ; 0                              ; 0                   ; 0                       ; 1                        ; 0                        ; 1              ;
+; r_SM_Main.s_RX_STOP_BIT        ; 0                            ; 0                      ; 0                            ; 0                       ; 0                          ; 0                            ; 0                      ; 0                      ; 0                              ; 0                   ; 1                       ; 0                        ; 0                        ; 1              ;
+; r_SM_Main.s_CLEANUP            ; 0                            ; 0                      ; 0                            ; 0                       ; 0                          ; 0                            ; 0                      ; 0                      ; 0                              ; 1                   ; 0                       ; 0                        ; 0                        ; 1              ;
+; r_SM_Main.s_RX_IDENTIFIER_BITS ; 0                            ; 0                      ; 0                            ; 0                       ; 0                          ; 0                            ; 0                      ; 0                      ; 1                              ; 0                   ; 0                       ; 0                        ; 0                        ; 1              ;
+; r_SM_Main.s_RX_RTR_BIT         ; 0                            ; 0                      ; 0                            ; 0                       ; 0                          ; 0                            ; 0                      ; 1                      ; 0                              ; 0                   ; 0                       ; 0                        ; 0                        ; 1              ;
+; r_SM_Main.s_RX_IDE_BIT         ; 0                            ; 0                      ; 0                            ; 0                       ; 0                          ; 0                            ; 1                      ; 0                      ; 0                              ; 0                   ; 0                       ; 0                        ; 0                        ; 1              ;
+; r_SM_Main.s_RX_RESERVED0_BIT   ; 0                            ; 0                      ; 0                            ; 0                       ; 0                          ; 1                            ; 0                      ; 0                      ; 0                              ; 0                   ; 0                       ; 0                        ; 0                        ; 1              ;
+; r_SM_Main.s_RX_LENGTH_BITS     ; 0                            ; 0                      ; 0                            ; 0                       ; 1                          ; 0                            ; 0                      ; 0                      ; 0                              ; 0                   ; 0                       ; 0                        ; 0                        ; 1              ;
+; r_SM_Main.s_RX_CRC_BITS        ; 0                            ; 0                      ; 0                            ; 1                       ; 0                          ; 0                            ; 0                      ; 0                      ; 0                              ; 0                   ; 0                       ; 0                        ; 0                        ; 1              ;
+; r_SM_Main.s_RX_CRC_DELIM_BIT   ; 0                            ; 0                      ; 1                            ; 0                       ; 0                          ; 0                            ; 0                      ; 0                      ; 0                              ; 0                   ; 0                       ; 0                        ; 0                        ; 1              ;
+; r_SM_Main.s_RX_ACK_BIT         ; 0                            ; 1                      ; 0                            ; 0                       ; 0                          ; 0                            ; 0                      ; 0                      ; 0                              ; 0                   ; 0                       ; 0                        ; 0                        ; 1              ;
+; r_SM_Main.s_RX_ACK_DELIM_BIT   ; 1                            ; 0                      ; 0                            ; 0                       ; 0                          ; 0                            ; 0                      ; 0                      ; 0                              ; 0                   ; 0                       ; 0                        ; 0                        ; 1              ;
++--------------------------------+------------------------------+------------------------+------------------------------+-------------------------+----------------------------+------------------------------+------------------------+------------------------+--------------------------------+---------------------+-------------------------+--------------------------+--------------------------+----------------+
 
 
 +--------------------------------------------------------------------------------+
@@ -245,21 +250,23 @@ Encoding Type:  One-Hot
 ; r_SM_Main~2                           ; Lost fanout                            ;
 ; r_SM_Main~3                           ; Lost fanout                            ;
 ; r_SM_Main~4                           ; Lost fanout                            ;
+; r_SM_Main~5                           ; Lost fanout                            ;
 ; r_SM_Main.s_RX_RTR_BIT                ; Stuck at GND due to stuck port data_in ;
 ; r_SM_Main.s_RX_IDE_BIT                ; Stuck at GND due to stuck port data_in ;
 ; r_SM_Main.s_RX_RESERVED0_BIT          ; Stuck at GND due to stuck port data_in ;
-; Total Number of Removed Registers = 6 ;                                        ;
+; r_SM_Main.s_RX_LENGTH_BITS            ; Stuck at GND due to stuck port data_in ;
+; Total Number of Removed Registers = 8 ;                                        ;
 +---------------------------------------+----------------------------------------+
 
 
-+---------------------------------------------------------------------------------------------+
-; Removed Registers Triggering Further Register Optimizations                                 ;
-+------------------------+---------------------------+----------------------------------------+
-; Register name          ; Reason for Removal        ; Registers Removed due to This Register ;
-+------------------------+---------------------------+----------------------------------------+
-; r_SM_Main.s_RX_IDE_BIT ; Stuck at GND              ; r_SM_Main.s_RX_RESERVED0_BIT           ;
-;                        ; due to stuck port data_in ;                                        ;
-+------------------------+---------------------------+----------------------------------------+
++---------------------------------------------------------------------------------------------------------------------------------------+
+; Removed Registers Triggering Further Register Optimizations                                                                           ;
++------------------------+---------------------------+----------------------------------------------------------------------------------+
+; Register name          ; Reason for Removal        ; Registers Removed due to This Register                                           ;
++------------------------+---------------------------+----------------------------------------------------------------------------------+
+; r_SM_Main.s_RX_RTR_BIT ; Stuck at GND              ; r_SM_Main.s_RX_IDE_BIT, r_SM_Main.s_RX_RESERVED0_BIT, r_SM_Main.s_RX_LENGTH_BITS ;
+;                        ; due to stuck port data_in ;                                                                                  ;
++------------------------+---------------------------+----------------------------------------------------------------------------------+
 
 
 +------------------------------------------------------+
@@ -267,12 +274,12 @@ Encoding Type:  One-Hot
 +----------------------------------------------+-------+
 ; Statistic                                    ; Value ;
 +----------------------------------------------+-------+
-; Total registers                              ; 160   ;
+; Total registers                              ; 187   ;
 ; Number of registers using Synchronous Clear  ; 72    ;
 ; Number of registers using Synchronous Load   ; 0     ;
 ; Number of registers using Asynchronous Clear ; 0     ;
 ; Number of registers using Asynchronous Load  ; 0     ;
-; Number of registers using Clock Enable       ; 72    ;
+; Number of registers using Clock Enable       ; 76    ;
 ; Number of registers using Preset             ; 0     ;
 +----------------------------------------------+-------+
 
@@ -282,7 +289,7 @@ Encoding Type:  One-Hot
 +----------------------------------------+---------+
 ; Inverted Register                      ; Fan out ;
 +----------------------------------------+---------+
-; r_Rx_Data                              ; 83      ;
+; r_Rx_Data                              ; 107     ;
 ; r_Rx_Data_R                            ; 1       ;
 ; Total number of inverted registers = 2 ;         ;
 +----------------------------------------+---------+
@@ -293,8 +300,8 @@ Encoding Type:  One-Hot
 +--------------------+-----------+---------------+----------------------+------------------------+------------+----------------------------+
 ; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+----------------------------+
-; 7:1                ; 64 bits   ; 256 LEs       ; 64 LEs               ; 192 LEs                ; Yes        ; |can_rx|r_Clock_Count[54]  ;
-; 9:1                ; 8 bits    ; 48 LEs        ; 8 LEs                ; 40 LEs                 ; Yes        ; |can_rx|r_Bit_Index[7]     ;
+; 8:1                ; 8 bits    ; 40 LEs        ; 8 LEs                ; 32 LEs                 ; Yes        ; |can_rx|r_Bit_Index[1]     ;
+; 7:1                ; 64 bits   ; 256 LEs       ; 64 LEs               ; 192 LEs                ; Yes        ; |can_rx|r_Clock_Count[57]  ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+----------------------------+
 
 
@@ -312,6 +319,11 @@ Encoding Type:  One-Hot
 ; s_RX_RTR_BIT         ; 0110  ; Unsigned Binary                         ;
 ; s_RX_IDE_BIT         ; 0111  ; Unsigned Binary                         ;
 ; s_RX_RESERVED0_BIT   ; 1000  ; Unsigned Binary                         ;
+; s_RX_LENGTH_BITS     ; 1001  ; Unsigned Binary                         ;
+; s_RX_CRC_BITS        ; 1010  ; Unsigned Binary                         ;
+; s_RX_CRC_DELIM_BIT   ; 1011  ; Unsigned Binary                         ;
+; s_RX_ACK_BIT         ; 1100  ; Unsigned Binary                         ;
+; s_RX_ACK_DELIM_BIT   ; 1101  ; Unsigned Binary                         ;
 ; CLKS_PER_BIT         ; 10    ; Signed Integer                          ;
 +----------------------+-------+-----------------------------------------+
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
@@ -322,21 +334,22 @@ Note: In order to hide this table in the UI and the text report file, please set
 +-----------------------+-----------------------------+
 ; Type                  ; Count                       ;
 +-----------------------+-----------------------------+
-; boundary_port         ; 82                          ;
-; cycloneiii_ff         ; 160                         ;
+; boundary_port         ; 105                         ;
+; cycloneiii_ff         ; 187                         ;
+;     ENA               ; 4                           ;
 ;     ENA SCLR          ; 72                          ;
-;     plain             ; 88                          ;
-; cycloneiii_lcell_comb ; 473                         ;
+;     plain             ; 111                         ;
+; cycloneiii_lcell_comb ; 556                         ;
 ;     arith             ; 70                          ;
 ;         2 data inputs ; 70                          ;
-;     normal            ; 403                         ;
+;     normal            ; 486                         ;
 ;         1 data inputs ; 3                           ;
-;         2 data inputs ; 10                          ;
-;         3 data inputs ; 49                          ;
-;         4 data inputs ; 341                         ;
+;         2 data inputs ; 30                          ;
+;         3 data inputs ; 74                          ;
+;         4 data inputs ; 379                         ;
 ;                       ;                             ;
 ; Max LUT depth         ; 7.30                        ;
-; Average LUT depth     ; 5.30                        ;
+; Average LUT depth     ; 4.95                        ;
 +-----------------------+-----------------------------+
 
 
@@ -345,7 +358,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 +----------------+--------------+
 ; Partition Name ; Elapsed Time ;
 +----------------+--------------+
-; Top            ; 00:00:03     ;
+; Top            ; 00:00:02     ;
 +----------------+--------------+
 
 
@@ -355,7 +368,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 17.0.0 Build 595 04/25/2017 SJ Lite Edition
-    Info: Processing started: Thu May 25 03:45:11 2017
+    Info: Processing started: Thu May 25 19:08:40 2017
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off CanBus -c CanBus
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (20030): Parallel compilation is enabled and will use 2 of the 2 processors detected
@@ -364,24 +377,30 @@ Info (12021): Found 1 design units, including 1 entities, in source file can_tx.
 Info (12021): Found 1 design units, including 1 entities, in source file can_rx.v
     Info (12023): Found entity 1: can_rx File: C:/Users/Carol/Documents/quartusworkspace/CanBus/can_rx.v Line: 14
 Info (12127): Elaborating entity "can_rx" for the top level hierarchy
-Warning (10230): Verilog HDL assignment warning at can_rx.v(79): truncated value with size 32 to match size of target (8) File: C:/Users/Carol/Documents/quartusworkspace/CanBus/can_rx.v Line: 79
-Warning (10230): Verilog HDL assignment warning at can_rx.v(105): truncated value with size 32 to match size of target (8) File: C:/Users/Carol/Documents/quartusworkspace/CanBus/can_rx.v Line: 105
-Warning (10230): Verilog HDL assignment warning at can_rx.v(133): truncated value with size 32 to match size of target (8) File: C:/Users/Carol/Documents/quartusworkspace/CanBus/can_rx.v Line: 133
-Warning (10230): Verilog HDL assignment warning at can_rx.v(152): truncated value with size 32 to match size of target (8) File: C:/Users/Carol/Documents/quartusworkspace/CanBus/can_rx.v Line: 152
-Warning (10230): Verilog HDL assignment warning at can_rx.v(171): truncated value with size 32 to match size of target (8) File: C:/Users/Carol/Documents/quartusworkspace/CanBus/can_rx.v Line: 171
-Warning (10230): Verilog HDL assignment warning at can_rx.v(191): truncated value with size 32 to match size of target (8) File: C:/Users/Carol/Documents/quartusworkspace/CanBus/can_rx.v Line: 191
+Warning (10230): Verilog HDL assignment warning at can_rx.v(84): truncated value with size 32 to match size of target (8) File: C:/Users/Carol/Documents/quartusworkspace/CanBus/can_rx.v Line: 84
+Warning (10230): Verilog HDL assignment warning at can_rx.v(110): truncated value with size 32 to match size of target (8) File: C:/Users/Carol/Documents/quartusworkspace/CanBus/can_rx.v Line: 110
+Warning (10230): Verilog HDL assignment warning at can_rx.v(138): truncated value with size 32 to match size of target (8) File: C:/Users/Carol/Documents/quartusworkspace/CanBus/can_rx.v Line: 138
+Warning (10230): Verilog HDL assignment warning at can_rx.v(157): truncated value with size 32 to match size of target (8) File: C:/Users/Carol/Documents/quartusworkspace/CanBus/can_rx.v Line: 157
+Warning (10230): Verilog HDL assignment warning at can_rx.v(176): truncated value with size 32 to match size of target (8) File: C:/Users/Carol/Documents/quartusworkspace/CanBus/can_rx.v Line: 176
+Warning (10230): Verilog HDL assignment warning at can_rx.v(195): truncated value with size 32 to match size of target (8) File: C:/Users/Carol/Documents/quartusworkspace/CanBus/can_rx.v Line: 195
+Warning (10230): Verilog HDL assignment warning at can_rx.v(223): truncated value with size 32 to match size of target (8) File: C:/Users/Carol/Documents/quartusworkspace/CanBus/can_rx.v Line: 223
+Warning (10230): Verilog HDL assignment warning at can_rx.v(250): truncated value with size 32 to match size of target (8) File: C:/Users/Carol/Documents/quartusworkspace/CanBus/can_rx.v Line: 250
+Warning (10230): Verilog HDL assignment warning at can_rx.v(277): truncated value with size 32 to match size of target (8) File: C:/Users/Carol/Documents/quartusworkspace/CanBus/can_rx.v Line: 277
+Warning (10230): Verilog HDL assignment warning at can_rx.v(296): truncated value with size 32 to match size of target (8) File: C:/Users/Carol/Documents/quartusworkspace/CanBus/can_rx.v Line: 296
+Warning (10230): Verilog HDL assignment warning at can_rx.v(315): truncated value with size 32 to match size of target (8) File: C:/Users/Carol/Documents/quartusworkspace/CanBus/can_rx.v Line: 315
+Warning (10230): Verilog HDL assignment warning at can_rx.v(337): truncated value with size 32 to match size of target (8) File: C:/Users/Carol/Documents/quartusworkspace/CanBus/can_rx.v Line: 337
 Info (286030): Timing-Driven Synthesis is running
-Info (17049): 3 registers lost all their fanouts during netlist optimizations.
+Info (17049): 4 registers lost all their fanouts during netlist optimizations.
 Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
     Info (16011): Adding 0 node(s), including 0 DDIO, 0 PLL, 0 transceiver and 0 LCELL
-Info (21057): Implemented 556 device resources after synthesis - the final resource count might be different
+Info (21057): Implemented 665 device resources after synthesis - the final resource count might be different
     Info (21058): Implemented 2 input pins
-    Info (21059): Implemented 80 output pins
-    Info (21061): Implemented 474 logic cells
-Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 7 warnings
-    Info: Peak virtual memory: 633 megabytes
-    Info: Processing ended: Thu May 25 03:45:37 2017
-    Info: Elapsed time: 00:00:26
-    Info: Total CPU time (on all processors): 00:00:44
+    Info (21059): Implemented 103 output pins
+    Info (21061): Implemented 560 logic cells
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 13 warnings
+    Info: Peak virtual memory: 635 megabytes
+    Info: Processing ended: Thu May 25 19:08:56 2017
+    Info: Elapsed time: 00:00:16
+    Info: Total CPU time (on all processors): 00:00:33
 
 

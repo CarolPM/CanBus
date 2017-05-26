@@ -324,6 +324,98 @@
 					"strict" : false
 				},
 				{
+					"name" : "o_Rx_Byte[79]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[80]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[81]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[82]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[83]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[84]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[85]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[86]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[87]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[88]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[89]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[90]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[91]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[92]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[93]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[94]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[95]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[96]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[97]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[98]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[99]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[100]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Rx_Byte[101]",
+					"strict" : false
+				},
+				{
 					"name" : "i_Clock",
 					"strict" : false
 				},
