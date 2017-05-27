@@ -36,7 +36,9 @@ module can_destuff
 			// Assim sendo o código abaixo fica fazendo um switch entre o cont_0 e o cont_1
 			// onde um só será somado se o outro estiver zerado.
 			// Caso não esteja zerado o código passa a somar o contador do outro bit e zera o contador anterior.
-			$display("Destuffing");
+			
+			//ACHO Q PRECISA SER CONSTRUÍDA COMO UMA MÁQUINA DE ESTADOS!
+			//$display("Destuffing");
 			if (Ds_Serial == 0)
 				begin
 					if(cont_1 == 0)
