@@ -8,50 +8,72 @@ z2
 !i10f 100
 cModel Technology
 Z0 dC:/Users/Carol/Documents/quartusworkspace/CanBus/simulation/modelsim
+vcan_destuff
+Z1 !s110 1495846099
+!i10b 1
+!s100 <nQW3R`P`ZR:jPRc<odID1
+IX=M^ic`R1K>o5z7UmXWzO0
+Z2 VDg1SIo80bB@j0V0VzS_@n1
+R0
+w1495845928
+8C:/Users/Carol/Documents/quartusworkspace/CanBus/can_destuff.v
+FC:/Users/Carol/Documents/quartusworkspace/CanBus/can_destuff.v
+L0 1
+Z3 OV;L;10.5b;63
+r1
+!s85 0
+31
+Z4 !s108 1495846099.000000
+Z5 !s107 C:/Users/Carol/Documents/quartusworkspace/CanBus/can_destuff.v|C:/Users/Carol/Documents/quartusworkspace/CanBus/can_rx.v|C:/Users/Carol/Documents/quartusworkspace/CanBus/can_tx.v|C:/Users/Carol/Documents/quartusworkspace/CanBus/can_tb.v|
+Z6 !s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/Users/Carol/Documents/quartusworkspace/CanBus|C:/Users/Carol/Documents/quartusworkspace/CanBus/can_tb.v|
+!i113 1
+Z7 o-vlog01compat -work work
+Z8 !s92 -vlog01compat -work work +incdir+C:/Users/Carol/Documents/quartusworkspace/CanBus
+Z9 tCvgOpt 0
 vcan_rx
-Z1 !s110 1495779505
+R1
 !i10b 1
 !s100 M3YQ09f<73HFhgCb5T3g^2
 I==lGk_H9HPi==G@@ab3C?2
-Z2 VDg1SIo80bB@j0V0VzS_@n1
+R2
 R0
-w1495779488
+w1495834225
 8C:/Users/Carol/Documents/quartusworkspace/CanBus/can_rx.v
 FC:/Users/Carol/Documents/quartusworkspace/CanBus/can_rx.v
-Z3 L0 14
-Z4 OV;L;10.5b;63
+Z10 L0 14
+R3
 r1
 !s85 0
 31
-Z5 !s108 1495779505.000000
-Z6 !s107 C:/Users/Carol/Documents/quartusworkspace/CanBus/can_rx.v|C:/Users/Carol/Documents/quartusworkspace/CanBus/can_tx.v|C:/Users/Carol/Documents/quartusworkspace/CanBus/can_tb.v|
-Z7 !s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/Users/Carol/Documents/quartusworkspace/CanBus|C:/Users/Carol/Documents/quartusworkspace/CanBus/can_tb.v|
+R4
+R5
+R6
 !i113 1
-Z8 o-vlog01compat -work work
-Z9 !s92 -vlog01compat -work work +incdir+C:/Users/Carol/Documents/quartusworkspace/CanBus
-Z10 tCvgOpt 0
+R7
+R8
+R9
 vcan_tb
 R1
 !i10b 1
-!s100 d1[b43E]SIMaFI1:Bn@2;3
-Iin@RkGTE_ob]@_c3nHV6Z0
+!s100 o=<JBJ`9<oAFPm;lm@I382
+Ik=B4o;_?TlNSeJQ>9@FNg2
 R2
 R0
-w1495779327
+w1495846087
 8C:/Users/Carol/Documents/quartusworkspace/CanBus/can_tb.v
 FC:/Users/Carol/Documents/quartusworkspace/CanBus/can_tb.v
-L0 13
-R4
+R10
+R3
 r1
 !s85 0
 31
+R4
 R5
 R6
-R7
 !i113 1
+R7
 R8
 R9
-R10
 vcan_tx
 R1
 !i10b 1
@@ -62,15 +84,15 @@ R0
 w1495602323
 8C:/Users/Carol/Documents/quartusworkspace/CanBus/can_tx.v
 FC:/Users/Carol/Documents/quartusworkspace/CanBus/can_tx.v
+R10
 R3
-R4
 r1
 !s85 0
 31
+R4
 R5
 R6
-R7
 !i113 1
+R7
 R8
 R9
-R10

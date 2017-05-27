@@ -9,6 +9,8 @@ module can_destuff
 		//output o_flag_destuff
 	);
 	
+	parameter CLKS_PER_BIT  			= 10;
+	
 	reg Ds_Serial = 1'b0;
 	reg cont_0 = 1'b0;
 	reg cont_1 = 1'b0;
@@ -32,12 +34,12 @@ module can_destuff
 			// Assim sendo o código abaixo fica fazendo um switch entre o cont_0 e o cont_1
 			// onde um só será somado se o outro estiver zerado.
 			// Caso não esteja zerado o código passa a somar o contador do outro bit e zera o contador anterior.
-			if (Ds_Serial == 0) 0000010
+			if (Ds_Serial == 0)
 				if(cont_1 == 0)
 					cont_0 <= cont_0 + 1;
 				else
 					begin
-						cont_1 <= 0
+						cont_1 <= 0;
 						cont_0 <= cont_0 + 1;
 					end
 			else
