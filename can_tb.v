@@ -62,43 +62,19 @@ module can_tb ();
      .o_Rx_DV(),
      .o_Rx_Byte(w_Rx_Byte)
      );
- /*  
-  can_tx #(.CLKS_PER_BIT(c_CLKS_PER_BIT)) UART_TX_INST
-    (.i_Clock(r_Clock),
-     .i_Tx_DV(r_Tx_DV),
-     .i_Tx_Byte(r_Tx_Byte),
-     .o_Tx_Active(),
-     .o_Tx_Serial(),
-     .o_Tx_Done(w_Tx_Done)
-     );
- */
+
    
   always
     #(c_CLOCK_PERIOD_NS/2) r_Clock <= !r_Clock;
  
    
-  // Main Testing:
+
   initial
     begin
-      /* 
-      // Tell UART to send a command (exercise Tx)
       @(posedge r_Clock);
+		CAN_WRITE_BYTE(108'b011111111111010001111000011111001001111110011111110111111111111000001111000011110000110000001111111111111111); //data frame standard
       @(posedge r_Clock);
-      r_Tx_DV <= 1'b1;
-      r_Tx_Byte <= 8'hAB;
-      @(posedge r_Clock);
-      r_Tx_DV <= 1'b0;
-      @(posedge w_Tx_Done);
-      */ 
-      // Send a command to the CAN (exercise Rx)
-      @(posedge r_Clock);
-      //CAN_WRITE_BYTE(11'b00000010100, 4'b0001, 64'h1, 15'b0100001100000001);
-		//data frame standard = start(1bit)+identifier(11bits)+RTR(1bit)+IDE(1bit)+r0(1bit)+length(4bits)+data(64bits)+CRC(15bits)+CRCDelimiter(1bit)+ACK(1bit)+ACKDelimiter(1bit)+(1bit)stop(1bit)
-		CAN_WRITE_BYTE(108'b000000010100000000110101010101010101010101010101010101010101010101010101010101010100100001100000001011111111); //data frame standard
-      @(posedge r_Clock);
-             
-      // Check that the correct command was received
-      if (w_Rx_Byte == 108'b000000010100000000110101010101010101010101010101010101010101010101010101010101010100100001100000001011111111)
+      if (w_Rx_Byte == 108'b101111111111100000101111111101010101010101111100000001011111111111000001011111111010101010101011111000000011)
         $display("Test Passed - Correct Byte Received");
       else
         $display("Test Failed - Incorrect Byte Received");
