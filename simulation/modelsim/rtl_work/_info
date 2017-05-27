@@ -9,13 +9,13 @@ z2
 cModel Technology
 Z0 dC:/Users/Carol/Documents/quartusworkspace/CanBus/simulation/modelsim
 vcan_rx
-Z1 !s110 1495779505
+Z1 !s110 1495911805
 !i10b 1
-!s100 M3YQ09f<73HFhgCb5T3g^2
-I==lGk_H9HPi==G@@ab3C?2
+!s100 D`RXmBbK28hEVMn>OE1mX1
+IRCU`8];eHJB0iPHIZb<2f1
 Z2 VDg1SIo80bB@j0V0VzS_@n1
 R0
-w1495779488
+w1495911257
 8C:/Users/Carol/Documents/quartusworkspace/CanBus/can_rx.v
 FC:/Users/Carol/Documents/quartusworkspace/CanBus/can_rx.v
 Z3 L0 14
@@ -23,7 +23,7 @@ Z4 OV;L;10.5b;63
 r1
 !s85 0
 31
-Z5 !s108 1495779505.000000
+Z5 !s108 1495911805.000000
 Z6 !s107 C:/Users/Carol/Documents/quartusworkspace/CanBus/can_rx.v|C:/Users/Carol/Documents/quartusworkspace/CanBus/can_tx.v|C:/Users/Carol/Documents/quartusworkspace/CanBus/can_tb.v|
 Z7 !s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/Users/Carol/Documents/quartusworkspace/CanBus|C:/Users/Carol/Documents/quartusworkspace/CanBus/can_tb.v|
 !i113 1
@@ -33,14 +33,14 @@ Z10 tCvgOpt 0
 vcan_tb
 R1
 !i10b 1
-!s100 d1[b43E]SIMaFI1:Bn@2;3
-Iin@RkGTE_ob]@_c3nHV6Z0
+!s100 j7lV>X9[>ET1]aM7=d_X^0
+I14:W7olSanHGnDe_R]h0Y1
 R2
 R0
-w1495779327
+w1495911749
 8C:/Users/Carol/Documents/quartusworkspace/CanBus/can_tb.v
 FC:/Users/Carol/Documents/quartusworkspace/CanBus/can_tb.v
-L0 13
+R3
 R4
 r1
 !s85 0
