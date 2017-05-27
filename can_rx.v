@@ -11,7 +11,7 @@
 // Example: 10 MHz Clock, 115200 baud UART
 // (10000000)/(115200) = 87
   
-module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:107] o_Rx_Byte);
+module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:108] o_Rx_Byte);
    
   parameter Reserved_Bits_Extandard             = 4'b0001;
   parameter Reserved_Bit_Normal                 = 4'b0010;
