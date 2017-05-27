@@ -1,5 +1,5 @@
 TimeQuest Timing Analyzer report for CanBus
-Fri May 26 03:05:14 2017
+Sat May 27 03:41:49 2017
 Quartus Prime Version 17.0.0 Build 595 04/25/2017 SJ Lite Edition
 
 
@@ -99,12 +99,12 @@ agreement for further details.
 ; Number detected on machine ; 4           ;
 ; Maximum allowed            ; 2           ;
 ;                            ;             ;
-; Average used               ; 1.06        ;
+; Average used               ; 1.07        ;
 ; Maximum used               ; 2           ;
 ;                            ;             ;
 ; Usage by Processor         ; % Time Used ;
 ;     Processor 1            ; 100.0%      ;
-;     Processor 2            ;   6.3%      ;
+;     Processor 2            ;   6.8%      ;
 +----------------------------+-------------+
 
 
@@ -740,30 +740,30 @@ No paths to report.
 ; -1.924 ; r_Clock_Count[58] ; r_Clock_Count[2]  ; i_Clock      ; i_Clock     ; 1.000        ; -0.241     ; 2.670      ;
 ; -1.923 ; r_Clock_Count[13] ; r_Rx_Byte[50]     ; i_Clock      ; i_Clock     ; 1.000        ; -0.028     ; 2.882      ;
 ; -1.921 ; r_Clock_Count[60] ; r_Clock_Count[5]  ; i_Clock      ; i_Clock     ; 1.000        ; -0.241     ; 2.667      ;
-; -1.920 ; r_Clock_Count[13] ; r_Rx_Byte[48]     ; i_Clock      ; i_Clock     ; 1.000        ; -0.054     ; 2.853      ;
 ; -1.920 ; r_Clock_Count[58] ; r_Clock_Count[3]  ; i_Clock      ; i_Clock     ; 1.000        ; -0.241     ; 2.666      ;
+; -1.920 ; r_Clock_Count[13] ; r_Rx_Byte[48]     ; i_Clock      ; i_Clock     ; 1.000        ; -0.054     ; 2.853      ;
 ; -1.919 ; r_Clock_Count[55] ; r_Rx_Byte[30]     ; i_Clock      ; i_Clock     ; 1.000        ; -0.033     ; 2.873      ;
 ; -1.918 ; r_Clock_Count[58] ; r_Rx_Byte[50]     ; i_Clock      ; i_Clock     ; 1.000        ; -0.233     ; 2.672      ;
 ; -1.917 ; r_Clock_Count[63] ; r_Clock_Count[0]  ; i_Clock      ; i_Clock     ; 1.000        ; -0.041     ; 2.863      ;
 ; -1.916 ; r_Clock_Count[13] ; r_Rx_Byte[27]     ; i_Clock      ; i_Clock     ; 1.000        ; -0.044     ; 2.859      ;
+; -1.915 ; r_Clock_Count[58] ; r_Rx_Byte[48]     ; i_Clock      ; i_Clock     ; 1.000        ; -0.259     ; 2.643      ;
 ; -1.915 ; r_Clock_Count[13] ; r_Rx_Byte[60]     ; i_Clock      ; i_Clock     ; 1.000        ; -0.054     ; 2.848      ;
 ; -1.915 ; r_Clock_Count[13] ; r_Rx_Byte[31]     ; i_Clock      ; i_Clock     ; 1.000        ; -0.044     ; 2.858      ;
-; -1.915 ; r_Clock_Count[58] ; r_Rx_Byte[48]     ; i_Clock      ; i_Clock     ; 1.000        ; -0.259     ; 2.643      ;
-; -1.914 ; r_Clock_Count[13] ; r_Rx_Byte[52]     ; i_Clock      ; i_Clock     ; 1.000        ; -0.054     ; 2.847      ;
 ; -1.914 ; r_Clock_Count[57] ; r_Clock_Count[0]  ; i_Clock      ; i_Clock     ; 1.000        ; -0.241     ; 2.660      ;
 ; -1.914 ; r_Clock_Count[61] ; r_Clock_Count[4]  ; i_Clock      ; i_Clock     ; 1.000        ; -0.241     ; 2.660      ;
+; -1.914 ; r_Clock_Count[13] ; r_Rx_Byte[52]     ; i_Clock      ; i_Clock     ; 1.000        ; -0.054     ; 2.847      ;
 ; -1.913 ; r_Clock_Count[44] ; r_Rx_Byte[30]     ; i_Clock      ; i_Clock     ; 1.000        ; -0.033     ; 2.867      ;
 ; -1.912 ; r_Clock_Count[13] ; r_Rx_Byte[15]     ; i_Clock      ; i_Clock     ; 1.000        ; -0.044     ; 2.855      ;
-; -1.911 ; r_Clock_Count[13] ; r_Rx_Byte[14]     ; i_Clock      ; i_Clock     ; 1.000        ; -0.028     ; 2.870      ;
 ; -1.911 ; r_Clock_Count[48] ; r_Rx_Byte[30]     ; i_Clock      ; i_Clock     ; 1.000        ; -0.033     ; 2.865      ;
+; -1.911 ; r_Clock_Count[13] ; r_Rx_Byte[14]     ; i_Clock      ; i_Clock     ; 1.000        ; -0.028     ; 2.870      ;
 ; -1.910 ; r_Clock_Count[58] ; r_Rx_Byte[60]     ; i_Clock      ; i_Clock     ; 1.000        ; -0.259     ; 2.638      ;
 ; -1.909 ; r_Clock_Count[58] ; r_Rx_Byte[52]     ; i_Clock      ; i_Clock     ; 1.000        ; -0.259     ; 2.637      ;
 ; -1.906 ; r_Clock_Count[58] ; r_Rx_Byte[14]     ; i_Clock      ; i_Clock     ; 1.000        ; -0.233     ; 2.660      ;
 ; -1.906 ; r_Clock_Count[59] ; r_Rx_Byte[30]     ; i_Clock      ; i_Clock     ; 1.000        ; -0.033     ; 2.860      ;
+; -1.905 ; r_Clock_Count[53] ; r_Rx_Byte[30]     ; i_Clock      ; i_Clock     ; 1.000        ; -0.033     ; 2.859      ;
 ; -1.905 ; r_Clock_Count[13] ; r_Rx_Byte[12]     ; i_Clock      ; i_Clock     ; 1.000        ; -0.028     ; 2.864      ;
 ; -1.905 ; r_Clock_Count[13] ; r_Rx_Byte[72]     ; i_Clock      ; i_Clock     ; 1.000        ; -0.040     ; 2.852      ;
 ; -1.905 ; r_Clock_Count[13] ; r_Rx_Byte[8]      ; i_Clock      ; i_Clock     ; 1.000        ; -0.040     ; 2.852      ;
-; -1.905 ; r_Clock_Count[53] ; r_Rx_Byte[30]     ; i_Clock      ; i_Clock     ; 1.000        ; -0.033     ; 2.859      ;
 ; -1.904 ; r_Clock_Count[58] ; r_Clock_Count[62] ; i_Clock      ; i_Clock     ; 1.000        ; -0.236     ; 2.655      ;
 ; -1.904 ; r_Clock_Count[58] ; r_Clock_Count[63] ; i_Clock      ; i_Clock     ; 1.000        ; -0.236     ; 2.655      ;
 ; -1.904 ; r_Clock_Count[58] ; r_Clock_Count[59] ; i_Clock      ; i_Clock     ; 1.000        ; -0.236     ; 2.655      ;
@@ -774,9 +774,9 @@ No paths to report.
 ; -1.904 ; r_Clock_Count[58] ; r_Clock_Count[50] ; i_Clock      ; i_Clock     ; 1.000        ; -0.236     ; 2.655      ;
 ; -1.904 ; r_Clock_Count[58] ; r_Clock_Count[49] ; i_Clock      ; i_Clock     ; 1.000        ; -0.236     ; 2.655      ;
 ; -1.904 ; r_Clock_Count[58] ; r_Clock_Count[48] ; i_Clock      ; i_Clock     ; 1.000        ; -0.236     ; 2.655      ;
+; -1.903 ; r_Clock_Count[58] ; r_Rx_Byte[27]     ; i_Clock      ; i_Clock     ; 1.000        ; -0.241     ; 2.649      ;
 ; -1.903 ; r_Clock_Count[13] ; r_Rx_Byte[94]     ; i_Clock      ; i_Clock     ; 1.000        ; -0.028     ; 2.862      ;
 ; -1.903 ; r_Clock_Count[13] ; r_Rx_Byte[90]     ; i_Clock      ; i_Clock     ; 1.000        ; -0.040     ; 2.850      ;
-; -1.903 ; r_Clock_Count[58] ; r_Rx_Byte[27]     ; i_Clock      ; i_Clock     ; 1.000        ; -0.241     ; 2.649      ;
 ; -1.902 ; r_Clock_Count[58] ; r_Rx_Byte[31]     ; i_Clock      ; i_Clock     ; 1.000        ; -0.241     ; 2.648      ;
 ; -1.901 ; r_Clock_Count[13] ; r_Rx_Byte[26]     ; i_Clock      ; i_Clock     ; 1.000        ; -0.040     ; 2.848      ;
 ; -1.900 ; r_Clock_Count[58] ; r_Rx_Byte[12]     ; i_Clock      ; i_Clock     ; 1.000        ; -0.233     ; 2.654      ;
@@ -792,16 +792,6 @@ No paths to report.
 ; -1.890 ; r_Clock_Count[58] ; r_Rx_Byte[90]     ; i_Clock      ; i_Clock     ; 1.000        ; -0.237     ; 2.640      ;
 ; -1.890 ; r_Clock_Count[56] ; r_Rx_Byte[60]     ; i_Clock      ; i_Clock     ; 1.000        ; -0.259     ; 2.618      ;
 ; -1.889 ; r_Clock_Count[56] ; r_Rx_Byte[52]     ; i_Clock      ; i_Clock     ; 1.000        ; -0.259     ; 2.617      ;
-; -1.888 ; r_Clock_Count[13] ; r_Clock_Count[62] ; i_Clock      ; i_Clock     ; 1.000        ; -0.039     ; 2.836      ;
-; -1.888 ; r_Clock_Count[13] ; r_Clock_Count[63] ; i_Clock      ; i_Clock     ; 1.000        ; -0.039     ; 2.836      ;
-; -1.888 ; r_Clock_Count[13] ; r_Clock_Count[59] ; i_Clock      ; i_Clock     ; 1.000        ; -0.039     ; 2.836      ;
-; -1.888 ; r_Clock_Count[13] ; r_Clock_Count[55] ; i_Clock      ; i_Clock     ; 1.000        ; -0.039     ; 2.836      ;
-; -1.888 ; r_Clock_Count[13] ; r_Clock_Count[54] ; i_Clock      ; i_Clock     ; 1.000        ; -0.039     ; 2.836      ;
-; -1.888 ; r_Clock_Count[13] ; r_Clock_Count[53] ; i_Clock      ; i_Clock     ; 1.000        ; -0.039     ; 2.836      ;
-; -1.888 ; r_Clock_Count[13] ; r_Clock_Count[51] ; i_Clock      ; i_Clock     ; 1.000        ; -0.039     ; 2.836      ;
-; -1.888 ; r_Clock_Count[13] ; r_Clock_Count[50] ; i_Clock      ; i_Clock     ; 1.000        ; -0.039     ; 2.836      ;
-; -1.888 ; r_Clock_Count[13] ; r_Clock_Count[49] ; i_Clock      ; i_Clock     ; 1.000        ; -0.039     ; 2.836      ;
-; -1.888 ; r_Clock_Count[13] ; r_Clock_Count[48] ; i_Clock      ; i_Clock     ; 1.000        ; -0.039     ; 2.836      ;
 ; -1.888 ; r_Clock_Count[58] ; r_Rx_Byte[26]     ; i_Clock      ; i_Clock     ; 1.000        ; -0.237     ; 2.638      ;
 ; -1.888 ; r_Clock_Count[42] ; r_Clock_Count[62] ; i_Clock      ; i_Clock     ; 1.000        ; -0.036     ; 2.839      ;
 ; -1.888 ; r_Clock_Count[42] ; r_Clock_Count[63] ; i_Clock      ; i_Clock     ; 1.000        ; -0.036     ; 2.839      ;
@@ -811,6 +801,16 @@ No paths to report.
 ; -1.888 ; r_Clock_Count[42] ; r_Clock_Count[53] ; i_Clock      ; i_Clock     ; 1.000        ; -0.036     ; 2.839      ;
 ; -1.888 ; r_Clock_Count[42] ; r_Clock_Count[51] ; i_Clock      ; i_Clock     ; 1.000        ; -0.036     ; 2.839      ;
 ; -1.888 ; r_Clock_Count[42] ; r_Clock_Count[50] ; i_Clock      ; i_Clock     ; 1.000        ; -0.036     ; 2.839      ;
+; -1.888 ; r_Clock_Count[42] ; r_Clock_Count[49] ; i_Clock      ; i_Clock     ; 1.000        ; -0.036     ; 2.839      ;
+; -1.888 ; r_Clock_Count[42] ; r_Clock_Count[48] ; i_Clock      ; i_Clock     ; 1.000        ; -0.036     ; 2.839      ;
+; -1.888 ; r_Clock_Count[13] ; r_Clock_Count[62] ; i_Clock      ; i_Clock     ; 1.000        ; -0.039     ; 2.836      ;
+; -1.888 ; r_Clock_Count[13] ; r_Clock_Count[63] ; i_Clock      ; i_Clock     ; 1.000        ; -0.039     ; 2.836      ;
+; -1.888 ; r_Clock_Count[13] ; r_Clock_Count[59] ; i_Clock      ; i_Clock     ; 1.000        ; -0.039     ; 2.836      ;
+; -1.888 ; r_Clock_Count[13] ; r_Clock_Count[55] ; i_Clock      ; i_Clock     ; 1.000        ; -0.039     ; 2.836      ;
+; -1.888 ; r_Clock_Count[13] ; r_Clock_Count[54] ; i_Clock      ; i_Clock     ; 1.000        ; -0.039     ; 2.836      ;
+; -1.888 ; r_Clock_Count[13] ; r_Clock_Count[53] ; i_Clock      ; i_Clock     ; 1.000        ; -0.039     ; 2.836      ;
+; -1.888 ; r_Clock_Count[13] ; r_Clock_Count[51] ; i_Clock      ; i_Clock     ; 1.000        ; -0.039     ; 2.836      ;
+; -1.888 ; r_Clock_Count[13] ; r_Clock_Count[50] ; i_Clock      ; i_Clock     ; 1.000        ; -0.039     ; 2.836      ;
 +--------+-------------------+-------------------+--------------+-------------+--------------+------------+------------+
 
 
@@ -1743,7 +1743,7 @@ No non-DPA dedicated SERDES Receiver circuitry present in device or used in desi
 Info: *******************************************************************
 Info: Running Quartus Prime TimeQuest Timing Analyzer
     Info: Version 17.0.0 Build 595 04/25/2017 SJ Lite Edition
-    Info: Processing started: Fri May 26 03:05:11 2017
+    Info: Processing started: Sat May 27 03:41:46 2017
 Info: Command: quartus_sta CanBus -c CanBus
 Info: qsta_default_script.tcl version: #1
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
@@ -1821,8 +1821,8 @@ Info (332114): Report Metastability: Found 1 synchronizer chains.
 Info (332102): Design is not fully constrained for setup requirements
 Info (332102): Design is not fully constrained for hold requirements
 Info: Quartus Prime TimeQuest Timing Analyzer was successful. 0 errors, 5 warnings
-    Info: Peak virtual memory: 636 megabytes
-    Info: Processing ended: Fri May 26 03:05:14 2017
+    Info: Peak virtual memory: 637 megabytes
+    Info: Processing ended: Sat May 27 03:41:49 2017
     Info: Elapsed time: 00:00:03
     Info: Total CPU time (on all processors): 00:00:03
 

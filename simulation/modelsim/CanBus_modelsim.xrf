@@ -2,6 +2,7 @@ vendor_name = ModelSim
 source_file = 1, C:/Users/Carol/Documents/quartusworkspace/CanBus/can_tx.v
 source_file = 1, C:/Users/Carol/Documents/quartusworkspace/CanBus/can_rx.v
 source_file = 1, C:/Users/Carol/Documents/quartusworkspace/CanBus/can_tb.v
+source_file = 1, C:/Users/Carol/Documents/quartusworkspace/CanBus/can_destuff.v
 source_file = 1, C:/Users/Carol/Documents/quartusworkspace/CanBus/db/CanBus.cbx.xml
 design_name = can_rx
 instance = comp, \o_Rx_DV~output , o_Rx_DV~output, can_rx, 1
