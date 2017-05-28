@@ -103,7 +103,7 @@ module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:108] o_Rx
               end
           end 
 	    //-------------------------------------------------------------------------
-		 Stuffing_Check:
+		 Stuffing_Check:  // Carol: Cada um dos cases q envolvem o destuff é acionado em clocks diferentes enquanto isso Data_Bit vai continuar recebendo novos bits q serão perdidos
 		    begin 
 			  if(Stuffing_ON==1)
 			   begin
@@ -138,12 +138,12 @@ module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:108] o_Rx
 			if (Clock_Count < CLKS_PER_BIT-1)
             begin
               Clock_Count <= Clock_Count + 1'b1;
-              Estado     <= Identificador_A;
+              Estado     <= Identificador_A; // Carol: Estado <= Stuffing_Bit; Não?
             end
 	    	else
 			begin
 			  if(TempStuffing==Data_Bit)
-			    Estado     <= Stuffing_Error;
+			    Estado     <= Stuffing_Error; // Carol: Acho q zera o Clock_Count aqui tbm
 			  else
 			  begin
 			     Clock_Count <=0;
@@ -173,13 +173,13 @@ module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:108] o_Rx
                 if (Bit_Index < 12)
                   begin 
                     Redirecionando   <= Identificador_A;
-						  Estado = Stuffing_Check;
+						  Estado = Stuffing_Check; // Carol: Estado <= Stuffing_Check; Não?
                   end
 				else
                   begin  
 						  $display("ID_A Vetor = %b",Vector_Frame);
                     Redirecionando   <= DoubtBits;
-						  Estado = Stuffing_Check;
+						  Estado = Stuffing_Check; // Carol: Estado <= Stuffing_Check; Tem mais desse msm 'erro' daqui em diante tbm.
                   end
               end
 		  end // case: s_RX_IDENTIFIER_BITS
@@ -200,7 +200,7 @@ module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:108] o_Rx
                 if (Bit_Index < 14)
                   begin
                     Redirecionando   <= DoubtBits;
-						  Estado = Stuffing_Check;
+						  Estado = Stuffing_Check;  // Carol: Estado <= Stuffing_Check; Não?
                   end
 				else
               begin  
@@ -209,13 +209,13 @@ module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:108] o_Rx
 					  begin
 					    $display("Reserved Normal -> Vetor = %b",Vector_Frame);
 					    Redirecionando   <=  Reserved_Bit_Normal;
-						 Estado = Stuffing_Check;
+						 Estado = Stuffing_Check;  // Carol: Estado <= Stuffing_Check; Não?
 					  end  
 					else
 					  begin
 						 $display("ID_ B -> Vetor = %b",Vector_Frame);
 					    Redirecionando   <=  Identificador_B;
-						 Estado = Stuffing_Check;
+						 Estado = Stuffing_Check;  // Carol: Estado <= Stuffing_Check; Não?
 					  end  
 				  end
             end
@@ -237,13 +237,13 @@ module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:108] o_Rx
                 if (Bit_Index < 32)
                   begin
                     Redirecionando   <= Identificador_B;
-						  Estado = Stuffing_Check;
+						  Estado = Stuffing_Check;  // Carol: Estado <= Stuffing_Check; Não?
                   end
 				else
                   begin  
 						  $display("Vetor = %b",Vector_Frame);
                     Redirecionando   <= Reserved_Bits_Extandard;
-						  Estado = Stuffing_Check;
+						  Estado = Stuffing_Check;  // Carol: Estado <= Stuffing_Check; Não?
                   end
               end
 		  end   
@@ -264,7 +264,7 @@ module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:108] o_Rx
                 if (Bit_Index < 35)
                   begin
                     Redirecionando   <= Reserved_Bits_Extandard;
-						  Estado = Stuffing_Check;
+						  Estado = Stuffing_Check;  // Carol: Estado <= Stuffing_Check; Não?
                   end
 				else
                   begin  
@@ -272,7 +272,7 @@ module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:108] o_Rx
 				    RTR_BIT <= Vector_Frame[32];
 					 $display("Vetor = %b",Vector_Frame);
 					 Redirecionando   <= Length_Data_Field;
-					 Estado = Stuffing_Check;
+					 Estado = Stuffing_Check;  // Carol: Estado <= Stuffing_Check; Não?
                   end
               end
 		  end 
@@ -293,7 +293,7 @@ module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:108] o_Rx
                 if (Bit_Index < 15)
                   begin
                     Redirecionando   <= Reserved_Bit_Normal;
-						  Estado = Stuffing_Check;
+						  Estado = Stuffing_Check;  // Carol: Estado <= Stuffing_Check; Não?
                   end
 				else
                   begin  
@@ -301,7 +301,7 @@ module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:108] o_Rx
 				    RTR_BIT <= Vector_Frame[12];
 					 $display("Reserved Bits -> Vetor = %b",Vector_Frame);
 					 Redirecionando   <= Length_Data_Field;
-					 Estado = Stuffing_Check;
+					 Estado = Stuffing_Check;  // Carol: Estado <= Stuffing_Check; Não?
                   end
               end
 		  end 
@@ -322,7 +322,7 @@ module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:108] o_Rx
                 if (Bit_Index < New_Jump+4)
                   begin
                     Redirecionando   <= Length_Data_Field;
-						  Estado = Stuffing_Check;
+						  Estado = Stuffing_Check;  // Carol: Estado <= Stuffing_Check; Não?
                   end
 				else
                   begin  
@@ -331,14 +331,14 @@ module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:108] o_Rx
 						New_Jump <= New_Jump+4;
 						$display("Length -> Vetor = %b",Vector_Frame);
 					   Redirecionando   <=  Data_Frame;
-						Estado = Stuffing_Check;
+						Estado = Stuffing_Check;  // Carol: Estado <= Stuffing_Check; Não?
 					  end  
 					else
 					  begin
 					    New_Jump <= New_Jump+ 4;
 						 $display("Length -> Vetor = %b",Vector_Frame);
 					    Redirecionando   <=  CRC_Frame;
-						 Estado = Stuffing_Check;
+						 Estado = Stuffing_Check; // Carol: Estado <= Stuffing_Check; Não?
 					  end  
                   end
               end
@@ -365,14 +365,14 @@ module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:108] o_Rx
                 if (Bit_Index < New_Jump+(Length_Data*8))
                   begin
                     Redirecionando   <= Data_Frame;
-						  Estado = Stuffing_Check;
+						  Estado = Stuffing_Check;  // Carol: Estado <= Stuffing_Check; Não?
                   end
 				  else
                   begin  
 				      New_Jump <= New_Jump+(Length_Data*8);
 						$display("Vetor = %b",Vector_Frame);
 					   Redirecionando   <= CRC_Frame;
-						Estado = Stuffing_Check;
+						Estado = Stuffing_Check;  // Carol: Estado <= Stuffing_Check; Não?
                   end
               end
 		  end 
@@ -394,13 +394,13 @@ module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:108] o_Rx
                 if (Bit_Index < New_Jump+16)
                   begin
                     Redirecionando   <= CRC_Frame;
-						  Estado = Stuffing_Check;
+						  Estado = Stuffing_Check;  // Carol: O wiki fala que do CRC delimiter em diante não há bit stuffing
                   end
 				    else
                   begin  
 						$display("Vetor = %b",Vector_Frame);
 					Redirecionando   <= ACK_Frame;
-					Estado = Stuffing_Check;
+					Estado = Stuffing_Check;  // Carol: O wiki fala que do CRC delimiter em diante não há bit stuffing
                   end
               end
 		  end 
@@ -421,13 +421,13 @@ module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:108] o_Rx
                 if (Bit_Index < New_Jump+18)
                   begin
                     Redirecionando   <= ACK_Frame;
-						  Estado = Stuffing_Check;
+						  Estado = Stuffing_Check;  // Carol: O wiki fala que do CRC delimiter em diante não há bit stuffing
                   end
 				else
                   begin  
 						$display("Vetor = %b",Vector_Frame);
 					Redirecionando   <= End_Of_Frame;
-					Estado = Stuffing_Check;
+					Estado = Stuffing_Check; // Carol: O wiki fala que do CRC delimiter em diante não há bit stuffing
                   end
               end
 		  end 
@@ -448,13 +448,13 @@ module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:108] o_Rx
                 if (Bit_Index < New_Jump+25)
                   begin
                     Redirecionando   <= End_Of_Frame;
-						  Estado = Stuffing_Check;
+						  Estado = Stuffing_Check;  // Carol: O wiki fala que do CRC delimiter em diante não há bit stuffing
                   end
 				else
                   begin  
 						$display("Vetor END = %b",Vector_Frame);
 					Redirecionando   <= ConClusao;
-					Estado = Stuffing_Check;
+					Estado = Stuffing_Check;  // Carol: O wiki fala que do CRC delimiter em diante não há bit stuffing
                   end
               end
 		  end 
