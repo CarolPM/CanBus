@@ -13,31 +13,40 @@
   
 module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:108] o_Rx_Byte);
    
-  parameter Reserved_Bits_Extandard             = 4'b0001;
-  parameter Reserved_Bit_Normal                 = 4'b0010;
-  parameter Identificador_A 		               = 4'b0011;
-  parameter Identificador_B      		         = 4'b0100;
-  parameter End_Of_Frame                        = 4'b0101;
-  parameter Start_Frame 		                  = 4'b0111;
-  parameter Length_Data_Field                   = 4'b1000;
-  parameter DoubtBits		                     = 4'b1001;
-  parameter Data_Frame                          = 4'b1010;
-  parameter CRC_Frame                           = 4'b1011;
-  parameter ACK_Frame                           = 4'b1100;
-  parameter Inicio        		                  = 4'b0000;  
-  parameter ConClusao                           = 4'b1110;  
-  parameter Ocioso        		                  = 4'b1111;  
+  parameter Inicio        		                  = 5'b00000;  
+  parameter Reserved_Bits_Extandard             = 5'b00001;
+  parameter Reserved_Bit_Normal                 = 5'b00010;
+  parameter Identificador_A 		               = 5'b00011;
+  parameter Identificador_B      		         = 5'b00100;
+  parameter End_Of_Frame                        = 5'b00101;
+  parameter Start_Frame 		                  = 5'b00110;
+  parameter Length_Data_Field                   = 5'b00111;
+  parameter DoubtBits		                     = 5'b01000;
+  parameter Data_Frame                          = 5'b01001;
+  parameter CRC_Frame                           = 5'b01010;
+  parameter ACK_Frame                           = 5'b01011;
+  parameter ConClusao                           = 5'b01100;  
+  parameter Ocioso        		                  = 5'b01101;
+  parameter Stuffing_Check                      = 5'b01110;
+  parameter Stuffing_Bit                        = 5'b01111;
+  parameter Stuffing_Error                      = 5'b10000;
   
   parameter CLKS_PER_BIT = 10; //Essa variavel esta setada pelo tb.v 
   
-  reg           RTR_BIT             = 1'b1;
-  reg           Data_Bit_Duplicated = 1'b1;
-  reg           Data_Bit            = 1'b1;
+  reg [0:4]    Redirecionando       = 3;
+  reg [0:4]    Estado               = 0;
+  
+  integer Bit_Stuffing              = 1;
+  integer Bit_Index                 = 0;
+  integer New_Jump                  = 0;
+  integer Length_Data               = 0;
+  
+  reg           Stuffing_ON         = 1;
+  reg           RTR_BIT             = 1;
+  reg           Data_Bit_Duplicated = 1;
+  reg           Data_Bit            = 1;
+  reg           TempStuffing        = 0;
   reg           r_Rx_DV             = 0;
-  reg [0:3]     Estado              = 0;
-  reg [0:3]     Length_Data         = 0; 
-  reg [0:10]    Bit_Index           = 0; 
-  reg [0:10]    New_Jump            = 0;  
   reg [0:63]    Clock_Count         = 0;
   reg [0:110]   Vector_Frame        = 0;
   
@@ -56,11 +65,17 @@ module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:108] o_Rx
 	  //-------------------------------------------------------------------------
         Inicio:
           begin
-            r_Rx_DV       <= 1'b0;
-            Clock_Count <= 0;
-            Bit_Index   <= 0;
+			   Stuffing_ON    <= 1;
+			   Redirecionando <= 3;
+			   Bit_Stuffing   <= 1;
+            r_Rx_DV        <= 1'b0;
+            Clock_Count    <= 0;
+            Bit_Index      <= 0;
             if (Data_Bit == 1'b0)          // Start bit detected
+				begin
               Estado  <= Start_Frame;
+				  TempStuffing=Data_Bit;
+				end
             else
               Estado  <= Inicio;
           end
@@ -76,7 +91,7 @@ module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:108] o_Rx
 						  //$display("Start -> %d bits lidos, BIT = %b, Frame = %b", Bit_Index+1,Vector_Frame[Bit_Index] ,Vector_Frame);
 					     Bit_Index <= Bit_Index + 1;
 						  $display("Startt -> Vetor = %b",Vector_Frame);
-                    Estado     <= Identificador_A;
+                    Estado     <= Stuffing_Check;//mudado
                   end
                 else
                   Estado <= Inicio;
@@ -88,7 +103,61 @@ module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:108] o_Rx
               end
           end 
 	    //-------------------------------------------------------------------------
-		Identificador_A:
+		 Stuffing_Check:
+		    begin 
+			  if(Stuffing_ON==1)
+			   begin
+				
+				
+		        if(Bit_Stuffing==0)
+			     begin
+			       Estado     <= Redirecionando;
+			 	    Bit_Stuffing=1;
+			     end
+			     else
+				  begin
+				    if(TempStuffing!=Data_Bit)
+				      Bit_Stuffing=1;
+				    else
+				      Bit_Stuffing=Bit_Stuffing+1;
+				    if(Bit_Stuffing==5)
+				      Estado     <= Stuffing_Bit;
+				    else
+					   Estado     <= Redirecionando;
+				    TempStuffing=Data_Bit;
+				  end
+			   end
+			   else
+			   begin
+				  Estado <= Redirecionando;
+			   end
+		    end
+		 //-------------------------------------------------------------------------
+		 Stuffing_Bit:
+		 begin
+			if (Clock_Count < CLKS_PER_BIT-1)
+            begin
+              Clock_Count <= Clock_Count + 1'b1;
+              Estado     <= Identificador_A;
+            end
+	    	else
+			begin
+			  if(TempStuffing==Data_Bit)
+			    Estado     <= Stuffing_Error;
+			  else
+			  begin
+			     Clock_Count <=0;
+				  Estado     <= Redirecionando;
+			  end
+			end
+		 end
+		 //-------------------------------------------------------------------------
+		 Stuffing_Error:
+		 begin
+			$display("STUFFING ERROR");
+		 end
+		 //-------------------------------------------------------------------------
+		 Identificador_A:
 		  begin
 			if (Clock_Count < CLKS_PER_BIT-1)
               begin
@@ -102,13 +171,15 @@ module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:108] o_Rx
 				    Bit_Index <= Bit_Index + 1'b1;
 				    //$strobe("ID_A -> %d bits lidos, BIT = %b, Frame = %b", Bit_Index,Vector_Frame[Bit_Index-1] ,Vector_Frame);
                 if (Bit_Index < 12)
-                  begin
-                    Estado   <= Identificador_A;
+                  begin 
+                    Redirecionando   <= Identificador_A;
+						  Estado = Stuffing_Check;
                   end
 				else
                   begin  
 						  $display("ID_A Vetor = %b",Vector_Frame);
-                    Estado   <= DoubtBits;
+                    Redirecionando   <= DoubtBits;
+						  Estado = Stuffing_Check;
                   end
               end
 		  end // case: s_RX_IDENTIFIER_BITS
@@ -128,7 +199,8 @@ module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:108] o_Rx
 				    //$strobe("Doubt -> %d bits lidos, BIT = %b, Frame = %b", Bit_Index,Vector_Frame[Bit_Index-1] ,Vector_Frame);
                 if (Bit_Index < 14)
                   begin
-                    Estado   <= DoubtBits;
+                    Redirecionando   <= DoubtBits;
+						  Estado = Stuffing_Check;
                   end
 				else
               begin  
@@ -136,12 +208,14 @@ module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:108] o_Rx
 					if(Vector_Frame[13]== 0)
 					  begin
 					    $display("Reserved Normal -> Vetor = %b",Vector_Frame);
-					    Estado   <=  Reserved_Bit_Normal;
+					    Redirecionando   <=  Reserved_Bit_Normal;
+						 Estado = Stuffing_Check;
 					  end  
 					else
 					  begin
 						 $display("ID_ B -> Vetor = %b",Vector_Frame);
-					    Estado   <=  Identificador_B;
+					    Redirecionando   <=  Identificador_B;
+						 Estado = Stuffing_Check;
 					  end  
 				  end
             end
@@ -162,12 +236,14 @@ module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:108] o_Rx
 				    //$strobe("ID_B -> %d bits lidos, BIT = %b, Frame = %b", Bit_Index,Vector_Frame[Bit_Index-1] ,Vector_Frame);
                 if (Bit_Index < 32)
                   begin
-                    Estado   <= Identificador_B;
+                    Redirecionando   <= Identificador_B;
+						  Estado = Stuffing_Check;
                   end
 				else
                   begin  
 						  $display("Vetor = %b",Vector_Frame);
-                    Estado   <= Reserved_Bits_Extandard;
+                    Redirecionando   <= Reserved_Bits_Extandard;
+						  Estado = Stuffing_Check;
                   end
               end
 		  end   
@@ -187,14 +263,16 @@ module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:108] o_Rx
 				    //$strobe("Reserved_ex -> %d bits lidos, BIT = %b, Frame = %b", Bit_Index,Vector_Frame[Bit_Index-1] ,Vector_Frame);
                 if (Bit_Index < 35)
                   begin
-                    Estado   <= Reserved_Bits_Extandard;
+                    Redirecionando   <= Reserved_Bits_Extandard;
+						  Estado = Stuffing_Check;
                   end
 				else
                   begin  
 				    New_Jump = 35;
 				    RTR_BIT <= Vector_Frame[32];
 					 $display("Vetor = %b",Vector_Frame);
-					 Estado   <= Length_Data_Field;
+					 Redirecionando   <= Length_Data_Field;
+					 Estado = Stuffing_Check;
                   end
               end
 		  end 
@@ -214,14 +292,16 @@ module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:108] o_Rx
 				    //$strobe("Reserved_Norm -> %d bits lidos, BIT = %b, Frame = %b", Bit_Index,Vector_Frame[Bit_Index-1] ,Vector_Frame);
                 if (Bit_Index < 15)
                   begin
-                    Estado   <= Reserved_Bit_Normal;
+                    Redirecionando   <= Reserved_Bit_Normal;
+						  Estado = Stuffing_Check;
                   end
 				else
                   begin  
 				    New_Jump = 15;
 				    RTR_BIT <= Vector_Frame[12];
 					 $display("Reserved Bits -> Vetor = %b",Vector_Frame);
-					 Estado   <= Length_Data_Field;
+					 Redirecionando   <= Length_Data_Field;
+					 Estado = Stuffing_Check;
                   end
               end
 		  end 
@@ -241,7 +321,8 @@ module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:108] o_Rx
 				    //$strobe("Legth_Data -> %d bits lidos, BIT = %b, Frame = %b", Bit_Index,Vector_Frame[Bit_Index-1] ,Vector_Frame);
                 if (Bit_Index < New_Jump+4)
                   begin
-                    Estado   <= Length_Data_Field;
+                    Redirecionando   <= Length_Data_Field;
+						  Estado = Stuffing_Check;
                   end
 				else
                   begin  
@@ -249,13 +330,15 @@ module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:108] o_Rx
 					  begin
 						New_Jump <= New_Jump+4;
 						$display("Length -> Vetor = %b",Vector_Frame);
-					   Estado   <=  Data_Frame;
+					   Redirecionando   <=  Data_Frame;
+						Estado = Stuffing_Check;
 					  end  
 					else
 					  begin
 					    New_Jump <= New_Jump+ 4;
 						 $display("Length -> Vetor = %b",Vector_Frame);
-					    Estado   <=  CRC_Frame;
+					    Redirecionando   <=  CRC_Frame;
+						 Estado = Stuffing_Check;
 					  end  
                   end
               end
@@ -281,19 +364,22 @@ module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:108] o_Rx
 					 
                 if (Bit_Index < New_Jump+(Length_Data*8))
                   begin
-                    Estado   <= Data_Frame;
+                    Redirecionando   <= Data_Frame;
+						  Estado = Stuffing_Check;
                   end
 				  else
                   begin  
 				      New_Jump <= New_Jump+(Length_Data*8);
 						$display("Vetor = %b",Vector_Frame);
-					   Estado   <= CRC_Frame;
+					   Redirecionando   <= CRC_Frame;
+						Estado = Stuffing_Check;
                   end
               end
 		  end 
 		//-------------------------------------------------------------------------  
 		CRC_Frame:
 		  begin
+		   Stuffing_ON=0;
 			if (Clock_Count < CLKS_PER_BIT-1)
               begin
                 Clock_Count <= Clock_Count + 1'b1;
@@ -307,12 +393,14 @@ module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:108] o_Rx
 				    //$strobe("CRC -> %d bits lidos, BIT = %b, Frame = %b", Bit_Index,Vector_Frame[Bit_Index-1] ,Vector_Frame);
                 if (Bit_Index < New_Jump+16)
                   begin
-                    Estado   <= CRC_Frame;
+                    Redirecionando   <= CRC_Frame;
+						  Estado = Stuffing_Check;
                   end
 				    else
                   begin  
 						$display("Vetor = %b",Vector_Frame);
-					Estado   <= ACK_Frame;
+					Redirecionando   <= ACK_Frame;
+					Estado = Stuffing_Check;
                   end
               end
 		  end 
@@ -332,12 +420,14 @@ module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:108] o_Rx
 				    //$strobe("ACK -> %d bits lidos, BIT = %b, Frame = %b", Bit_Index,Vector_Frame[Bit_Index-1] ,Vector_Frame);
                 if (Bit_Index < New_Jump+18)
                   begin
-                    Estado   <= ACK_Frame;
+                    Redirecionando   <= ACK_Frame;
+						  Estado = Stuffing_Check;
                   end
 				else
                   begin  
 						$display("Vetor = %b",Vector_Frame);
-					Estado   <= End_Of_Frame;
+					Redirecionando   <= End_Of_Frame;
+					Estado = Stuffing_Check;
                   end
               end
 		  end 
@@ -357,12 +447,14 @@ module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:108] o_Rx
 				    //$strobe("END -> %d bits lidos, BIT = %b, Frame = %b", Bit_Index,Vector_Frame[Bit_Index-1] ,Vector_Frame);
                 if (Bit_Index < New_Jump+25)
                   begin
-                    Estado   <= End_Of_Frame;
+                    Redirecionando   <= End_Of_Frame;
+						  Estado = Stuffing_Check;
                   end
 				else
                   begin  
 						$display("Vetor END = %b",Vector_Frame);
-					Estado   <= ConClusao;
+					Redirecionando   <= ConClusao;
+					Estado = Stuffing_Check;
                   end
               end
 		  end 
