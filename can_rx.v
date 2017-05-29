@@ -30,17 +30,19 @@ module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:108] o_Rx
   parameter Stuffing_Check                      = 5'b01110;
   parameter Stuffing_Bit                        = 5'b01111;
   parameter Stuffing_Error                      = 5'b10000;
+  parameter CRC_Delimiter                       = 5'b10001;
   
   parameter CLKS_PER_BIT = 10; //Essa variavel esta setada pelo tb.v 
   
   reg [0:4]    Redirecionando       = 3;
   reg [0:4]    Estado               = 0;
   
-  integer Bit_Stuffing              = 1;
+  integer Bit_Stuffing              = 0;
   integer Bit_Index                 = 0;
   integer New_Jump                  = 0;
-  integer Length_Data               = 0;
   
+  
+  reg [0:3]     Length_Data         = 0;  //Precisa se Vetor
   reg           Stuffing_ON         = 1;
   reg           RTR_BIT             = 1;
   reg           Data_Bit_Duplicated = 1;
@@ -65,10 +67,11 @@ module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:108] o_Rx
 	  //-------------------------------------------------------------------------
         Inicio:
           begin
+			   Redirecionando <= Identificador_A;
 			   Stuffing_ON    <= 1;
-			   Redirecionando <= 3;
 			   Bit_Stuffing   <= 1;
-            r_Rx_DV        <= 1'b0;
+            r_Rx_DV        <= 1'b0;        //Varivel de saida
+				Bit_Stuffing   <= 0;
             Clock_Count    <= 0;
             Bit_Index      <= 0;
             if (Data_Bit == 1'b0)          // Start bit detected
@@ -82,278 +85,230 @@ module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:108] o_Rx
 		//-------------------------------------------------------------------------
 		Start_Frame:
           begin
-            if (Clock_Count == (CLKS_PER_BIT-1)/2)
+            if (Clock_Count != (CLKS_PER_BIT-1)/2)
               begin
-                if (Data_Bit == 1'b0)
+					 Clock_Count <= Clock_Count + 1;
+                Estado     <= Start_Frame;
+				  end
+				else
+					begin
+                if (Data_Bit == 1'b0)   //POde Sair
                   begin
-                    Clock_Count <= 0;  // reset counter, found the middle
-					     Vector_Frame[Bit_Index] <= Data_Bit; //
-						  //$display("Start -> %d bits lidos, BIT = %b, Frame = %b", Bit_Index+1,Vector_Frame[Bit_Index] ,Vector_Frame);
+                    Clock_Count <= 0; 
+						  TempStuffing = Data_Bit;
+					     Vector_Frame[Bit_Index] <= Data_Bit; 
 					     Bit_Index <= Bit_Index + 1;
-						  $display("Startt -> Vetor = %b",Vector_Frame);
-                    Estado     <= Stuffing_Check;//mudado
+						  $display("Vector Processed: Start ");
+                    Estado     <= Stuffing_Check;
                   end
                 else
                   Estado <= Inicio;
-              end
-            else
+				    end	
+           end
+	    //-------------------------------------------------------------------------
+		 Stuffing_Check:
+		   begin 
+			 
+			 if (Clock_Count < CLKS_PER_BIT-1)
               begin
                 Clock_Count <= Clock_Count + 1'b1;
-                Estado     <= Start_Frame;
+                Estado     <= Stuffing_Check;
               end
-          end 
-	    //-------------------------------------------------------------------------
-		 Stuffing_Check:  // Carol: Cada um dos cases q envolvem o destuff é acionado em clocks diferentes enquanto isso Data_Bit vai continuar recebendo novos bits q serão perdidos
-		    begin 
+			 else
+			 begin
+			  Clock_Count <= 0;
 			  if(Stuffing_ON==1)
 			   begin
 				
-				
 		        if(Bit_Stuffing==0)
 			     begin
+				    TempStuffing<=Data_Bit;
 			       Estado     <= Redirecionando;
-			 	    Bit_Stuffing=1;
+			 	    Bit_Stuffing<=1;
 			     end
 			     else
 				  begin
-				    if(TempStuffing!=Data_Bit)
-				      Bit_Stuffing=1;
-				    else
-				      Bit_Stuffing=Bit_Stuffing+1;
 				    if(Bit_Stuffing==5)
-				      Estado     <= Stuffing_Bit;
+					 begin
+					   $display("DEU STUFF");
+						if(TempStuffing!=Data_Bit)
+						begin
+					      Estado     <= Stuffing_Check;
+							Bit_Stuffing<=0;
+						end
+						else
+							Estado  <= Stuffing_Error;
+					 end
+					 
+					 else
+					 begin
+				    if(TempStuffing!=Data_Bit)
+				      Bit_Stuffing<=1;
 				    else
-					   Estado     <= Redirecionando;
-				    TempStuffing=Data_Bit;
+				      Bit_Stuffing<=Bit_Stuffing+1;
+				    TempStuffing<=Data_Bit;
+					 Estado <= Redirecionando;
+					 end
 				  end
 			   end
 			   else
 			   begin
 				  Estado <= Redirecionando;
 			   end
-		    end
-		 //-------------------------------------------------------------------------
-		 Stuffing_Bit:
-		 begin
-			if (Clock_Count < CLKS_PER_BIT-1)
-            begin
-              Clock_Count <= Clock_Count + 1'b1;
-              Estado     <= Identificador_A; // Carol: Estado <= Stuffing_Bit; Não?
-            end
-	    	else
-			begin
-			  if(TempStuffing==Data_Bit)
-			    Estado     <= Stuffing_Error; // Carol: Acho q zera o Clock_Count aqui tbm
-			  else
-			  begin
-			     Clock_Count <=0;
-				  Estado     <= Redirecionando;
-			  end
-			end
-		 end
+			end	
+		  end
 		 //-------------------------------------------------------------------------
 		 Stuffing_Error:
 		 begin
 			$display("STUFFING ERROR");
+			$display("VECTOR = %b",Vector_Frame);
+			Estado <= Ocioso;
 		 end
 		 //-------------------------------------------------------------------------
 		 Identificador_A:
 		  begin
-			if (Clock_Count < CLKS_PER_BIT-1)
-              begin
-                Clock_Count <= Clock_Count + 1'b1;
-                Estado     <= Identificador_A;
-              end
-	    	else
-              begin
-                Clock_Count          <= 0;
+                Clock_Count <= Clock_Count+1;  // SERA ?
                 Vector_Frame[Bit_Index] <= Data_Bit;
-				    Bit_Index <= Bit_Index + 1'b1;
+				    Bit_Index <= Bit_Index + 1;
 				    //$strobe("ID_A -> %d bits lidos, BIT = %b, Frame = %b", Bit_Index,Vector_Frame[Bit_Index-1] ,Vector_Frame);
                 if (Bit_Index < 12)
                   begin 
                     Redirecionando   <= Identificador_A;
-						  Estado = Stuffing_Check; // Carol: Estado <= Stuffing_Check; Não?
+						  Estado <= Stuffing_Check;
                   end
 				else
                   begin  
-						  $display("ID_A Vetor = %b",Vector_Frame);
+						  $display("Vector Processed: Identifcador A ");
                     Redirecionando   <= DoubtBits;
-						  Estado = Stuffing_Check; // Carol: Estado <= Stuffing_Check; Tem mais desse msm 'erro' daqui em diante tbm.
+						  Estado <= Stuffing_Check;
                   end
-              end
-		  end // case: s_RX_IDENTIFIER_BITS
+              
+		  end 
 		//-------------------------------------------------------------------------
 		DoubtBits:
 		  begin
-			if (Clock_Count < CLKS_PER_BIT-1)
-              begin
-                Clock_Count <= Clock_Count + 1'b1;
-                Estado     <= DoubtBits;
-              end
-	    	else
-              begin
-                Clock_Count          <= 0;
+			
+                Clock_Count <= Clock_Count+1;  // SERA ?
                 Vector_Frame[Bit_Index] <= Data_Bit;
 				    Bit_Index <= Bit_Index + 1'b1;
 				    //$strobe("Doubt -> %d bits lidos, BIT = %b, Frame = %b", Bit_Index,Vector_Frame[Bit_Index-1] ,Vector_Frame);
                 if (Bit_Index < 14)
                   begin
                     Redirecionando   <= DoubtBits;
-						  Estado = Stuffing_Check;  // Carol: Estado <= Stuffing_Check; Não?
+						  Estado <= Stuffing_Check;
                   end
 				else
               begin  
-				  
+				   $display("Vector Processed: DoubtBits Vector");
 					if(Vector_Frame[13]== 0)
 					  begin
-					    $display("Reserved Normal -> Vetor = %b",Vector_Frame);
 					    Redirecionando   <=  Reserved_Bit_Normal;
-						 Estado = Stuffing_Check;  // Carol: Estado <= Stuffing_Check; Não?
+						 Estado <= Stuffing_Check;
 					  end  
 					else
 					  begin
-						 $display("ID_ B -> Vetor = %b",Vector_Frame);
 					    Redirecionando   <=  Identificador_B;
-						 Estado = Stuffing_Check;  // Carol: Estado <= Stuffing_Check; Não?
+						 Estado <= Stuffing_Check;
 					  end  
 				  end
-            end
+            
 		  end 
 		//------------------------------------------------------------------------- 
 		Identificador_B:
 		  begin
-			if (Clock_Count <CLKS_PER_BIT-1)
-              begin
-                Clock_Count <= Clock_Count + 1'b1;
-                Estado     <= Identificador_B;
-              end
-	    	else
-              begin
-                Clock_Count          <= 0;
+
+                Clock_Count <= Clock_Count+1;  // SERA ?
                 Vector_Frame[Bit_Index] <= Data_Bit;
 				    Bit_Index <= Bit_Index + 1'b1;
 				    //$strobe("ID_B -> %d bits lidos, BIT = %b, Frame = %b", Bit_Index,Vector_Frame[Bit_Index-1] ,Vector_Frame);
                 if (Bit_Index < 32)
                   begin
                     Redirecionando   <= Identificador_B;
-						  Estado = Stuffing_Check;  // Carol: Estado <= Stuffing_Check; Não?
+						  Estado = Stuffing_Check;
                   end
 				else
                   begin  
-						  $display("Vetor = %b",Vector_Frame);
+						  $display("Vector Processed: Identifcador B ");
                     Redirecionando   <= Reserved_Bits_Extandard;
-						  Estado = Stuffing_Check;  // Carol: Estado <= Stuffing_Check; Não?
+						  Estado <= Stuffing_Check;
                   end
-              end
+              
 		  end   
 		//-------------------------------------------------------------------------
 		Reserved_Bits_Extandard:
 		  begin
-			if (Clock_Count < CLKS_PER_BIT-1)
-              begin
-                Clock_Count <= Clock_Count + 1'b1;
-                Estado     <= Reserved_Bits_Extandard;
-              end
-	    	else
-              begin
-                Clock_Count          <= 0;
+
+                Clock_Count         <= Clock_Count+1;  // SERA ?
                 Vector_Frame[Bit_Index] <= Data_Bit;
 				    Bit_Index <= Bit_Index + 1'b1;
 				    //$strobe("Reserved_ex -> %d bits lidos, BIT = %b, Frame = %b", Bit_Index,Vector_Frame[Bit_Index-1] ,Vector_Frame);
                 if (Bit_Index < 35)
                   begin
                     Redirecionando   <= Reserved_Bits_Extandard;
-						  Estado = Stuffing_Check;  // Carol: Estado <= Stuffing_Check; Não?
+						  Estado <= Stuffing_Check;
                   end
 				else
                   begin  
-				    New_Jump = 35;
+				    New_Jump <= 35;
 				    RTR_BIT <= Vector_Frame[32];
-					 $display("Vetor = %b",Vector_Frame);
+					 $display("Vector Processed: Reserved_Bits_Extandard");
 					 Redirecionando   <= Length_Data_Field;
-					 Estado = Stuffing_Check;  // Carol: Estado <= Stuffing_Check; Não?
+					 Estado <= Stuffing_Check;
                   end
-              end
+              
 		  end 
 		//-------------------------------------------------------------------------
 		Reserved_Bit_Normal:
 		  begin
-			if (Clock_Count < CLKS_PER_BIT-1)
-              begin
-                Clock_Count <= Clock_Count + 1'b1;
-                Estado     <= Reserved_Bit_Normal;
-              end
-	    	else
-              begin
-                Clock_Count          <= 0;
+
+                Clock_Count         <= Clock_Count+1;  // SERA ?
                 Vector_Frame[Bit_Index] <= Data_Bit;  // Precisa Ser Recessivo
 				    Bit_Index <= Bit_Index + 1'b1;
 				    //$strobe("Reserved_Norm -> %d bits lidos, BIT = %b, Frame = %b", Bit_Index,Vector_Frame[Bit_Index-1] ,Vector_Frame);
                 if (Bit_Index < 15)
                   begin
                     Redirecionando   <= Reserved_Bit_Normal;
-						  Estado = Stuffing_Check;  // Carol: Estado <= Stuffing_Check; Não?
+						  Estado <= Stuffing_Check;
                   end
 				else
                   begin  
-				    New_Jump = 15;
+				    New_Jump <= 15;
 				    RTR_BIT <= Vector_Frame[12];
-					 $display("Reserved Bits -> Vetor = %b",Vector_Frame);
+					 $display("Vector Processed: Reserved_Bit_Normal");
 					 Redirecionando   <= Length_Data_Field;
-					 Estado = Stuffing_Check;  // Carol: Estado <= Stuffing_Check; Não?
+					 Estado <= Stuffing_Check;
                   end
-              end
+              
 		  end 
 		//-------------------------------------------------------------------------  
 		Length_Data_Field:
 		  begin
-			if (Clock_Count < CLKS_PER_BIT-1)
-              begin
-                Clock_Count <= Clock_Count + 1'b1;
-                Estado     <= Length_Data_Field;
-              end
-	    	else
-              begin
-                Clock_Count          <= 0;
+                Clock_Count         <= Clock_Count+1;  // SERA ?
                 Vector_Frame[Bit_Index] <= Data_Bit;
 				    Bit_Index <= Bit_Index + 1'b1;
 				    //$strobe("Legth_Data -> %d bits lidos, BIT = %b, Frame = %b", Bit_Index,Vector_Frame[Bit_Index-1] ,Vector_Frame);
                 if (Bit_Index < New_Jump+4)
                   begin
                     Redirecionando   <= Length_Data_Field;
-						  Estado = Stuffing_Check;  // Carol: Estado <= Stuffing_Check; Não?
+						  Estado <= Stuffing_Check;
                   end
 				else
                   begin  
-					if(RTR_BIT==0)
-					  begin
 						New_Jump <= New_Jump+4;
-						$display("Length -> Vetor = %b",Vector_Frame);
+						Estado <= Stuffing_Check;
+						$display("Vector Processed: Length_Data_Field");
+					if(RTR_BIT==0)
 					   Redirecionando   <=  Data_Frame;
-						Estado = Stuffing_Check;  // Carol: Estado <= Stuffing_Check; Não?
-					  end  
 					else
-					  begin
-					    New_Jump <= New_Jump+ 4;
-						 $display("Length -> Vetor = %b",Vector_Frame);
-					    Redirecionando   <=  CRC_Frame;
-						 Estado = Stuffing_Check; // Carol: Estado <= Stuffing_Check; Não?
-					  end  
+					   Redirecionando   <=  CRC_Frame;
+
                   end
-              end
+              
 		  end 
 		//-------------------------------------------------------------------------  
 		Data_Frame:
 		  begin
-			if (Clock_Count < CLKS_PER_BIT-1)
-              begin
-                Clock_Count <= Clock_Count + 1'b1;
-                Estado     <= Data_Frame;
-              end
-	    	else
-              begin
-                Clock_Count          <= 1'b0;
+                Clock_Count         <= Clock_Count+1;  // SERA ?
                 Vector_Frame[Bit_Index] <= Data_Bit;
 				    Bit_Index <= Bit_Index + 1'b1;
 					 //strobe("Data -> %d bits lidos, BIT = %b, Frame = %b", Bit_Index,Vector_Frame[Bit_Index-1] ,Vector_Frame);
@@ -361,102 +316,100 @@ module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:108] o_Rx
 					 Length_Data[1] = Vector_Frame[New_Jump-3]; 
 					 Length_Data[2] = Vector_Frame[New_Jump-2]; 
 					 Length_Data[3] = Vector_Frame[New_Jump-1]; 
-					 
                 if (Bit_Index < New_Jump+(Length_Data*8))
                   begin
                     Redirecionando   <= Data_Frame;
-						  Estado = Stuffing_Check;  // Carol: Estado <= Stuffing_Check; Não?
+						  Estado <= Stuffing_Check;
                   end
 				  else
                   begin  
 				      New_Jump <= New_Jump+(Length_Data*8);
-						$display("Vetor = %b",Vector_Frame);
+						$display("Vector Processed: Data_Frame");
 					   Redirecionando   <= CRC_Frame;
-						Estado = Stuffing_Check;  // Carol: Estado <= Stuffing_Check; Não?
+						Estado <= Stuffing_Check;
                   end
-              end
 		  end 
 		//-------------------------------------------------------------------------  
 		CRC_Frame:
 		  begin
+                Clock_Count         <= Clock_Count+1;  // SERA ?
+                Vector_Frame[Bit_Index] <= Data_Bit;
+				    Bit_Index <= Bit_Index + 1'b1;
+				    //$strobe("CRC -> %d bits lidos, BIT = %b, Frame = %b", Bit_Index,Vector_Frame[Bit_Index-1] ,Vector_Frame);
+                if (Bit_Index < New_Jump+15)
+                  begin
+                    Redirecionando   <= CRC_Frame;
+						  Estado <= Stuffing_Check;
+                  end
+				    else
+                  begin  
+						$display("Vector Processed: CRC_Frame");
+					Redirecionando   <= CRC_Delimiter;
+					Estado <= Stuffing_Check;
+                  end
+              
+		  end 
+		  //-------------------------------------------------------------------------  
+		CRC_Delimiter:
+		  begin
 		   Stuffing_ON=0;
-			if (Clock_Count < CLKS_PER_BIT-1)
-              begin
-                Clock_Count <= Clock_Count + 1'b1;
-                Estado     <= CRC_Frame;
-              end
-	    	else
-              begin
-                Clock_Count          <= 1'b0;
+                Clock_Count         <= Clock_Count+1;  // SERA ?
                 Vector_Frame[Bit_Index] <= Data_Bit;
 				    Bit_Index <= Bit_Index + 1'b1;
 				    //$strobe("CRC -> %d bits lidos, BIT = %b, Frame = %b", Bit_Index,Vector_Frame[Bit_Index-1] ,Vector_Frame);
                 if (Bit_Index < New_Jump+16)
                   begin
-                    Redirecionando   <= CRC_Frame;
-						  Estado = Stuffing_Check;  // Carol: O wiki fala que do CRC delimiter em diante não há bit stuffing
+                    Redirecionando   <= CRC_Delimiter;
+						  Estado <= Stuffing_Check;
                   end
 				    else
                   begin  
-						$display("Vetor = %b",Vector_Frame);
+						$display("Vector Processed: CRC_Delimiter");
 					Redirecionando   <= ACK_Frame;
-					Estado = Stuffing_Check;  // Carol: O wiki fala que do CRC delimiter em diante não há bit stuffing
+					Estado <= Stuffing_Check;
                   end
-              end
+
 		  end 
+		  
 		//-------------------------------------------------------------------------  
 		ACK_Frame:
 		  begin
-			if (Clock_Count < CLKS_PER_BIT-0)
-              begin
-                Clock_Count <= Clock_Count + 1'b1;
-                Estado     <= ACK_Frame;
-              end
-	    	else
-              begin
-                Clock_Count          <= 0;
+                Clock_Count         <= Clock_Count+1;  // SERA ?
                 Vector_Frame[Bit_Index] <= Data_Bit;
 				    Bit_Index <= Bit_Index + 1'b1;
 				    //$strobe("ACK -> %d bits lidos, BIT = %b, Frame = %b", Bit_Index,Vector_Frame[Bit_Index-1] ,Vector_Frame);
                 if (Bit_Index < New_Jump+18)
                   begin
                     Redirecionando   <= ACK_Frame;
-						  Estado = Stuffing_Check;  // Carol: O wiki fala que do CRC delimiter em diante não há bit stuffing
+						  Estado <= Stuffing_Check;
                   end
 				else
                   begin  
-						$display("Vetor = %b",Vector_Frame);
+						$display("Vector Processed: ACK_Frame");
 					Redirecionando   <= End_Of_Frame;
-					Estado = Stuffing_Check; // Carol: O wiki fala que do CRC delimiter em diante não há bit stuffing
+					Estado <= Stuffing_Check;
                   end
-              end
+              
 		  end 
-		//-------------------------------------------------------------------------  
+		//-------------------------------------------------------------------------    
 		End_Of_Frame:
 		  begin
-			if (Clock_Count < CLKS_PER_BIT-1'b1)
-              begin
-                Clock_Count <= Clock_Count + 1'b1;
-                Estado     <= End_Of_Frame;
-              end
-	    	else
-              begin
-                Clock_Count          <= 1'b0;
+                Clock_Count         <= Clock_Count+1;  // SERA ?
                 Vector_Frame[Bit_Index] <= Data_Bit;
 				    Bit_Index <= Bit_Index + 1'b1;
 				    //$strobe("END -> %d bits lidos, BIT = %b, Frame = %b", Bit_Index,Vector_Frame[Bit_Index-1] ,Vector_Frame);
                 if (Bit_Index < New_Jump+25)
                   begin
                     Redirecionando   <= End_Of_Frame;
-						  Estado = Stuffing_Check;  // Carol: O wiki fala que do CRC delimiter em diante não há bit stuffing
+						  Estado = Stuffing_Check;
                   end
 				else
                   begin  
-						$display("Vetor END = %b",Vector_Frame);
+						$display("Vector Processed: End_Of_Frame");
 					Redirecionando   <= ConClusao;
-					Estado = Stuffing_Check;  // Carol: O wiki fala que do CRC delimiter em diante não há bit stuffing
+					Estado = Stuffing_Check;
                   end
-              end
+              
 		  end 
 	    //-------------------------------------------------------------------------  
 		 ConClusao:
@@ -483,6 +436,7 @@ module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:108] o_Rx
 					$display("REMOTE FRAME EXTENDED,Tamanho de Frame = %d Bits",Bit_Index-1);
 				end
 			 end
+			 $display("Vector: %b",Vector_Frame);
 			 Estado   <= Ocioso;
 		  end
 	    //------------------------------------------------------------------------- 
