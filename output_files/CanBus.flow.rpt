@@ -1,5 +1,5 @@
 Flow report for CanBus
-Fri May 26 03:05:17 2017
+Tue May 30 02:36:29 2017
 Quartus Prime Version 17.0.0 Build 595 04/25/2017 SJ Lite Edition
 
 
@@ -41,15 +41,15 @@ agreement for further details.
 +----------------------------------------------------------------------------------+
 ; Flow Summary                                                                     ;
 +------------------------------------+---------------------------------------------+
-; Flow Status                        ; Successful - Fri May 26 03:05:17 2017       ;
+; Flow Status                        ; Successful - Tue May 30 02:36:29 2017       ;
 ; Quartus Prime Version              ; 17.0.0 Build 595 04/25/2017 SJ Lite Edition ;
 ; Revision Name                      ; CanBus                                      ;
 ; Top-level Entity Name              ; can_rx                                      ;
 ; Family                             ; Cyclone IV E                                ;
-; Total logic elements               ; 580 / 6,272 ( 9 % )                         ;
-;     Total combinational functions  ; 579 / 6,272 ( 9 % )                         ;
-;     Dedicated logic registers      ; 193 / 6,272 ( 3 % )                         ;
-; Total registers                    ; 193                                         ;
+; Total logic elements               ; 1,410 / 6,272 ( 22 % )                      ;
+;     Total combinational functions  ; 1,408 / 6,272 ( 22 % )                      ;
+;     Dedicated logic registers      ; 304 / 6,272 ( 5 % )                         ;
+; Total registers                    ; 304                                         ;
 ; Total pins                         ; 111 / 180 ( 62 % )                          ;
 ; Total virtual pins                 ; 0                                           ;
 ; Total memory bits                  ; 0 / 276,480 ( 0 % )                         ;
@@ -65,7 +65,7 @@ agreement for further details.
 +-------------------+---------------------+
 ; Option            ; Setting             ;
 +-------------------+---------------------+
-; Start date & time ; 05/26/2017 03:04:42 ;
+; Start date & time ; 05/30/2017 02:35:44 ;
 ; Main task         ; Compilation         ;
 ; Revision Name     ; CanBus              ;
 +-------------------+---------------------+
@@ -76,7 +76,7 @@ agreement for further details.
 +--------------------------------------+----------------------------------------+---------------+-------------+----------------+
 ; Assignment Name                      ; Value                                  ; Default Value ; Entity Name ; Section Id     ;
 +--------------------------------------+----------------------------------------+---------------+-------------+----------------+
-; COMPILER_SIGNATURE_ID                ; 40637553944819.149577868111440         ; --            ; --          ; --             ;
+; COMPILER_SIGNATURE_ID                ; 40637553944819.149612254405748         ; --            ; --          ; --             ;
 ; EDA_DESIGN_INSTANCE_NAME             ; NA                                     ; --            ; --          ; can_tb         ;
 ; EDA_NATIVELINK_SIMULATION_TEST_BENCH ; can_tb                                 ; --            ; --          ; eda_simulation ;
 ; EDA_OUTPUT_DATA_FORMAT               ; Verilog Hdl                            ; --            ; --          ; eda_simulation ;
@@ -99,12 +99,12 @@ agreement for further details.
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
 ; Module Name               ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Synthesis      ; 00:00:16     ; 1.0                     ; 627 MB              ; 00:00:35                           ;
-; Fitter                    ; 00:00:10     ; 1.0                     ; 1126 MB             ; 00:00:11                           ;
-; Assembler                 ; 00:00:01     ; 1.0                     ; 560 MB              ; 00:00:01                           ;
-; TimeQuest Timing Analyzer ; 00:00:03     ; 1.1                     ; 636 MB              ; 00:00:02                           ;
-; EDA Netlist Writer        ; 00:00:02     ; 1.0                     ; 538 MB              ; 00:00:02                           ;
-; Total                     ; 00:00:32     ; --                      ; --                  ; 00:00:51                           ;
+; Analysis & Synthesis      ; 00:00:18     ; 1.0                     ; 632 MB              ; 00:00:37                           ;
+; Fitter                    ; 00:00:14     ; 1.0                     ; 1140 MB             ; 00:00:17                           ;
+; Assembler                 ; 00:00:01     ; 1.0                     ; 565 MB              ; 00:00:01                           ;
+; TimeQuest Timing Analyzer ; 00:00:03     ; 1.1                     ; 644 MB              ; 00:00:03                           ;
+; EDA Netlist Writer        ; 00:00:03     ; 1.0                     ; 547 MB              ; 00:00:02                           ;
+; Total                     ; 00:00:39     ; --                      ; --                  ; 00:01:00                           ;
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 

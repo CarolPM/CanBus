@@ -11,7 +11,7 @@
 // Example: 10 MHz Clock, 115200 baud UART
 // (10000000)/(115200) = 87
   
-module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:108] o_Rx_Byte);
+module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:107] o_Rx_Byte);
    
   parameter Inicio        		                  = 5'b00000;  
   parameter Reserved_Bits_Extandard             = 5'b00001;
@@ -50,8 +50,16 @@ module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:108] o_Rx
   reg           TempStuffing        = 0;
   reg           r_Rx_DV             = 0;
   reg [0:63]    Clock_Count         = 0;
-  reg [0:110]   Vector_Frame        = 0;
+  reg [0:107]   Vector_Frame        = 0;
   
+  wire stuff_monitor;
+  
+  can_stuff_error #(.stuff_CLKS_PER_BIT(CLKS_PER_BIT)) CAN_RX_INST
+  (.i_Clock(i_Clock),
+   .i_temp_stuff(TempStuffing),
+   .i_Data(Data_Bit),
+   .o_stuff_monitor(stuff_monitor)
+   );
 
   
   always @(posedge i_Clock)
@@ -132,6 +140,7 @@ module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:108] o_Rx
 					 begin
 					   $display("DEU STUFF");
 						if(TempStuffing!=Data_Bit)
+						  //if(stuff_monitor == 1)
 						begin
 					      Estado     <= Stuffing_Check;
 							Bit_Stuffing<=0;

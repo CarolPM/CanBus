@@ -75,48 +75,48 @@ RESERVED_INPUT_WITH_WEAK_PULLUP : A3        :        :                   :      
 RESERVED_INPUT_WITH_WEAK_PULLUP : A4        :        :                   :         : 8         :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : A5        :        :                   :         : 8         :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : A6        :        :                   :         : 8         :                
-o_Rx_Byte[8]                 : A7        : output : 2.5 V             :         : 8         : N              
-o_Rx_Byte[90]                : A8        : output : 2.5 V             :         : 8         : N              
-o_Rx_Byte[104]               : A9        : output : 2.5 V             :         : 7         : N              
-o_Rx_Byte[23]                : A10       : output : 2.5 V             :         : 7         : N              
-o_Rx_Byte[35]                : A11       : output : 2.5 V             :         : 7         : N              
-o_Rx_Byte[5]                 : A12       : output : 2.5 V             :         : 7         : N              
-RESERVED_INPUT_WITH_WEAK_PULLUP : A13       :        :                   :         : 7         :                
-o_Rx_Byte[76]                : A14       : output : 2.5 V             :         : 7         : N              
-o_Rx_Byte[9]                 : A15       : output : 2.5 V             :         : 7         : N              
+RESERVED_INPUT_WITH_WEAK_PULLUP : A7        :        :                   :         : 8         :                
+o_Rx_Byte[75]                : A8        : output : 2.5 V             :         : 8         : N              
+o_Rx_Byte[43]                : A9        : output : 2.5 V             :         : 7         : N              
+o_Rx_Byte[48]                : A10       : output : 2.5 V             :         : 7         : N              
+o_Rx_Byte[106]               : A11       : output : 2.5 V             :         : 7         : N              
+o_Rx_Byte[22]                : A12       : output : 2.5 V             :         : 7         : N              
+o_Rx_Byte[101]               : A13       : output : 2.5 V             :         : 7         : N              
+RESERVED_INPUT_WITH_WEAK_PULLUP : A14       :        :                   :         : 7         :                
+o_Rx_Byte[104]               : A15       : output : 2.5 V             :         : 7         : N              
 VCCIO7                       : A16       : power  :                   : 2.5V    : 7         :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : B1        :        :                   :         : 1         :                
 GND                          : B2        : gnd    :                   :         :           :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : B3        :        :                   :         : 8         :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : B4        :        :                   :         : 8         :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : B5        :        :                   :         : 8         :                
-o_Rx_Byte[72]                : B6        : output : 2.5 V             :         : 8         : N              
-o_Rx_Byte[84]                : B7        : output : 2.5 V             :         : 8         : N              
-o_Rx_Byte[86]                : B8        : output : 2.5 V             :         : 8         : N              
-o_Rx_Byte[66]                : B9        : output : 2.5 V             :         : 7         : N              
-o_Rx_Byte[106]               : B10       : output : 2.5 V             :         : 7         : N              
-o_Rx_Byte[41]                : B11       : output : 2.5 V             :         : 7         : N              
-o_Rx_Byte[89]                : B12       : output : 2.5 V             :         : 7         : N              
-RESERVED_INPUT_WITH_WEAK_PULLUP : B13       :        :                   :         : 7         :                
-o_Rx_Byte[57]                : B14       : output : 2.5 V             :         : 7         : N              
+RESERVED_INPUT_WITH_WEAK_PULLUP : B6        :        :                   :         : 8         :                
+RESERVED_INPUT_WITH_WEAK_PULLUP : B7        :        :                   :         : 8         :                
+o_Rx_Byte[40]                : B8        : output : 2.5 V             :         : 8         : N              
+o_Rx_Byte[80]                : B9        : output : 2.5 V             :         : 7         : N              
+o_Rx_Byte[95]                : B10       : output : 2.5 V             :         : 7         : N              
+o_Rx_Byte[68]                : B11       : output : 2.5 V             :         : 7         : N              
+o_Rx_Byte[67]                : B12       : output : 2.5 V             :         : 7         : N              
+o_Rx_Byte[31]                : B13       : output : 2.5 V             :         : 7         : N              
+RESERVED_INPUT_WITH_WEAK_PULLUP : B14       :        :                   :         : 7         :                
 GND                          : B15       : gnd    :                   :         :           :                
-o_Rx_Byte[15]                : B16       : output : 2.5 V             :         : 6         : N              
+o_Rx_Byte[70]                : B16       : output : 2.5 V             :         : 6         : N              
 ~ALTERA_ASDO_DATA1~ / RESERVED_INPUT_WITH_WEAK_PULLUP : C1        : input  : 2.5 V             :         : 1         : N              
 RESERVED_INPUT_WITH_WEAK_PULLUP : C2        :        :                   :         : 1         :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : C3        :        :                   :         : 8         :                
 VCCIO8                       : C4        : power  :                   : 2.5V    : 8         :                
 GND                          : C5        : gnd    :                   :         :           :                
-o_Rx_Byte[50]                : C6        : output : 2.5 V             :         : 8         : N              
+RESERVED_INPUT_WITH_WEAK_PULLUP : C6        :        :                   :         : 8         :                
 VCCIO8                       : C7        : power  :                   : 2.5V    : 8         :                
-o_Rx_Byte[68]                : C8        : output : 2.5 V             :         : 8         : N              
-o_Rx_Byte[102]               : C9        : output : 2.5 V             :         : 7         : N              
+RESERVED_INPUT_WITH_WEAK_PULLUP : C8        :        :                   :         : 8         :                
+RESERVED_INPUT_WITH_WEAK_PULLUP : C9        :        :                   :         : 7         :                
 VCCIO7                       : C10       : power  :                   : 2.5V    : 7         :                
-o_Rx_Byte[13]                : C11       : output : 2.5 V             :         : 7         : N              
+RESERVED_INPUT_WITH_WEAK_PULLUP : C11       :        :                   :         : 7         :                
 GND                          : C12       : gnd    :                   :         :           :                
 VCCIO7                       : C13       : power  :                   : 2.5V    : 7         :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : C14       :        :                   :         : 7         :                
-o_Rx_Byte[39]                : C15       : output : 2.5 V             :         : 6         : N              
-o_Rx_Byte[43]                : C16       : output : 2.5 V             :         : 6         : N              
+o_Rx_Byte[78]                : C15       : output : 2.5 V             :         : 6         : N              
+o_Rx_Byte[107]               : C16       : output : 2.5 V             :         : 6         : N              
 RESERVED_INPUT_WITH_WEAK_PULLUP : D1        :        :                   :         : 1         :                
 ~ALTERA_FLASH_nCE_nCSO~ / RESERVED_INPUT_WITH_WEAK_PULLUP : D2        : input  : 2.5 V             :         : 1         : N              
 RESERVED_INPUT_WITH_WEAK_PULLUP : D3        :        :                   :         : 8         :                
@@ -124,26 +124,26 @@ RESERVED_INPUT_WITH_WEAK_PULLUP : D4        :        :                   :      
 RESERVED_INPUT_WITH_WEAK_PULLUP : D5        :        :                   :         : 8         :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : D6        :        :                   :         : 8         :                
 GND                          : D7        : gnd    :                   :         :           :                
-o_Rx_Byte[54]                : D8        : output : 2.5 V             :         : 8         : N              
-o_Rx_Byte[36]                : D9        : output : 2.5 V             :         : 7         : N              
+o_Rx_Byte[55]                : D8        : output : 2.5 V             :         : 8         : N              
+RESERVED_INPUT_WITH_WEAK_PULLUP : D9        :        :                   :         : 7         :                
 GND                          : D10       : gnd    :                   :         :           :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : D11       :        :                   :         : 7         :                
-o_Rx_Byte[49]                : D12       : output : 2.5 V             :         : 7         : N              
+o_Rx_DV                      : D12       : output : 2.5 V             :         : 7         : N              
 VCCD_PLL2                    : D13       : power  :                   : 1.2V    :           :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : D14       :        :                   :         : 7         :                
-o_Rx_Byte[37]                : D15       : output : 2.5 V             :         : 6         : N              
-o_Rx_Byte[97]                : D16       : output : 2.5 V             :         : 6         : N              
+o_Rx_Byte[86]                : D14       : output : 2.5 V             :         : 7         : N              
+o_Rx_Byte[99]                : D15       : output : 2.5 V             :         : 6         : N              
+o_Rx_Byte[79]                : D16       : output : 2.5 V             :         : 6         : N              
 i_Clock                      : E1        : input  : 2.5 V             :         : 1         : N              
 GND                          : E2        : gnd    :                   :         :           :                
 VCCIO1                       : E3        : power  :                   : 2.5V    : 1         :                
 GND                          : E4        : gnd    :                   :         :           :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : E5        :        :                   :         : 1         :                
-o_Rx_Byte[62]                : E6        : output : 2.5 V             :         : 8         : N              
+RESERVED_INPUT_WITH_WEAK_PULLUP : E6        :        :                   :         : 8         :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : E7        :        :                   :         : 8         :                
-o_Rx_Byte[64]                : E8        : output : 2.5 V             :         : 8         : N              
-o_Rx_Byte[71]                : E9        : output : 2.5 V             :         : 7         : N              
-o_Rx_Byte[100]               : E10       : output : 2.5 V             :         : 7         : N              
-o_Rx_Byte[96]                : E11       : output : 2.5 V             :         : 7         : N              
+RESERVED_INPUT_WITH_WEAK_PULLUP : E8        :        :                   :         : 8         :                
+o_Rx_Byte[13]                : E9        : output : 2.5 V             :         : 7         : N              
+RESERVED_INPUT_WITH_WEAK_PULLUP : E10       :        :                   :         : 7         :                
+RESERVED_INPUT_WITH_WEAK_PULLUP : E11       :        :                   :         : 7         :                
 GNDA2                        : E12       : gnd    :                   :         :           :                
 GND                          : E13       : gnd    :                   :         :           :                
 VCCIO6                       : E14       : power  :                   : 2.5V    : 6         :                
@@ -154,33 +154,33 @@ RESERVED_INPUT_WITH_WEAK_PULLUP : F2        :        :                   :      
 RESERVED_INPUT_WITH_WEAK_PULLUP : F3        :        :                   :         : 1         :                
 nSTATUS                      : F4        :        :                   :         : 1         :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : F5        :        :                   :         : 1         :                
-o_Rx_Byte[38]                : F6        : output : 2.5 V             :         : 8         : N              
-o_Rx_Byte[87]                : F7        : output : 2.5 V             :         : 8         : N              
-o_Rx_Byte[82]                : F8        : output : 2.5 V             :         : 8         : N              
-o_Rx_Byte[27]                : F9        : output : 2.5 V             :         : 7         : N              
-o_Rx_Byte[85]                : F10       : output : 2.5 V             :         : 7         : N              
-o_Rx_Byte[31]                : F11       : output : 2.5 V             :         : 7         : N              
+RESERVED_INPUT_WITH_WEAK_PULLUP : F6        :        :                   :         : 8         :                
+RESERVED_INPUT_WITH_WEAK_PULLUP : F7        :        :                   :         : 8         :                
+o_Rx_Byte[83]                : F8        : output : 2.5 V             :         : 8         : N              
+o_Rx_Byte[36]                : F9        : output : 2.5 V             :         : 7         : N              
+RESERVED_INPUT_WITH_WEAK_PULLUP : F10       :        :                   :         : 7         :                
+o_Rx_Byte[105]               : F11       : output : 2.5 V             :         : 7         : N              
 VCCA2                        : F12       : power  :                   : 2.5V    :           :                
-o_Rx_Byte[33]                : F13       : output : 2.5 V             :         : 6         : N              
-o_Rx_Byte[7]                 : F14       : output : 2.5 V             :         : 6         : N              
-o_Rx_Byte[81]                : F15       : output : 2.5 V             :         : 6         : N              
+o_Rx_Byte[64]                : F13       : output : 2.5 V             :         : 6         : N              
+o_Rx_Byte[87]                : F14       : output : 2.5 V             :         : 6         : N              
+o_Rx_Byte[74]                : F15       : output : 2.5 V             :         : 6         : N              
 ~ALTERA_nCEO~ / RESERVED_OUTPUT_OPEN_DRAIN : F16       : output : 2.5 V             :         : 6         : N              
-o_Rx_Byte[70]                : G1        : output : 2.5 V             :         : 1         : N              
-o_Rx_Byte[26]                : G2        : output : 2.5 V             :         : 1         : N              
+RESERVED_INPUT_WITH_WEAK_PULLUP : G1        :        :                   :         : 1         :                
+RESERVED_INPUT_WITH_WEAK_PULLUP : G2        :        :                   :         : 1         :                
 VCCIO1                       : G3        : power  :                   : 2.5V    : 1         :                
 GND                          : G4        : gnd    :                   :         :           :                
-o_Rx_Byte[69]                : G5        : output : 2.5 V             :         : 1         : N              
+RESERVED_INPUT_WITH_WEAK_PULLUP : G5        :        :                   :         : 1         :                
 VCCINT                       : G6        : power  :                   : 1.2V    :           :                
 VCCINT                       : G7        : power  :                   : 1.2V    :           :                
 VCCINT                       : G8        : power  :                   : 1.2V    :           :                
 VCCINT                       : G9        : power  :                   : 1.2V    :           :                
 VCCINT                       : G10       : power  :                   : 1.2V    :           :                
-o_Rx_Byte[61]                : G11       : output : 2.5 V             :         : 6         : N              
+RESERVED_INPUT_WITH_WEAK_PULLUP : G11       :        :                   :         : 6         :                
 MSEL2                        : G12       :        :                   :         : 6         :                
 GND                          : G13       : gnd    :                   :         :           :                
 VCCIO6                       : G14       : power  :                   : 2.5V    : 6         :                
-o_Rx_Byte[45]                : G15       : output : 2.5 V             :         : 6         : N              
-o_Rx_Byte[53]                : G16       : output : 2.5 V             :         : 6         : N              
+o_Rx_Byte[88]                : G15       : output : 2.5 V             :         : 6         : N              
+o_Rx_Byte[1]                 : G16       : output : 2.5 V             :         : 6         : N              
 ~ALTERA_DCLK~                : H1        : output : 2.5 V             :         : 1         : N              
 ~ALTERA_DATA0~ / RESERVED_INPUT_WITH_WEAK_PULLUP : H2        : input  : 2.5 V             :         : 1         : N              
 TCK                          : H3        : input  :                   :         : 1         :                
@@ -197,131 +197,131 @@ MSEL0                        : H13       :        :                   :         
 CONF_DONE                    : H14       :        :                   :         : 6         :                
 GND                          : H15       : gnd    :                   :         :           :                
 GND                          : H16       : gnd    :                   :         :           :                
-o_Rx_Byte[1]                 : J1        : output : 2.5 V             :         : 2         : N              
-o_Rx_Byte[92]                : J2        : output : 2.5 V             :         : 2         : N              
+RESERVED_INPUT_WITH_WEAK_PULLUP : J1        :        :                   :         : 2         :                
+RESERVED_INPUT_WITH_WEAK_PULLUP : J2        :        :                   :         : 2         :                
 nCE                          : J3        :        :                   :         : 1         :                
 TDO                          : J4        : output :                   :         : 1         :                
 TMS                          : J5        : input  :                   :         : 1         :                
-o_Rx_Byte[3]                 : J6        : output : 2.5 V             :         : 2         : N              
+RESERVED_INPUT_WITH_WEAK_PULLUP : J6        :        :                   :         : 2         :                
 GND                          : J7        : gnd    :                   :         :           :                
 GND                          : J8        : gnd    :                   :         :           :                
 GND                          : J9        : gnd    :                   :         :           :                
 GND                          : J10       : gnd    :                   :         :           :                
-o_Rx_Byte[17]                : J11       : output : 2.5 V             :         : 5         : N              
-o_Rx_Byte[40]                : J12       : output : 2.5 V             :         : 5         : N              
-o_Rx_Byte[73]                : J13       : output : 2.5 V             :         : 5         : N              
-o_Rx_Byte[18]                : J14       : output : 2.5 V             :         : 5         : N              
-o_Rx_Byte[65]                : J15       : output : 2.5 V             :         : 5         : N              
-o_Rx_Byte[63]                : J16       : output : 2.5 V             :         : 5         : N              
+o_Rx_Byte[34]                : J11       : output : 2.5 V             :         : 5         : N              
+o_Rx_Byte[94]                : J12       : output : 2.5 V             :         : 5         : N              
+o_Rx_Byte[32]                : J13       : output : 2.5 V             :         : 5         : N              
+o_Rx_Byte[58]                : J14       : output : 2.5 V             :         : 5         : N              
+o_Rx_Byte[96]                : J15       : output : 2.5 V             :         : 5         : N              
+o_Rx_Byte[59]                : J16       : output : 2.5 V             :         : 5         : N              
 RESERVED_INPUT_WITH_WEAK_PULLUP : K1        :        :                   :         : 2         :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : K2        :        :                   :         : 2         :                
 VCCIO2                       : K3        : power  :                   : 2.5V    : 2         :                
 GND                          : K4        : gnd    :                   :         :           :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : K5        :        :                   :         : 2         :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : K6        :        :                   :         : 2         :                
+o_Rx_Byte[91]                : K5        : output : 2.5 V             :         : 2         : N              
+o_Rx_Byte[71]                : K6        : output : 2.5 V             :         : 2         : N              
 VCCINT                       : K7        : power  :                   : 1.2V    :           :                
-o_Rx_Byte[34]                : K8        : output : 2.5 V             :         : 3         : N              
-o_Rx_Byte[80]                : K9        : output : 2.5 V             :         : 4         : N              
-o_Rx_Byte[78]                : K10       : output : 2.5 V             :         : 4         : N              
-o_Rx_Byte[10]                : K11       : output : 2.5 V             :         : 5         : N              
-RESERVED_INPUT_WITH_WEAK_PULLUP : K12       :        :                   :         : 5         :                
+o_Rx_Byte[11]                : K8        : output : 2.5 V             :         : 3         : N              
+o_Rx_Byte[20]                : K9        : output : 2.5 V             :         : 4         : N              
+o_Rx_Byte[49]                : K10       : output : 2.5 V             :         : 4         : N              
+o_Rx_Byte[103]               : K11       : output : 2.5 V             :         : 5         : N              
+o_Rx_Byte[45]                : K12       : output : 2.5 V             :         : 5         : N              
 GND                          : K13       : gnd    :                   :         :           :                
 VCCIO5                       : K14       : power  :                   : 2.5V    : 5         :                
-o_Rx_Byte[47]                : K15       : output : 2.5 V             :         : 5         : N              
-o_Rx_Byte[21]                : K16       : output : 2.5 V             :         : 5         : N              
+o_Rx_Byte[42]                : K15       : output : 2.5 V             :         : 5         : N              
+o_Rx_Byte[19]                : K16       : output : 2.5 V             :         : 5         : N              
 RESERVED_INPUT_WITH_WEAK_PULLUP : L1        :        :                   :         : 2         :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : L2        :        :                   :         : 2         :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : L3        :        :                   :         : 2         :                
+o_Rx_Byte[63]                : L3        : output : 2.5 V             :         : 2         : N              
 RESERVED_INPUT_WITH_WEAK_PULLUP : L4        :        :                   :         : 2         :                
 VCCA1                        : L5        : power  :                   : 2.5V    :           :                
-o_Rx_Byte[30]                : L6        : output : 2.5 V             :         : 2         : N              
-o_Rx_Byte[67]                : L7        : output : 2.5 V             :         : 3         : N              
-o_Rx_Byte[12]                : L8        : output : 2.5 V             :         : 3         : N              
-o_Rx_Byte[52]                : L9        : output : 2.5 V             :         : 4         : N              
-o_Rx_Byte[101]               : L10       : output : 2.5 V             :         : 4         : N              
-RESERVED_INPUT_WITH_WEAK_PULLUP : L11       :        :                   :         : 4         :                
-o_Rx_Byte[83]                : L12       : output : 2.5 V             :         : 5         : N              
-o_Rx_Byte[103]               : L13       : output : 2.5 V             :         : 5         : N              
-o_Rx_Byte[91]                : L14       : output : 2.5 V             :         : 5         : N              
-o_Rx_Byte[105]               : L15       : output : 2.5 V             :         : 5         : N              
-o_Rx_Byte[28]                : L16       : output : 2.5 V             :         : 5         : N              
+o_Rx_Byte[84]                : L6        : output : 2.5 V             :         : 2         : N              
+o_Rx_Byte[5]                 : L7        : output : 2.5 V             :         : 3         : N              
+o_Rx_Byte[21]                : L8        : output : 2.5 V             :         : 3         : N              
+o_Rx_Byte[3]                 : L9        : output : 2.5 V             :         : 4         : N              
+o_Rx_Byte[17]                : L10       : output : 2.5 V             :         : 4         : N              
+o_Rx_Byte[54]                : L11       : output : 2.5 V             :         : 4         : N              
+o_Rx_Byte[77]                : L12       : output : 2.5 V             :         : 5         : N              
+o_Rx_Byte[90]                : L13       : output : 2.5 V             :         : 5         : N              
+o_Rx_Byte[81]                : L14       : output : 2.5 V             :         : 5         : N              
+o_Rx_Byte[2]                 : L15       : output : 2.5 V             :         : 5         : N              
+o_Rx_Byte[30]                : L16       : output : 2.5 V             :         : 5         : N              
 GND+                         : M1        :        :                   :         : 2         :                
 GND+                         : M2        :        :                   :         : 2         :                
 VCCIO2                       : M3        : power  :                   : 2.5V    : 2         :                
 GND                          : M4        : gnd    :                   :         :           :                
 GNDA1                        : M5        : gnd    :                   :         :           :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : M6        :        :                   :         : 3         :                
-o_Rx_Byte[94]                : M7        : output : 2.5 V             :         : 3         : N              
-o_Rx_Byte[32]                : M8        : output : 2.5 V             :         : 3         : N              
-o_Rx_Byte[55]                : M9        : output : 2.5 V             :         : 4         : N              
-o_Rx_Byte[24]                : M10       : output : 2.5 V             :         : 4         : N              
-RESERVED_INPUT_WITH_WEAK_PULLUP : M11       :        :                   :         : 4         :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : M12       :        :                   :         : 5         :                
+o_Rx_Byte[92]                : M6        : output : 2.5 V             :         : 3         : N              
+o_Rx_Byte[72]                : M7        : output : 2.5 V             :         : 3         : N              
+o_Rx_Byte[44]                : M8        : output : 2.5 V             :         : 3         : N              
+o_Rx_Byte[41]                : M9        : output : 2.5 V             :         : 4         : N              
+o_Rx_Byte[37]                : M10       : output : 2.5 V             :         : 4         : N              
+o_Rx_Byte[100]               : M11       : output : 2.5 V             :         : 4         : N              
+o_Rx_Byte[46]                : M12       : output : 2.5 V             :         : 5         : N              
 GND                          : M13       : gnd    :                   :         :           :                
 VCCIO5                       : M14       : power  :                   : 2.5V    : 5         :                
 GND+                         : M15       :        :                   :         : 5         :                
 GND+                         : M16       :        :                   :         : 5         :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : N1        :        :                   :         : 2         :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : N2        :        :                   :         : 2         :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : N3        :        :                   :         : 3         :                
+o_Rx_Byte[38]                : N1        : output : 2.5 V             :         : 2         : N              
+o_Rx_Byte[9]                 : N2        : output : 2.5 V             :         : 2         : N              
+o_Rx_Byte[102]               : N3        : output : 2.5 V             :         : 3         : N              
 VCCD_PLL1                    : N4        : power  :                   : 1.2V    :           :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : N5        :        :                   :         : 3         :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : N6        :        :                   :         : 3         :                
+o_Rx_Byte[12]                : N5        : output : 2.5 V             :         : 3         : N              
+o_Rx_Byte[15]                : N6        : output : 2.5 V             :         : 3         : N              
 GND                          : N7        : gnd    :                   :         :           :                
-o_Rx_DV                      : N8        : output : 2.5 V             :         : 3         : N              
-o_Rx_Byte[107]               : N9        : output : 2.5 V             :         : 4         : N              
+o_Rx_Byte[56]                : N8        : output : 2.5 V             :         : 3         : N              
+o_Rx_Byte[10]                : N9        : output : 2.5 V             :         : 4         : N              
 GND                          : N10       : gnd    :                   :         :           :                
-o_Rx_Byte[42]                : N11       : output : 2.5 V             :         : 4         : N              
-RESERVED_INPUT_WITH_WEAK_PULLUP : N12       :        :                   :         : 4         :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : N13       :        :                   :         : 5         :                
-o_Rx_Byte[75]                : N14       : output : 2.5 V             :         : 5         : N              
-o_Rx_Byte[16]                : N15       : output : 2.5 V             :         : 5         : N              
-o_Rx_Byte[93]                : N16       : output : 2.5 V             :         : 5         : N              
+o_Rx_Byte[73]                : N11       : output : 2.5 V             :         : 4         : N              
+o_Rx_Byte[61]                : N12       : output : 2.5 V             :         : 4         : N              
+o_Rx_Byte[62]                : N13       : output : 2.5 V             :         : 5         : N              
+o_Rx_Byte[6]                 : N14       : output : 2.5 V             :         : 5         : N              
+o_Rx_Byte[98]                : N15       : output : 2.5 V             :         : 5         : N              
+o_Rx_Byte[85]                : N16       : output : 2.5 V             :         : 5         : N              
 RESERVED_INPUT_WITH_WEAK_PULLUP : P1        :        :                   :         : 2         :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : P2        :        :                   :         : 2         :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : P3        :        :                   :         : 3         :                
 VCCIO3                       : P4        : power  :                   : 2.5V    : 3         :                
 GND                          : P5        : gnd    :                   :         :           :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : P6        :        :                   :         : 3         :                
+o_Rx_Byte[23]                : P6        : output : 2.5 V             :         : 3         : N              
 VCCIO3                       : P7        : power  :                   : 2.5V    : 3         :                
-o_Rx_Byte[60]                : P8        : output : 2.5 V             :         : 3         : N              
-o_Rx_Byte[2]                 : P9        : output : 2.5 V             :         : 4         : N              
+o_Rx_Byte[35]                : P8        : output : 2.5 V             :         : 3         : N              
+o_Rx_Byte[33]                : P9        : output : 2.5 V             :         : 4         : N              
 VCCIO4                       : P10       : power  :                   : 2.5V    : 4         :                
-o_Rx_Byte[58]                : P11       : output : 2.5 V             :         : 4         : N              
+o_Rx_Byte[69]                : P11       : output : 2.5 V             :         : 4         : N              
 GND                          : P12       : gnd    :                   :         :           :                
 VCCIO4                       : P13       : power  :                   : 2.5V    : 4         :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : P14       :        :                   :         : 4         :                
-o_Rx_Byte[20]                : P15       : output : 2.5 V             :         : 5         : N              
-o_Rx_Byte[25]                : P16       : output : 2.5 V             :         : 5         : N              
+o_Rx_Byte[93]                : P14       : output : 2.5 V             :         : 4         : N              
+o_Rx_Byte[66]                : P15       : output : 2.5 V             :         : 5         : N              
+o_Rx_Byte[7]                 : P16       : output : 2.5 V             :         : 5         : N              
 RESERVED_INPUT_WITH_WEAK_PULLUP : R1        :        :                   :         : 2         :                
 GND                          : R2        : gnd    :                   :         :           :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : R3        :        :                   :         : 3         :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : R4        :        :                   :         : 3         :                
-o_Rx_Byte[14]                : R5        : output : 2.5 V             :         : 3         : N              
-o_Rx_Byte[6]                 : R6        : output : 2.5 V             :         : 3         : N              
-o_Rx_Byte[88]                : R7        : output : 2.5 V             :         : 3         : N              
-o_Rx_Byte[22]                : R8        : output : 2.5 V             :         : 3         : N              
-o_Rx_Byte[48]                : R9        : output : 2.5 V             :         : 4         : N              
-o_Rx_Byte[79]                : R10       : output : 2.5 V             :         : 4         : N              
-o_Rx_Byte[59]                : R11       : output : 2.5 V             :         : 4         : N              
-o_Rx_Byte[74]                : R12       : output : 2.5 V             :         : 4         : N              
-o_Rx_Byte[0]                 : R13       : output : 2.5 V             :         : 4         : N              
-RESERVED_INPUT_WITH_WEAK_PULLUP : R14       :        :                   :         : 4         :                
+o_Rx_Byte[26]                : R4        : output : 2.5 V             :         : 3         : N              
+o_Rx_Byte[76]                : R5        : output : 2.5 V             :         : 3         : N              
+o_Rx_Byte[39]                : R6        : output : 2.5 V             :         : 3         : N              
+o_Rx_Byte[27]                : R7        : output : 2.5 V             :         : 3         : N              
+o_Rx_Byte[47]                : R8        : output : 2.5 V             :         : 3         : N              
+o_Rx_Byte[53]                : R9        : output : 2.5 V             :         : 4         : N              
+o_Rx_Byte[24]                : R10       : output : 2.5 V             :         : 4         : N              
+o_Rx_Byte[0]                 : R11       : output : 2.5 V             :         : 4         : N              
+o_Rx_Byte[51]                : R12       : output : 2.5 V             :         : 4         : N              
+o_Rx_Byte[25]                : R13       : output : 2.5 V             :         : 4         : N              
+o_Rx_Byte[82]                : R14       : output : 2.5 V             :         : 4         : N              
 GND                          : R15       : gnd    :                   :         :           :                
-o_Rx_Byte[98]                : R16       : output : 2.5 V             :         : 5         : N              
+o_Rx_Byte[50]                : R16       : output : 2.5 V             :         : 5         : N              
 VCCIO3                       : T1        : power  :                   : 2.5V    : 3         :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : T2        :        :                   :         : 3         :                
+o_Rx_Byte[60]                : T2        : output : 2.5 V             :         : 3         : N              
 RESERVED_INPUT_WITH_WEAK_PULLUP : T3        :        :                   :         : 3         :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : T4        :        :                   :         : 3         :                
-o_Rx_Byte[4]                 : T5        : output : 2.5 V             :         : 3         : N              
-o_Rx_Byte[51]                : T6        : output : 2.5 V             :         : 3         : N              
-o_Rx_Byte[19]                : T7        : output : 2.5 V             :         : 3         : N              
-o_Rx_Byte[77]                : T8        : output : 2.5 V             :         : 3         : N              
-o_Rx_Byte[56]                : T9        : output : 2.5 V             :         : 4         : N              
-o_Rx_Byte[95]                : T10       : output : 2.5 V             :         : 4         : N              
-o_Rx_Byte[11]                : T11       : output : 2.5 V             :         : 4         : N              
-o_Rx_Byte[29]                : T12       : output : 2.5 V             :         : 4         : N              
-o_Rx_Byte[46]                : T13       : output : 2.5 V             :         : 4         : N              
-o_Rx_Byte[44]                : T14       : output : 2.5 V             :         : 4         : N              
-o_Rx_Byte[99]                : T15       : output : 2.5 V             :         : 4         : N              
+o_Rx_Byte[52]                : T4        : output : 2.5 V             :         : 3         : N              
+o_Rx_Byte[28]                : T5        : output : 2.5 V             :         : 3         : N              
+o_Rx_Byte[4]                 : T6        : output : 2.5 V             :         : 3         : N              
+o_Rx_Byte[29]                : T7        : output : 2.5 V             :         : 3         : N              
+o_Rx_Byte[18]                : T8        : output : 2.5 V             :         : 3         : N              
+o_Rx_Byte[65]                : T9        : output : 2.5 V             :         : 4         : N              
+o_Rx_Byte[16]                : T10       : output : 2.5 V             :         : 4         : N              
+o_Rx_Byte[8]                 : T11       : output : 2.5 V             :         : 4         : N              
+o_Rx_Byte[14]                : T12       : output : 2.5 V             :         : 4         : N              
+o_Rx_Byte[97]                : T13       : output : 2.5 V             :         : 4         : N              
+o_Rx_Byte[57]                : T14       : output : 2.5 V             :         : 4         : N              
+o_Rx_Byte[89]                : T15       : output : 2.5 V             :         : 4         : N              
 VCCIO4                       : T16       : power  :                   : 2.5V    : 4         :                

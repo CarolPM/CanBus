@@ -1,17 +1,35 @@
 
-State Machine - |can_rx|r_SM_Main
-Name r_SM_Main.s_RX_ACK_DELIM_BIT r_SM_Main.s_RX_ACK_BIT r_SM_Main.s_RX_CRC_DELIM_BIT r_SM_Main.s_RX_CRC_BITS r_SM_Main.s_RX_LENGTH_BITS r_SM_Main.s_RX_RESERVED0_BIT r_SM_Main.s_RX_IDE_BIT r_SM_Main.s_RX_RTR_BIT r_SM_Main.s_RX_IDENTIFIER_BITS r_SM_Main.s_CLEANUP r_SM_Main.s_RX_STOP_BITS r_SM_Main.s_RX_DATA_BITS r_SM_Main.s_RX_START_BIT r_SM_Main.0000 
-r_SM_Main.0000 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
-r_SM_Main.s_RX_START_BIT 0 0 0 0 0 0 0 0 0 0 0 0 1 1 
-r_SM_Main.s_RX_DATA_BITS 0 0 0 0 0 0 0 0 0 0 0 1 0 1 
-r_SM_Main.s_RX_STOP_BITS 0 0 0 0 0 0 0 0 0 0 1 0 0 1 
-r_SM_Main.s_CLEANUP 0 0 0 0 0 0 0 0 0 1 0 0 0 1 
-r_SM_Main.s_RX_IDENTIFIER_BITS 0 0 0 0 0 0 0 0 1 0 0 0 0 1 
-r_SM_Main.s_RX_RTR_BIT 0 0 0 0 0 0 0 1 0 0 0 0 0 1 
-r_SM_Main.s_RX_IDE_BIT 0 0 0 0 0 0 1 0 0 0 0 0 0 1 
-r_SM_Main.s_RX_RESERVED0_BIT 0 0 0 0 0 1 0 0 0 0 0 0 0 1 
-r_SM_Main.s_RX_LENGTH_BITS 0 0 0 0 1 0 0 0 0 0 0 0 0 1 
-r_SM_Main.s_RX_CRC_BITS 0 0 0 1 0 0 0 0 0 0 0 0 0 1 
-r_SM_Main.s_RX_CRC_DELIM_BIT 0 0 1 0 0 0 0 0 0 0 0 0 0 1 
-r_SM_Main.s_RX_ACK_BIT 0 1 0 0 0 0 0 0 0 0 0 0 0 1 
-r_SM_Main.s_RX_ACK_DELIM_BIT 1 0 0 0 0 0 0 0 0 0 0 0 0 1 
+State Machine - |can_rx|Estado
+Name Estado.CRC_Delimiter Estado.Stuffing_Error Estado.Stuffing_Check Estado.Ocioso Estado.ConClusao Estado.ACK_Frame Estado.CRC_Frame Estado.Data_Frame Estado.DoubtBits Estado.Length_Data_Field Estado.Start_Frame Estado.End_Of_Frame Estado.Identificador_B Estado.Identificador_A Estado.Reserved_Bit_Normal Estado.Reserved_Bits_Extandard Estado.00000 
+Estado.00000 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+Estado.Reserved_Bits_Extandard 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 
+Estado.Reserved_Bit_Normal 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 
+Estado.Identificador_A 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 1 
+Estado.Identificador_B 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 
+Estado.End_Of_Frame 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 1 
+Estado.Start_Frame 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 1 
+Estado.Length_Data_Field 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 1 
+Estado.DoubtBits 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 1 
+Estado.Data_Frame 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 1 
+Estado.CRC_Frame 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 
+Estado.ACK_Frame 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 1 
+Estado.ConClusao 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1 
+Estado.Ocioso 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 1 
+Estado.Stuffing_Check 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+Estado.Stuffing_Error 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+Estado.CRC_Delimiter 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+
+State Machine - |can_rx|Redirecionando
+Name Redirecionando.ConClusao Redirecionando.ACK_Frame Redirecionando.CRC_Frame Redirecionando.Data_Frame Redirecionando.DoubtBits Redirecionando.Length_Data_Field Redirecionando.End_Of_Frame Redirecionando.Identificador_B Redirecionando.00011 Redirecionando.Reserved_Bit_Normal Redirecionando.Reserved_Bits_Extandard Redirecionando.CRC_Delimiter 
+Redirecionando.Reserved_Bits_Extandard 0 0 0 0 0 0 0 0 0 0 0 0 
+Redirecionando.Reserved_Bit_Normal 0 0 0 0 0 0 0 0 0 1 1 0 
+Redirecionando.00011 0 0 0 0 0 0 0 0 1 0 1 0 
+Redirecionando.Identificador_B 0 0 0 0 0 0 0 1 0 0 1 0 
+Redirecionando.End_Of_Frame 0 0 0 0 0 0 1 0 0 0 1 0 
+Redirecionando.Length_Data_Field 0 0 0 0 0 1 0 0 0 0 1 0 
+Redirecionando.DoubtBits 0 0 0 0 1 0 0 0 0 0 1 0 
+Redirecionando.Data_Frame 0 0 0 1 0 0 0 0 0 0 1 0 
+Redirecionando.CRC_Frame 0 0 1 0 0 0 0 0 0 0 1 0 
+Redirecionando.ACK_Frame 0 1 0 0 0 0 0 0 0 0 1 0 
+Redirecionando.ConClusao 1 0 0 0 0 0 0 0 0 0 1 0 
+Redirecionando.CRC_Delimiter 0 0 0 0 0 0 0 0 0 0 1 1 

@@ -4,10 +4,6 @@
 			"name" : "Top",
 			"pins" : [
 				{
-					"name" : "o_Rx_DV",
-					"strict" : false
-				},
-				{
 					"name" : "o_Rx_Byte[107]",
 					"strict" : false
 				},
