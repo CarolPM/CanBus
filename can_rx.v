@@ -114,58 +114,54 @@ module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:107] o_Rx
 				    end	
            end
 	    //-------------------------------------------------------------------------
-		 Stuffing_Check:
-		   begin 
-			 
-			 if (Clock_Count < CLKS_PER_BIT-1)
-              begin
-                Clock_Count <= Clock_Count + 1'b1;
-                Estado     <= Stuffing_Check;
-              end
-			 else
-			 begin
-			  Clock_Count <= 0;
-			  if(Stuffing_ON==1)
-			   begin
-				
-		        if(Bit_Stuffing==0)
-			     begin
-				    TempStuffing<=Data_Bit;
-			       Estado     <= Redirecionando;
-			 	    Bit_Stuffing<=1;
-			     end
-			     else
-				  begin
-				    if(Bit_Stuffing==5)
-					 begin
-					   $display("DEU STUFF");
-						if(TempStuffing!=Data_Bit)
-						  //if(stuff_monitor == 1)
+	Stuffing_Check:
+	begin 
+		if (Clock_Count < CLKS_PER_BIT-1)
+		begin
+			Clock_Count <= Clock_Count + 1'b1;
+			Estado     <= Stuffing_Check;
+		end
+		else
+		begin
+			Clock_Count <= 0;
+			if(Stuffing_ON==1)
+			begin
+				if(Bit_Stuffing==0)
+				begin
+					TempStuffing<=Data_Bit;
+					Estado     <= Redirecionando;
+					Bit_Stuffing<=1;
+				end
+				else
+				begin
+					if(Bit_Stuffing==5)
+					begin
+						$display("DEU STUFF");
+						if(TempStuffing!=Data_Bit)//if(stuff_monitor == 1)
 						begin
-					      Estado     <= Stuffing_Check;
+							Estado     <= Stuffing_Check;
 							Bit_Stuffing<=0;
 						end
 						else
 							Estado  <= Stuffing_Error;
-					 end
-					 
-					 else
-					 begin
-				    if(TempStuffing!=Data_Bit)
-				      Bit_Stuffing<=1;
-				    else
-				      Bit_Stuffing<=Bit_Stuffing+1;
-				    TempStuffing<=Data_Bit;
-					 Estado <= Redirecionando;
-					 end
-				  end
-			   end
-			   else
-			   begin
-				  Estado <= Redirecionando;
-			   end
-			end	
-		  end
+					end
+					else
+					begin
+						if(TempStuffing!=Data_Bit)
+							Bit_Stuffing<=1;
+						else
+							Bit_Stuffing<=Bit_Stuffing+1;
+						TempStuffing<=Data_Bit;
+						Estado <= Redirecionando;
+					end
+				end
+			end
+			else
+			begin
+				Estado <= Redirecionando;
+			end
+		end	
+	end
 		 //-------------------------------------------------------------------------
 		 Stuffing_Error:
 		 begin
