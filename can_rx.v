@@ -57,6 +57,8 @@ module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:107] o_Rx
   wire stuff_monitor;
   wire form_monitor;
   
+
+   
   can_stuff_error #(.stuff_CLKS_PER_BIT(CLKS_PER_BIT)) CAN_STUFF_ERROR_INST
   (.i_Clock(i_Clock),
    .i_temp_stuff(TempStuffing),
@@ -78,6 +80,7 @@ module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:107] o_Rx
       Data_Bit_Duplicated <= i_Rx_Serial;
       Data_Bit   <= Data_Bit_Duplicated;
     end
+
 
 
   always @(posedge i_Clock)
@@ -418,19 +421,18 @@ module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:107] o_Rx
 		//-------------------------------------------------------------------------  
 		ACK_Delimiter:
 		  begin
-
+		  
+					 if(Clock_Count==0)
+						 Vector_Frame[Bit_Index] <= Data_Bit;   //pega a informação imediatamente
+					 if(Clock_Count<3)                         //delay 3 clocks
                 Clock_Count         <= Clock_Count+1;  // SERA ?
-                Vector_Frame[Bit_Index] <= Data_Bit;
+					 else
+					 begin
 				    Bit_Index <= Bit_Index + 1'b1;
 				    //$strobe("ACK -> %d bits lidos, BIT = %b, Frame = %b", Bit_Index,Vector_Frame[Bit_Index-1] ,Vector_Frame);
 
 					if(form_monitor == 0)
-								begin
-								   /*if(Data_Bit==1)
-										$display("PROBLEMA");
-									if(Data_Bit==1)
-										$display("PROBLEMA");*/
-									
+								begin									
 									$display("Vector Processed: ACK_Delimiter");
 									Redirecionando   <= End_Of_Frame;
 									Estado <= Stuffing_Check;
@@ -440,7 +442,7 @@ module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:107] o_Rx
 								$display("FORM ERROR in ACK Delimiter");
 								Estado<=Ocioso;
 						end
-                  
+                  end
               
 		  end 
 		//-------------------------------------------------------------------------    
@@ -494,6 +496,7 @@ module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:107] o_Rx
 	    //------------------------------------------------------------------------- 
 		 Ocioso:
 		  begin
+		     //$display("FORM %d",form_monitor);
 			  Estado   <= Ocioso;
 		  end 
 		  
