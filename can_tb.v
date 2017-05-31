@@ -10,6 +10,8 @@
 `timescale 1ns/10ps
 `include "can_tx.v"
 `include "can_rx.v"
+`include "can_stuff_error.v"
+`include "can_form_error.v"
  
 module can_tb ();
  
@@ -51,7 +53,7 @@ module can_tb ();
   initial
     begin
       @(posedge r_Clock);
-		  CAN_WRITE_BYTE(108'b011111111111000000100000000101010101010100111111111100001111111000000100000000101010101010100110000000111001); //data frame standard
+		  CAN_WRITE_BYTE(108'b011111011111010000010100000100010101010101010011011111110000111110110000010100000100010101010101010011000001); //data frame standard
     end
    
 endmodule
