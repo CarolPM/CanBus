@@ -57,17 +57,18 @@ module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:107] o_Rx
   wire stuff_monitor;
   wire form_monitor;
   
-  can_stuff_error #(.stuff_CLKS_PER_BIT(CLKS_PER_BIT)) CAN_STUFF_INST
+  can_stuff_error #(.stuff_CLKS_PER_BIT(CLKS_PER_BIT)) CAN_STUFF_ERROR_INST
   (.i_Clock(i_Clock),
    .i_temp_stuff(TempStuffing),
    .i_Data(Data_Bit),
    .o_stuff_monitor(stuff_monitor)
    );
 	
-	can_form_error #(.form_CLKS_PER_BIT(CLKS_PER_BIT)) CAN_FORM_INST
+	can_form_error #(.form_CLKS_PER_BIT(CLKS_PER_BIT)) CAN_FORM_ERROR_INST
   (.i_Clock(i_Clock),
    .i_frame_field(Estado),
    .i_Data(Data_Bit),
+	.i_Index(Bit_Index),
    .o_form_monitor(form_monitor)
    );
 
@@ -81,6 +82,9 @@ module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:107] o_Rx
 
   always @(posedge i_Clock)
     begin
+	 
+	  
+		 
 	  case (Estado)
 	  //-------------------------------------------------------------------------
         Inicio:
@@ -126,7 +130,8 @@ module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:107] o_Rx
 	    //-------------------------------------------------------------------------
 		 Stuffing_Check:
 		   begin 
-			 
+			
+
 			 if (Clock_Count < CLKS_PER_BIT-1)
               begin
                 Clock_Count <= Clock_Count + 1'b1;
@@ -378,13 +383,8 @@ module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:107] o_Rx
 				    //$strobe("CRC -> %d bits lidos, BIT = %b, Frame = %b", Bit_Index,Vector_Frame[Bit_Index-1] ,Vector_Frame);
                 if (Bit_Index < New_Jump+16)
                   begin
-						  if(form_monitor == 1)
-						  begin
 								Redirecionando   <= CRC_Delimiter;
 								Estado <= Stuffing_Check;
-						  end
-						  else
-								$display("FORM ERROR in CRC Delimiter");
                   end
 				    else
                   begin  
@@ -418,29 +418,29 @@ module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:107] o_Rx
 		//-------------------------------------------------------------------------  
 		ACK_Delimiter:
 		  begin
+
                 Clock_Count         <= Clock_Count+1;  // SERA ?
                 Vector_Frame[Bit_Index] <= Data_Bit;
 				    Bit_Index <= Bit_Index + 1'b1;
 				    //$strobe("ACK -> %d bits lidos, BIT = %b, Frame = %b", Bit_Index,Vector_Frame[Bit_Index-1] ,Vector_Frame);
-                if (Bit_Index < New_Jump+18)
-                  begin
-							
-									Redirecionando   <= ACK_Delimiter;
-									Estado <= Stuffing_Check;
-								
-                    
-                  end
-				else
-                  begin  
-						//if(form_monitor == 1)
-								//begin
+
+					if(form_monitor == 0)
+								begin
+								   /*if(Data_Bit==1)
+										$display("PROBLEMA");
+									if(Data_Bit==1)
+										$display("PROBLEMA");*/
+									
 									$display("Vector Processed: ACK_Delimiter");
 									Redirecionando   <= End_Of_Frame;
 									Estado <= Stuffing_Check;
-								//end
-						 //else
-								//$display("FORM ERROR in ACK Delimiter");
-                  end
+								end
+						 else
+						 begin
+								$display("FORM ERROR in ACK Delimiter");
+								Estado<=Ocioso;
+						end
+                  
               
 		  end 
 		//-------------------------------------------------------------------------    
