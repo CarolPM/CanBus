@@ -13,36 +13,36 @@
 # 
 # vlog -vlog01compat -work work +incdir+C:/Users/Carol/Documents/quartusworkspace/CanBus {C:/Users/Carol/Documents/quartusworkspace/CanBus/can_rx.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 16:03:25 on May 27,2017
+# Start time: 14:04:26 on Jun 01,2017
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+C:/Users/Carol/Documents/quartusworkspace/CanBus" C:/Users/Carol/Documents/quartusworkspace/CanBus/can_rx.v 
 # -- Compiling module can_rx
 # 
 # Top level modules:
 # 	can_rx
-# End time: 16:03:25 on May 27,2017, Elapsed time: 0:00:00
+# End time: 14:04:26 on Jun 01,2017, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # 
 # vlog -vlog01compat -work work +incdir+C:/Users/Carol/Documents/quartusworkspace/CanBus {C:/Users/Carol/Documents/quartusworkspace/CanBus/can_tb.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 16:03:25 on May 27,2017
+# Start time: 14:04:26 on Jun 01,2017
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+C:/Users/Carol/Documents/quartusworkspace/CanBus" C:/Users/Carol/Documents/quartusworkspace/CanBus/can_tb.v 
 # -- Compiling module can_tx
 # -- Compiling module can_rx
+# -- Compiling module can_destuff
 # -- Compiling module can_tb
 # 
 # Top level modules:
 # 	can_tx
 # 	can_tb
-# End time: 16:03:25 on May 27,2017, Elapsed time: 0:00:00
+# End time: 14:04:26 on Jun 01,2017, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # 
 # vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cycloneive_ver -L rtl_work -L work -voptargs="+acc"  can_tb
 # vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cycloneive_ver -L rtl_work -L work -voptargs=""+acc"" can_tb 
-# Start time: 16:03:25 on May 27,2017
+# Start time: 14:04:28 on Jun 01,2017
 # Loading work.can_tb
+# Loading work.can_destuff
 # Loading work.can_rx
-# ** Warning: (vsim-3015) C:/Users/Carol/Documents/quartusworkspace/CanBus/can_tb.v(38): [PCDPC] - Port size (109) does not match connection size (108) for port 'o_Rx_Byte'. The port definition is at: C:/Users/Carol/Documents/quartusworkspace/CanBus/can_rx.v(14).
-#    Time: 0 ps  Iteration: 0  Instance: /can_tb/CAN_RX_INST File: C:/Users/Carol/Documents/quartusworkspace/CanBus/can_rx.v
 # 
 # add wave *
 # view structure
@@ -50,17 +50,18 @@
 # view signals
 # .main_pane.objects.interior.cs.body.tree
 # run -all
-# Startt -> Vetor = 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-# ID_A Vetor = 011111111111000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-# ID_ B -> Vetor = 011111111111010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-# Vetor = 011111111111010001111000011111000000000000000000000000000000000000000000000000000000000000000000000000000000000
-# Vetor = 011111111111010001111000011111001000000000000000000000000000000000000000000000000000000000000000000000000000000
-# Length -> Vetor = 011111111111010001111000011111001001000000000000000000000000000000000000000000000000000000000000000000000000000
-# Vetor = 011111111111010001111000011111001001000110011111110111100000000000000000000000000000000000000000000000000000000
-# Vetor = 011111111111010001111000011111001001000110011111110111111000000000000000000000000000000000000000000000000000000
-# Vetor END = 011111111111010001111000011111001001000110011111110111111111111100000000000000000000000000000000000000000000000
-# REMOTE FRAME EXTENDED,Tamanho de Frame =         64 Bits
-# Break key hit
-# Simulation stop requested.
-# End time: 16:03:49 on May 27,2017, Elapsed time: 0:00:24
-# Errors: 0, Warnings: 1
+# Startt -> Vetor = 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+# ID_A Vetor = 011110111110000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+# Reserved Normal -> Vetor = 011110111110000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+# Reserved Bits -> Vetor = 011110111110000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+# Length -> Vetor = 011110111110000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+# Vetor = 011110111110000001010000100010010100000000000000000000000000000000000000000000000000000000000000000000000000
+# Vetor = 011110111110000001010000100010010101010001111111100000000000000000000000000000000000000000000000000000000000
+# Vetor = 011110111110000001010000100010010101010001111111100000000000000000000000000000000000000000000000000000000000
+# Vetor END = 011110111110000001010000100010010101010001111111100001111011000000000000000000000000000000000000000000000000
+# DATA FRAME NORMAL,  2 Bytes de dados, Tamanho de Frame =         60 Bits
+# ** Note: $stop    : C:/Users/Carol/Documents/quartusworkspace/CanBus/can_rx.v(387)
+#    Time: 61250 ns  Iteration: 1  Instance: /can_tb/CAN_RX_INST
+# Break in Module can_rx at C:/Users/Carol/Documents/quartusworkspace/CanBus/can_rx.v line 387
+# End time: 14:04:44 on Jun 01,2017, Elapsed time: 0:00:16
+# Errors: 0, Warnings: 0
