@@ -8,50 +8,94 @@ z2
 !i10f 100
 cModel Technology
 Z0 dC:/Users/Carol/Documents/quartusworkspace/CanBus/simulation/modelsim
-vcan_rx
-Z1 !s110 1495911805
+vcan_form_error
+Z1 !s110 1496357586
 !i10b 1
-!s100 D`RXmBbK28hEVMn>OE1mX1
-IRCU`8];eHJB0iPHIZb<2f1
+!s100 Mnf=62^Fc6EPR48CRneDf2
+I<E6[k1;OP1;]fX9@nNkmU3
 Z2 VDg1SIo80bB@j0V0VzS_@n1
 R0
-w1495911257
-8C:/Users/Carol/Documents/quartusworkspace/CanBus/can_rx.v
-FC:/Users/Carol/Documents/quartusworkspace/CanBus/can_rx.v
-Z3 L0 14
-Z4 OV;L;10.5b;63
+w1496336340
+8C:/Users/Carol/Documents/quartusworkspace/CanBus/can_form_error.v
+FC:/Users/Carol/Documents/quartusworkspace/CanBus/can_form_error.v
+L0 1
+Z3 OV;L;10.5b;63
 r1
 !s85 0
 31
-Z5 !s108 1495911805.000000
-Z6 !s107 C:/Users/Carol/Documents/quartusworkspace/CanBus/can_rx.v|C:/Users/Carol/Documents/quartusworkspace/CanBus/can_tx.v|C:/Users/Carol/Documents/quartusworkspace/CanBus/can_tb.v|
-Z7 !s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/Users/Carol/Documents/quartusworkspace/CanBus|C:/Users/Carol/Documents/quartusworkspace/CanBus/can_tb.v|
+Z4 !s108 1496357586.000000
+Z5 !s107 C:/Users/Carol/Documents/quartusworkspace/CanBus/can_form_error.v|C:/Users/Carol/Documents/quartusworkspace/CanBus/can_stuff_error.v|C:/Users/Carol/Documents/quartusworkspace/CanBus/can_rx.v|C:/Users/Carol/Documents/quartusworkspace/CanBus/can_tx.v|C:/Users/Carol/Documents/quartusworkspace/CanBus/can_tb.v|
+Z6 !s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/Users/Carol/Documents/quartusworkspace/CanBus|C:/Users/Carol/Documents/quartusworkspace/CanBus/can_tb.v|
 !i113 1
-Z8 o-vlog01compat -work work
-Z9 !s92 -vlog01compat -work work +incdir+C:/Users/Carol/Documents/quartusworkspace/CanBus
-Z10 tCvgOpt 0
+Z7 o-vlog01compat -work work
+Z8 !s92 -vlog01compat -work work +incdir+C:/Users/Carol/Documents/quartusworkspace/CanBus
+Z9 tCvgOpt 0
+vcan_rx
+R1
+!i10b 1
+!s100 C1^@8JSSV]Oeb?Nz139[K2
+IYi1jnL3SGTYaaJn@DH4eX1
+R2
+R0
+w1496357573
+8C:/Users/Carol/Documents/quartusworkspace/CanBus/can_rx.v
+FC:/Users/Carol/Documents/quartusworkspace/CanBus/can_rx.v
+L0 16
+R3
+r1
+!s85 0
+31
+R4
+R5
+R6
+!i113 1
+R7
+R8
+R9
+vcan_stuff_error
+R1
+!i10b 1
+!s100 AcK7?<7^hGYcZQ4hV_UON3
+IR;NSJf=FE=iYmAIDDYaN23
+R2
+R0
+w1496132336
+8C:/Users/Carol/Documents/quartusworkspace/CanBus/can_stuff_error.v
+FC:/Users/Carol/Documents/quartusworkspace/CanBus/can_stuff_error.v
+L0 1
+R3
+r1
+!s85 0
+31
+R4
+R5
+R6
+!i113 1
+R7
+R8
+R9
 vcan_tb
 R1
 !i10b 1
-!s100 j7lV>X9[>ET1]aM7=d_X^0
-I14:W7olSanHGnDe_R]h0Y1
+!s100 o8:TG3[IjNheZMf`fd6WI0
+ILRzFR=`?R<@z^Gjz;?@K23
 R2
 R0
-w1495911749
+w1496356590
 8C:/Users/Carol/Documents/quartusworkspace/CanBus/can_tb.v
 FC:/Users/Carol/Documents/quartusworkspace/CanBus/can_tb.v
+Z10 L0 14
 R3
-R4
 r1
 !s85 0
 31
+R4
 R5
 R6
-R7
 !i113 1
+R7
 R8
 R9
-R10
 vcan_tx
 R1
 !i10b 1
@@ -62,15 +106,15 @@ R0
 w1495602323
 8C:/Users/Carol/Documents/quartusworkspace/CanBus/can_tx.v
 FC:/Users/Carol/Documents/quartusworkspace/CanBus/can_tx.v
+R10
 R3
-R4
 r1
 !s85 0
 31
+R4
 R5
 R6
-R7
 !i113 1
+R7
 R8
 R9
-R10
