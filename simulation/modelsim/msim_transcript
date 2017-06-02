@@ -13,7 +13,7 @@
 # 
 # vlog -vlog01compat -work work +incdir+C:/Users/Carol/Documents/quartusworkspace/CanBus {C:/Users/Carol/Documents/quartusworkspace/CanBus/can_rx.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 19:53:05 on Jun 01,2017
+# Start time: 00:31:14 on Jun 02,2017
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+C:/Users/Carol/Documents/quartusworkspace/CanBus" C:/Users/Carol/Documents/quartusworkspace/CanBus/can_rx.v 
 # -- Compiling module can_stuff_error
 # -- Compiling module can_form_error
@@ -21,12 +21,12 @@
 # 
 # Top level modules:
 # 	can_rx
-# End time: 19:53:06 on Jun 01,2017, Elapsed time: 0:00:01
+# End time: 00:31:14 on Jun 02,2017, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # 
 # vlog -vlog01compat -work work +incdir+C:/Users/Carol/Documents/quartusworkspace/CanBus {C:/Users/Carol/Documents/quartusworkspace/CanBus/can_tb.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 19:53:06 on Jun 01,2017
+# Start time: 00:31:14 on Jun 02,2017
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+C:/Users/Carol/Documents/quartusworkspace/CanBus" C:/Users/Carol/Documents/quartusworkspace/CanBus/can_tb.v 
 # -- Compiling module can_tx
 # -- Compiling module can_stuff_error
@@ -37,12 +37,12 @@
 # Top level modules:
 # 	can_tx
 # 	can_tb
-# End time: 19:53:06 on Jun 01,2017, Elapsed time: 0:00:00
+# End time: 00:31:14 on Jun 02,2017, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # 
 # vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cycloneive_ver -L rtl_work -L work -voptargs="+acc"  can_tb
 # vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cycloneive_ver -L rtl_work -L work -voptargs=""+acc"" can_tb 
-# Start time: 19:53:06 on Jun 01,2017
+# Start time: 00:31:14 on Jun 02,2017
 # Loading work.can_tb
 # Loading work.can_rx
 # Loading work.can_stuff_error
@@ -55,10 +55,20 @@
 # .main_pane.objects.interior.cs.body.tree
 # run -all
 # Vector Processed: Start 
-# Erro STUFF
-# ERROR,Bit_index =           6
-# VECTOR = 011111000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+# Vector Processed: Identifcador A 
+# Vector Processed: DoubtBits Vector
+# Vector Processed: Reserved_Bit_Normal
+# Vector Processed: Length_Data_Field
+# Tamanho:  1
+# Vector Processed: Data_Frame
+# Vector Processed: CRC_Frame
+# Vector Processed: CRC_Delimiter
+# Vector Processed: ACK_Frame
+# Vector Processed: ACK_Delimiter
+# Vector Processed: End_Of_Frame
+# DATA FRAME NORMAL,  1 Bytes de dados, Tamanho de Frame =          51 Bits
+# Vector: 010101010101001000110101010101010101010101101111111100000000000000000000000000000000000000000000000000000000
 # Break key hit
-# Simulation stop requested.
-# End time: 19:53:46 on Jun 01,2017, Elapsed time: 0:00:40
+# Break in Module can_tb at C:/Users/Carol/Documents/quartusworkspace/CanBus/can_tb.v line 47
+# End time: 00:31:25 on Jun 02,2017, Elapsed time: 0:00:11
 # Errors: 0, Warnings: 0

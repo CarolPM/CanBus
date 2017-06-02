@@ -37,8 +37,14 @@ module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:107] o_Rx
   parameter Form_Error                          = 5'b10011;
   parameter RTR_Extandard                       = 5'b10100;
   
+  parameter SOF_ERROR						= 3'b000;
+  parameter CRC_Delimiter_ERROR			= 3'b001;
+  parameter ACK_Delimiter_ERROR			= 3'b010;
+  parameter EOF_ERROR						= 3'b011;
+  
   parameter CLKS_PER_BIT = 10; //Essa variavel esta setada pelo tb.v 
   
+  reg	[0:2]		ERROR						= 3'b111;
   reg [0:4]    Redirecionando       = 3;
   reg [0:4]    Estado               = 0;
   
@@ -159,8 +165,8 @@ module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:107] o_Rx
 				    if(Bit_Stuffing==5)
 					 begin
 					   
-						if(TempStuffing!=Data_Bit)
-						  //if(stuff_monitor == 1)
+						//if(TempStuffing!=Data_Bit)
+						if(stuff_monitor == 1)
 						begin
 						   $display("Stuff, Bit Ignorado");
 					      Estado     <= Stuffing_Check;
@@ -193,7 +199,15 @@ module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:107] o_Rx
 		 //-------------------------------------------------------------------------
 		 Form_Error:
 		 begin
-		   $display("ERROR,Bit_index = %d",Bit_Index);
+			if (ERROR == SOF_ERROR)
+				$display("Form Error in Start of Frame! Bit_Index = %d", Bit_Index);
+			else if (ERROR == CRC_Delimiter_ERROR)
+				$display("Form Error in CRC Delimiter! Bit_Index = %d", Bit_Index);
+			else if (ERROR == ACK_Delimiter_ERROR)
+				$display("Form Error in ACK Delimiter! Bit_Index = %d", Bit_Index);
+			else if (ERROR == EOF_ERROR)
+				$display("Form Error in End of Frame! Bit_Index = %d", Bit_Index);
+		   //$display("ERROR,Bit_index = %d",Bit_Index);
 			$display("VECTOR = %b",Vector_Frame);
 			Estado <= Ocioso;
 		 end
@@ -386,7 +400,6 @@ module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:107] o_Rx
 				$display("Vector Processed: CRC_Frame");
 				Redirecionando   <= CRC_Delimiter;
 				Estado <= Stuffing_Check;
-
          end  
 		end 
 		//-------------------------------------------------------------------------//(OK)  
@@ -408,7 +421,10 @@ module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:107] o_Rx
 					Estado <= Stuffing_Check;
 				end
 				else
-					Estado<=Form_Error;
+				begin
+					ERROR <= CRC_Delimiter_ERROR;
+					Estado <= Form_Error;
+				end
 			end
 		end 
 		//-------------------------------------------------------------------------//(OK)
@@ -444,7 +460,8 @@ module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:107] o_Rx
 				else
 				begin
 					//$display("FORM ERROR in ACK Delimiter");
-					Estado<=Form_Error;
+					ERROR <= ACK_Delimiter_ERROR;
+					Estado <= Form_Error;
 				end
          end    
 		 end 
@@ -468,11 +485,12 @@ module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:107] o_Rx
 						$display("Vector Processed: End_Of_Frame");
 						Redirecionando <= ConClusao;
 					end
-					Estado = Stuffing_Check;				
+					Estado <= Stuffing_Check;				
 				end
 				else
 				begin
-					Estado = Form_Error;
+					ERROR <= EOF_ERROR;
+					Estado <= Form_Error;
 			      //Redirecionando <= Erro_Formation;
 				end
 				
