@@ -1,20 +1,14 @@
-module can_destuff 
-	(
-		input	i_Clock,
-		input i_Ds_Serial,
-		output o_Ignora_Bit,
-		output o_Eror_Stuffing
-	);
+module can_destuff (input	i_Clock,input i_Ds_Serial,output o_Ignora_Bit,output o_Eror_Stuffing);
+	
 	
 	parameter CLKS_PER_BIT  			= 10;
-	
 	reg Ignora_Bit=0;
 	reg Eror_Stuffing=0;
 	reg Ds_Serial = 1'b0;
 	integer Clock_Count = 5;
 	integer cont_0 = 0;
 	integer cont_1 = 0;
-	integer contr=0;
+	//integer contr=0;
 	
 	always @(posedge i_Clock)
 		begin
@@ -38,15 +32,13 @@ module can_destuff
 				Clock_Count <= 0;
 				if(cont_0==5||cont_1==5)
 				begin
+				
 					if(cont_0==5&&Ds_Serial==1)
 						Ignora_Bit=1;
-
 					else if(cont_1==5&&Ds_Serial==0)
 						Ignora_Bit=1;
 					else
 						Ignora_Bit=0;
-						
-
 					if(cont_0==5&&Ds_Serial==0)
 						Eror_Stuffing=1;
 					else if(cont_1==5&&Ds_Serial==1)
@@ -61,25 +53,15 @@ module can_destuff
 				begin
 					Eror_Stuffing=0;
 					Ignora_Bit=0;		
-					if (Ds_Serial == 1'b0)
+					if (Ds_Serial == 0)
 					begin
-						if(cont_1 == 3'b0)
-							cont_0 <= cont_0 + 3'b1;
-						else
-							begin
-								cont_1 <= 1'b0;
-								cont_0 <= cont_0 + 3'b1;
-							end
+						cont_1 <= 0;
+						cont_0 <= cont_0 + 1;
 					end
 					else
 					begin
-						if (cont_0 == 3'b0)
-							cont_1 <= cont_1 + 1'b1;
-						else
-							begin
-								cont_0 <= 1'b0;
-								cont_1 <= cont_1 + 1'b1;
-							end
+						cont_0 <= 0;
+						cont_1 <= cont_1 + 1;
 					end		
 				end						
 			end

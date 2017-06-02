@@ -17,29 +17,26 @@ module can_tb ();
   wire w_Tx_Done;
   reg r_Rx_Serial = 1;
   reg r_Ds_Serial = 1;
-  wire [0:107] w_Rx_Byte; //start+identifier+RTR+IDE+RESERVED0+data
+  wire [0:107] w_Rx_Byte; 
   wire Ignora_Bit;
   wire Eror_Stuffing;
 
 
   task CAN_WRITE_BYTE;
-	 input [0:107] i_Data; //
+	 input [0:107] i_Data;
     reg [0:7]     ii;
-
     begin
-       
-      // Send All Data
 		for (ii=0; ii<108; ii=ii+1)
-			begin
+			begin                                     
 				r_Ds_Serial <= i_Data[ii];
-				#(700);
+				#(700);                                   //Delay maroto
 				r_Rx_Serial<= i_Data[ii];
 				if(Ignora_Bit==1)
 					$display("EXISTE UM BIT IGNORADO");
 				if(Eror_Stuffing==1)
 					$display("EXISTE UM Erro BIT");
-				#(300);
-			end
+				#(300);                                  //Delay maroto
+			end 
      end
   endtask // CAN_WRITE_BYTE
    
@@ -70,16 +67,8 @@ module can_tb ();
   // Main Testing:
   initial
     begin
-
       // Send a command to the CAN (exercise Rx)
       @(posedge r_Clock);
-
-		//data frame normal
-		CAN_WRITE_BYTE(108'b010101010101001000110101010101010101010101001111111100101010101010010001101010101010101010101010100000000111); //data frame standard
-      @(posedge r_Clock);
-      
-		
-       
+			CAN_WRITE_BYTE(108'b010101010101001000110101010101010101010101001111111100101010101010010001101010101010101010101010100000100111); //data frame standard
     end
-   
 endmodule
