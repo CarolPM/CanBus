@@ -36,6 +36,7 @@ module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:107] o_Rx
   parameter ACK_Delimiter                       = 5'b10010;
   parameter Form_Error                          = 5'b10011;
   parameter RTR_Extandard                       = 5'b10100;
+  parameter Interframe									= 5'b11000;
   
   parameter SOF_ERROR						= 3'b000;
   parameter CRC_Delimiter_ERROR			= 3'b001;
@@ -45,6 +46,7 @@ module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:107] o_Rx
   parameter CLKS_PER_BIT = 10; //Essa variavel esta setada pelo tb.v 
   
   reg	[0:2]		ERROR						= 3'b111;
+  //reg	[0:4]		FLAG_Frame_Final		= 5'b0;
   reg [0:4]    Redirecionando       = 3;
   reg [0:4]    Estado               = 0;
   
@@ -108,11 +110,15 @@ module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:107] o_Rx
 				Bit_Stuffing   <= 0;
             Clock_Count    <= 0;
             Bit_Index      <= 0;
+				//if (Data_Bit == 1'b0 && FLAG_EH_START == 1'b1)
             if (Data_Bit == 1'b0)          // Start bit detected
 				begin
               Estado  <= Start_Frame;
 				  TempStuffing=Data_Bit;
 				end
+				//else if (Data_Bit == 1'b1 && FLAG_EH_START == 1'b1)
+				//ERRO <= SOF_ERROR; 
+				//Estado <= Form_Error;
             else
               Estado  <= Inicio;
           end
@@ -523,8 +529,37 @@ module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:107] o_Rx
 				end
 			 end
 			 $display("Vector: %b",Vector_Frame);
-			 Estado   <= Ocioso;
+			 //if (FLAG_Frame_Final == Data_Frame && TEVE_ERRO == 0) //se é remote/data frame e nao houve nenhum tipo de erro
+			 //Estado   <= Interframe;
+			 //else
+			 Estado <= Ocioso;
 		  end
+		 //-------------------------------------------------------------------------
+		 /*Interframe:
+		 begin
+			 if(Clock_Count==0)
+				begin
+					//$stop;
+					Vector_Frame[Bit_Index] <= Data_Bit;   //pega a informação imediatamente
+				end
+				if(Clock_Count<3)                         //delay 3 clocks
+					Clock_Count         <= Clock_Count+1;  
+				else
+				begin
+					Clock_Count         <= Clock_Count+1;
+					Bit_Index <= Bit_Index + 1'b1;
+					if (Bit_Index < New_Jump+27)
+						Redirecionando <= Interframe;
+					else
+					begin  
+						$display("Vector Processed: Interframe.");
+						$display("Vector: %b",Vector_Frame);
+						Redirecionando <= Ocioso; //Na vdd seria para o case 'Inicio'
+						//$stop;
+					end
+					Estado <= Stuffing_Check;				
+				end
+		 end*/
 	    //------------------------------------------------------------------------- 
 		 Ocioso:
 		  begin
