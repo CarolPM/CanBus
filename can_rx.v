@@ -36,7 +36,7 @@ module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:107] o_Rx
   parameter ACK_Delimiter                       = 5'b10010;
   parameter Form_Error                          = 5'b10011;
   parameter RTR_Extandard                       = 5'b10100;
-  parameter Interframe									= 5'b11000;
+  parameter Intermission									= 5'b11000;
   
   parameter SOF_ERROR						= 3'b000;
   parameter CRC_Delimiter_ERROR			= 3'b001;
@@ -491,7 +491,7 @@ module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:107] o_Rx
 						$display("Vector Processed: End_Of_Frame");
 						Redirecionando <= ConClusao;
 					end
-					Estado <= Stuffing_Check;				
+					Estado <= Stuffing_Check;
 				end
 				else
 				begin
@@ -506,6 +506,7 @@ module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:107] o_Rx
  
 		ConClusao:
 		  begin
+		  //$stop;
 		    if(Vector_Frame[13]==0)
 			 begin
 				if(Vector_Frame[12]==0)
@@ -530,16 +531,17 @@ module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:107] o_Rx
 			 end
 			 $display("Vector: %b",Vector_Frame);
 			 //if (FLAG_Frame_Final == Data_Frame && TEVE_ERRO == 0) //se é remote/data frame e nao houve nenhum tipo de erro
-			 //Estado   <= Interframe;
+			 Estado   <= Intermission;
 			 //else
-			 Estado <= Ocioso;
+			 
+			 //Estado <= Ocioso;
 		  end
 		 //-------------------------------------------------------------------------
-		 /*Interframe:
+		 Intermission:
 		 begin
+			//$stop;
 			 if(Clock_Count==0)
 				begin
-					//$stop;
 					Vector_Frame[Bit_Index] <= Data_Bit;   //pega a informação imediatamente
 				end
 				if(Clock_Count<3)                         //delay 3 clocks
@@ -549,17 +551,47 @@ module can_rx(input i_Clock,input i_Rx_Serial,output o_Rx_DV,output [0:107] o_Rx
 					Clock_Count         <= Clock_Count+1;
 					Bit_Index <= Bit_Index + 1'b1;
 					if (Bit_Index < New_Jump+27)
-						Redirecionando <= Interframe;
+						Redirecionando <= Intermission;
 					else
-					begin  
-						$display("Vector Processed: Interframe.");
+					begin
+					//$stop;
+						if(Vector_Frame[Bit_Index - 2] == 1'b1)
+						begin
+						$display("Index: %d	Valor: %b", Bit_Index-2, Vector_Frame[Bit_Index-2]);
+							if(Vector_Frame[Bit_Index - 1] == 1'b1)
+							begin
+							$display("Index: %d	Valor: %b", Bit_Index-1, Vector_Frame[Bit_Index-1]);
+								if(Vector_Frame[Bit_Index] == 1'b1)
+								begin
+									$display("Index: %d	Valor: %b", Bit_Index, Vector_Frame[Bit_Index]);
+									$display("Intermission Frame detected!");
+								end
+								else
+								begin
+									$display("Index: %d	Valor: %b", Bit_Index, Vector_Frame[Bit_Index]);
+									$display("Start Frame detected!");
+								end
+							end
+							else
+							begin
+								$display("Index: %d	Valor: %b", Bit_Index-1, Vector_Frame[Bit_Index-1]);
+								$display("Second Bit Overload Frame detected!");
+							end
+						end
+						else
+						begin
+							$display("Index: %d	Valor: %b", Bit_Index-2, Vector_Frame[Bit_Index-2]);
+							$display("First Bit Overload Frame detected!");
+						end
+						
+						$display("Vector Processed: Intermission.");
 						$display("Vector: %b",Vector_Frame);
 						Redirecionando <= Ocioso; //Na vdd seria para o case 'Inicio'
 						//$stop;
 					end
 					Estado <= Stuffing_Check;				
 				end
-		 end*/
+		 end
 	    //------------------------------------------------------------------------- 
 		 Ocioso:
 		  begin

@@ -12,7 +12,7 @@
 # 
 # vlog -vlog01compat -work work +incdir+C:/Users/Carol/Documents/quartusworkspace/CanBus {C:/Users/Carol/Documents/quartusworkspace/CanBus/can_rx.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 03:54:33 on Jun 02,2017
+# Start time: 17:18:14 on Jun 03,2017
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+C:/Users/Carol/Documents/quartusworkspace/CanBus" C:/Users/Carol/Documents/quartusworkspace/CanBus/can_rx.v 
 # -- Compiling module can_stuff_error
 # -- Compiling module can_form_error
@@ -20,12 +20,12 @@
 # 
 # Top level modules:
 # 	can_rx
-# End time: 03:54:33 on Jun 02,2017, Elapsed time: 0:00:00
+# End time: 17:18:14 on Jun 03,2017, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # 
 # vlog -vlog01compat -work work +incdir+C:/Users/Carol/Documents/quartusworkspace/CanBus {C:/Users/Carol/Documents/quartusworkspace/CanBus/can_tb.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 03:54:33 on Jun 02,2017
+# Start time: 17:18:14 on Jun 03,2017
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+C:/Users/Carol/Documents/quartusworkspace/CanBus" C:/Users/Carol/Documents/quartusworkspace/CanBus/can_tb.v 
 # -- Compiling module can_tx
 # -- Compiling module can_stuff_error
@@ -36,12 +36,12 @@
 # Top level modules:
 # 	can_tx
 # 	can_tb
-# End time: 03:54:33 on Jun 02,2017, Elapsed time: 0:00:00
+# End time: 17:18:14 on Jun 03,2017, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # 
 # vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cycloneive_ver -L rtl_work -L work -voptargs="+acc"  can_tb
 # vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cycloneive_ver -L rtl_work -L work -voptargs=""+acc"" can_tb 
-# Start time: 03:54:33 on Jun 02,2017
+# Start time: 17:18:14 on Jun 03,2017
 # Loading work.can_tb
 # Loading work.can_rx
 # Loading work.can_stuff_error
@@ -56,7 +56,9 @@
 # Vector Processed: Start 
 # Vector Processed: Identifcador A 
 # Vector Processed: DoubtBits Vector
-# Vector Processed: Reserved_Bit_Normal
+# Vector Processed: Identifcador B 
+# Vector Processed: RTR_Extandard
+# Vector Processed: Reserved_Bits_Extandard
 # Vector Processed: Length_Data_Field
 # Tamanho:  1
 # Vector Processed: Data_Frame
@@ -65,9 +67,13 @@
 # Vector Processed: ACK_Frame
 # Vector Processed: ACK_Delimiter
 # Vector Processed: End_Of_Frame
-# DATA FRAME NORMAL,  1 Bytes de dados, Tamanho de Frame =          51 Bits
-# Vector: 010101010101001000110101010101010101010101101111111100000000000000000000000000000000000000000000000000000000
+# DATA FRAME EXTENDED,  1 Bytes de dados, Tamanho de Frame =          71 Bits
+# Vector: 010101010101010101010101010101010010001101011010101010101010101011111111000000000000000000000000000000000000
+# Index:          72	Valor: 0
+# First Bit Overload Frame detected!
+# Vector Processed: Intermission.
+# Vector: 010101010101010101010101010101010010001101011010101010101010101011111111010000000000000000000000000000000000
 # Break key hit
 # Simulation stop requested.
-# End time: 03:54:56 on Jun 02,2017, Elapsed time: 0:00:23
+# End time: 17:21:37 on Jun 03,2017, Elapsed time: 0:03:23
 # Errors: 0, Warnings: 0
