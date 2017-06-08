@@ -18,7 +18,7 @@ always @(posedge i_Clock)
 always @(posedge i_Clock)
 	begin
 	   //-------------------------------------------------------
-		if (frame_field == 5'b10010) // ACK Delimiter
+		if (frame_field == 18) // ACK Delimiter
 		begin
 			if(Data == 1'b0)
 				form_monitor <= 1;
@@ -26,17 +26,26 @@ always @(posedge i_Clock)
 				form_monitor <= 0;
 		end
 		//-------------------------------------------------------
-		else if(frame_field ==5'b10001) // CRC Delimiter
+		else if(frame_field ==17) // CRC Delimiter
 		begin
 			if(Data == 1'b0)
 			begin
+				//$display("EXISTE UM BIT IGNORADO");
 				form_monitor <= 1;
 			end
 			else
 				form_monitor <= 0;
 		end	
 		//-------------------------------------------------------
-		else if(frame_field ==5'b00101)//End Of frame
+		else if(frame_field ==5)//End Of frame
+		begin
+			if(Data == 1'b0)
+				form_monitor <= 1;
+			else
+				form_monitor <= 0;
+		end	
+		//-------------------------------------------------------
+		else if(frame_field ==8)//SRR
 		begin
 			if(Data == 1'b0)
 				form_monitor <= 1;

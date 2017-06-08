@@ -3,6 +3,7 @@
 `include "can_tx.v"
 `include "can_rx.v"
 `include "can_destuff.v"
+
  
 module can_tb ();
  
@@ -11,22 +12,23 @@ module can_tb ();
   parameter c_BIT_PERIOD      = 1000;
   parameter s_DESTUFF  		   = 0;
   parameter s_RX		   		= 1;
+
+  parameter Tamanho           = 500;
   
   reg r_Clock = 0;
-  reg r_Tx_DV = 0;
-  wire w_Tx_Done;
   reg r_Rx_Serial = 1;
   reg r_Ds_Serial = 1;
-  wire [0:499] w_Rx_Byte; 
+  
+  wire [0:Tamanho-1] w_Rx_Byte; 
   wire Ignora_Bit;
   wire Eror_Stuffing;
 
 
   task CAN_WRITE_BYTE;
-	 input [0:499] i_Data;
+	 input [0:Tamanho-1] i_Data;
     integer     ii;
     begin
-		for (ii=0; ii<500; ii=ii+1)
+		for (ii=0; ii<Tamanho; ii=ii+1)
 			begin                                     
 				r_Ds_Serial <= i_Data[ii];
 				#(700);                                   //Delay maroto
@@ -62,6 +64,7 @@ module can_tb ();
    
   always
     #(c_CLOCK_PERIOD_NS/2) r_Clock <= !r_Clock;
+ 
  
    
   // Main Testing:

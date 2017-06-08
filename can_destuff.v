@@ -22,13 +22,6 @@ module can_destuff (input	i_Clock,input i_Ds_Serial,output o_Ignora_Bit,output o
                 Clock_Count <= Clock_Count + 1'b1;
 			else
 			begin
-				/*contr=contr+1;
-				if(contr<100)
-				begin
-					$display("Valor = %d",Ds_Serial);
-					$display("Valor = %d",cont_0);
-					$display("Valor = %d",cont_1);
-				end*/
 				Clock_Count <= 0;
 				if(cont_0==5||cont_1==5)
 				begin
@@ -45,7 +38,6 @@ module can_destuff (input	i_Clock,input i_Ds_Serial,output o_Ignora_Bit,output o
 						Eror_Stuffing=1;	
 					else
 						Eror_Stuffing=0;	
-						
 					cont_0=0;
 					cont_1=0;
 				end
