@@ -5,9 +5,7 @@ module can_rx
 (  input i_Clock,
    input i_Rx_Serial,
 	input i_Erro_Flag,
-	input i_Ignora_bit,
-	output o_Rx_DV,
-	output [0:499] o_Rx_Byte
+	input i_Ignora_bit
 );
    
   //Estados
@@ -16,7 +14,7 @@ module can_rx
   parameter [0:5] Reserved_Bit_Normal                 = 2;
   parameter [0:5] Identificador_A 		               = 3;
   parameter [0:5] Identificador_B      		         = 4;
-  parameter [0:5] End_Of_Frame                        = 5;
+  parameter [0:5] RTR_Extendido                       = 5;
   parameter [0:5] Start_Frame 		                  = 6;
   parameter [0:5] Length_Data_Field                   = 7;
   parameter [0:5] Doubt_Bits		                     = 8;
@@ -31,13 +29,13 @@ module can_rx
   parameter [0:5] CRC_Delimiter                       = 17;
   parameter [0:5] ACK_Delimiter                       = 18;
   parameter [0:5] Form_Error                          = 19;
-  parameter [0:5] RTR_Extendido                       = 20;
-  parameter [0:5] Passive_Error                       = 21;
-  parameter [0:5] Active_Error 								= 22;
-  parameter [0:5] Error_Frame							      = 23;
-  parameter [0:5] Overload_Frame 							= 24;
-  parameter [0:5] Waiting 									   = 25;
-  parameter [0:5] Reseta_Variaveis						   = 26;
+  parameter [0:5] Passive_Error                       = 20;
+  parameter [0:5] Active_Error 								= 21;
+  parameter [0:5] Error_Frame							      = 22;
+  parameter [0:5] Overload_Frame 							= 23;
+  parameter [0:5] Waiting 									   = 24;
+  parameter [0:5] Reseta_Variaveis						   = 25;
+  parameter [0:5] End_Of_Frame                        = 26;
   //Variaveis temporarias para guardar Estados
   reg [0:5]    Redirecionando       = Identificador_A;
   reg [0:5]    Estado               = Inicio;
@@ -51,7 +49,6 @@ module can_rx
   reg [0:4] Reserved_R1_Warning	               = 0;
   reg [0:4] Reserved_Bit_Normal_Warning		   = 0; 
   reg [0:4] EOF_ERROR						         = 0;
-  
   //Variavel setada pelo gerador
   parameter CLKS_PER_BIT = 10; //Essa variavel esta setada pelo tb.v 
   //Variaveis 
@@ -69,19 +66,11 @@ module can_rx
   reg [0:3]     Length_Data         = 0;  
   reg           Stuffing_ON         = 1;
   reg           RTR_BIT             = 1;
-  reg           Data_Bit_Duplicated = 1;
   reg           Data_Bit            = 1;
-  reg           r_Rx_DV             = 0;
-  
-  reg tb_BITVAL = 0;
-  reg tb_BITSTRB = 1;
-  reg tb_CLEAR = 1;
-  wire [14:0] tb_CRC = 15'b0;
-  reg crc_monitor = 0;
-  reg crc_clock			= 0;
-  
+  //Fios
   wire form_monitor;
-  wire flag_CRC;
+  wire CRC_monitor;
+
   
   	can_form_error #(.form_CLKS_PER_BIT(CLKS_PER_BIT)) CAN_FORM_ERROR_INST
   (.i_Clock(i_Clock),
@@ -91,11 +80,10 @@ module can_rx
    );
 
 	can_crc_checker #(.crc_CLKS_PER_BIT(CLKS_PER_BIT)) CAN_CRC_CHECKER_INST
-	(.BITVAL(tb_BITVAL),
-	 .BITSTRB(crc_clock),
-	 .CLEAR(tb_CLEAR),
-	 .o_CRC(tb_CRC),
-	 .o_flag_CRC(flag_CRC)
+	(.i_Clock(i_Clock),
+	 .i_frame_field(Estado),
+	 .i_Data(Data_Bit),
+	 .o_CRC_monitor(CRC_monitor)
 	 );
 
   always @(posedge i_Clock)
@@ -146,9 +134,6 @@ module can_rx
 			Count_Overload                      <= 0;
 			Length_count                        <= 0;
 			Stuffing_ON                         <= 1;
-			tb_CLEAR										<= 1;
-			tb_BITVAL									<= 0;
-			crc_monitor									<= 1;
 			Estado <= Start_Frame;
 		end
 		//-------------------------------------------------------------------------
@@ -175,22 +160,7 @@ module can_rx
 					else if(i_Ignora_bit==1)
 						Estado<=Stuffing_Check;
 					else
-					begin
-						if(crc_monitor == 1)
-						begin
-							tb_BITVAL <= Data_Bit;
-							tb_CLEAR = 0;
-							crc_clock = !crc_clock;
-						end
-						else
-						begin
-							if (flag_CRC == 1)
-								CRC_Comp_ERROR <= 1;
-							else
-								CRC_Comp_ERROR <= 0;
-						end
 						Estado <= Redirecionando;
-					end
 				end
 				else
 					Estado <= Redirecionando;
@@ -372,7 +342,8 @@ module can_rx
 		//------------------------------------------------------------------------- 
 		CRC_Delimiter:
 		begin
-			crc_monitor = 0;
+			if(CRC_monitor==1)
+				CRC_Comp_ERROR=1;
 		   Stuffing_ON=0;
 			if(Clock_Count==0)
 				Vector_Frame[Bit_Index] <= Data_Bit;   //pega a informação imediatamente
@@ -419,7 +390,6 @@ module can_rx
 		//-------------------------------------------------------------------------    
 		End_Of_Frame:
 		begin
-			
 		   if(Clock_Count==0)
 			begin
 				Vector_Frame[Bit_Index] <= Data_Bit;
@@ -572,6 +542,5 @@ module can_rx
 	   //-------------------------------------------------------------------------  
       endcase
     end   
-  assign o_Rx_DV   = r_Rx_DV;
-  assign o_Rx_Byte = Vector_Frame;
+
   endmodule // can_rx	

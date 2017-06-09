@@ -1,51 +1,61 @@
-module can_crc_checker (BITVAL, BITSTRB, CLEAR, o_CRC, o_flag_CRC);
-   input        BITVAL;                            // Next input bit
-   input        BITSTRB;                           // Current bit valid (Clock)
-   input        CLEAR;                             // Init CRC value
-   output [14:0] o_CRC;                               // Current output CRC value
-	output o_flag_CRC;
+module can_crc_checker (input i_Clock, input [0:5] i_frame_field,input i_Data, output o_CRC_monitor);
+                             
+
 	
 	parameter crc_CLKS_PER_BIT  			= 10;
-	
-	reg flag_CRC = 1'b0;
-   reg    [14:0] CRC = 15'b0;                               // We need output registers
-   reg bitval = 1'b0;
-	reg         inv;
-	//wire         inv;
-   
-	always @(posedge BITSTRB or negedge BITSTRB) begin
-		bitval = BITVAL;
-		inv = bitval ^ CRC[14];                   // XOR required?
-	end
+	reg [0:31] Clock_Count              = 0;
+	reg [0:31] Count                    = 14;
+   reg [14:0] CRC                      = 0;     
+	reg Exor                            = 0;
+	reg CRC_monitor                     = 0;
 
-   always @(posedge BITSTRB or negedge BITSTRB or posedge CLEAR) begin
-      if (CLEAR) begin
-         CRC = 15'b0;                                // Init before calculation
-         end
-      else begin
-         CRC[14] = CRC[13] ^ inv;
-         CRC[13] = CRC[12];
-         CRC[12] = CRC[11];
-         CRC[11] = CRC[10];
-         CRC[10] = CRC[9] ^ inv;
-         CRC[9] = CRC[8];
-         CRC[8] = CRC[7] ^ inv;
-         CRC[7] = CRC[6] ^ inv;
-         CRC[6] = CRC[5];
-         CRC[5] = CRC[4];
-         CRC[4] = CRC[3] ^ inv;
-         CRC[3] = CRC[2] ^ inv;
-         CRC[2] = CRC[1];
-         CRC[1] = CRC[0];
-         CRC[0] = inv;
-         end
-		if (CRC == 15'b0)
-			flag_CRC <= 0;
-		else
-			flag_CRC <= 1;
+
+   always @(posedge i_Clock) 
+	begin
+			if(Clock_Count<crc_CLKS_PER_BIT-1)
+				Clock_Count<=Clock_Count+1;
+		   else
+			begin
+				if(i_frame_field==25)
+				begin
+					CRC<=0;
+					CRC_monitor<=0;
+					Count<=14;
+				end
+				if(i_frame_field>=0&&i_frame_field<10)
+				begin
+					//$write("%d",i_Data);
+					Exor = i_Data ^ CRC[14];
+					CRC[14] = CRC[13] ^ Exor;
+					CRC[13] = CRC[12];
+					CRC[12] = CRC[11];
+					CRC[11] = CRC[10];
+					CRC[10] = CRC[9] ^ Exor;
+					CRC[9] = CRC[8];
+					CRC[8] = CRC[7] ^ Exor;
+					CRC[7] = CRC[6] ^ Exor;
+					CRC[6] = CRC[5];
+					CRC[5] = CRC[4];
+					CRC[4] = CRC[3] ^ Exor;
+					CRC[3] = CRC[2] ^ Exor;
+					CRC[2] = CRC[1];
+					CRC[1] = CRC[0];
+					CRC[0] = Exor;
+					Clock_Count<=0;
+				end
+				if(i_frame_field==10)
+				begin
+					//$display("CRC -> %b",CRC);
+					if(CRC[Count]!=i_Data)
+						CRC_monitor<=1;
+					Clock_Count<=0;
+					Count<=Count-1;
+				end				
+			end
+	
    end
 		
-	assign o_CRC = CRC;
-   assign o_flag_CRC = flag_CRC;
+	assign o_CRC_monitor = CRC_monitor;
+
 
 endmodule
