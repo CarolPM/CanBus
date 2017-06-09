@@ -1,6 +1,5 @@
 `timescale 1ns/10ps
  
-`include "can_tx.v"
 `include "can_rx.v"
 `include "can_destuff.v"
 

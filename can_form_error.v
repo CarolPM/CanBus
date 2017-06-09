@@ -1,4 +1,4 @@
-module can_form_error (input i_Clock, input i_Data, input [0:4] i_frame_field, output o_form_monitor);
+module can_form_error (input i_Clock, input i_Data, input [0:5] i_frame_field, output o_form_monitor);
 
 
 
