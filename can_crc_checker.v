@@ -48,7 +48,6 @@ module can_crc_checker (input i_clock, input [0:5] i_frame_field,input i_Data, o
 				end
 				if(i_frame_field==8)
 				begin
-					//$display("PORRA");
 					//$display("CRC -> %b",CRC);
 					if(CRC[Count]!=i_Data)
 						CRC_monitor<=1;
