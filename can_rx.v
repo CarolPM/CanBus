@@ -3,42 +3,38 @@
 
 module can_rx
 (  input i_Clock,
+	input i_Sample,
    input i_Rx_Serial,
 	input i_Erro_Flag,
 	input i_Ignora_bit
 );
    
   //Estados
-  parameter [0:5] Inicio        		                  = 0;  
-  parameter [0:5] Reserved_Bits_Extendido             = 1;
-  parameter [0:5] Reserved_Bit_Normal                 = 2;
-  parameter [0:5] Identificador_A 		               = 3;
-  parameter [0:5] Identificador_B      		         = 4;
+  parameter [0:5] Identificador_A 		               = 0;
+  parameter [0:5] Identificador_B      		         = 1;
+  parameter [0:5] Doubt_Bits		                     = 2;
+  parameter [0:5] Reserved_Bits_Extendido             = 3;
+  parameter [0:5] Reserved_Bit_Normal                 = 4;
   parameter [0:5] RTR_Extendido                       = 5;
-  parameter [0:5] Start_Frame 		                  = 6;
-  parameter [0:5] Length_Data_Field                   = 7;
-  parameter [0:5] Doubt_Bits		                     = 8;
-  parameter [0:5] Data_Frame                          = 9;
-  parameter [0:5] CRC_Frame                           = 10;
+  parameter [0:5] Length_Data_Field                   = 6;
+  parameter [0:5] Data_Frame                          = 7;
+  parameter [0:5] CRC_Frame                           = 8;
+  parameter [0:5] CRC_Delimiter                       = 9;
+  parameter [0:5] ACK_Delimiter                       = 10;
   parameter [0:5] ACK_Frame                           = 11;
-  parameter [0:5] ConClusao                           = 12;  
-  parameter [0:5] Ocioso        		                  = 13;
-  parameter [0:5] Stuffing_Check                      = 14;
-  parameter [0:5] Stuffing_Bit                        = 15;
-  parameter [0:5] Stuffing_Error                      = 16;
-  parameter [0:5] CRC_Delimiter                       = 17;
-  parameter [0:5] ACK_Delimiter                       = 18;
-  parameter [0:5] Form_Error                          = 19;
-  parameter [0:5] Passive_Error                       = 20;
-  parameter [0:5] Active_Error 								= 21;
-  parameter [0:5] Error_Frame							      = 22;
-  parameter [0:5] Overload_Frame 							= 23;
-  parameter [0:5] Waiting 									   = 24;
-  parameter [0:5] Reseta_Variaveis						   = 25;
-  parameter [0:5] End_Of_Frame                        = 26;
+  parameter [0:5] Stuffing_Check                      = 12;
+  parameter [0:5] ConClusao                           = 13;  
+  parameter [0:5] Passive_Error                       = 14;
+  parameter [0:5] Active_Error 								= 15;
+  parameter [0:5] Error_Frame							      = 16;
+  parameter [0:5] Overload_Frame 							= 17;
+  parameter [0:5] Waiting 									   = 18;
+  parameter [0:5] Reseta_Variaveis						   = 19;
+  parameter [0:5] End_Of_Frame                        = 20;
+  parameter [0:5] Ocioso        		                  = 21;
   //Variaveis temporarias para guardar Estados
   reg [0:5]    Redirecionando       = Identificador_A;
-  reg [0:5]    Estado               = Inicio;
+  reg [0:5]    Estado               = Stuffing_Check;
   //Marcadores para detectar erros
   reg [0:4] CRC_Delimiter_ERROR			         = 0;
   reg [0:4] ACK_Delimiter_ERROR			         = 0;
@@ -49,13 +45,13 @@ module can_rx
   reg [0:4] Reserved_R1_Warning	               = 0;
   reg [0:4] Reserved_Bit_Normal_Warning		   = 0; 
   reg [0:4] EOF_ERROR						         = 0;
-  //Variavel setada pelo gerador
-  parameter CLKS_PER_BIT = 10; //Essa variavel esta setada pelo tb.v 
+  //Variavel setada pelo gerador //Essa variavel esta setada pelo tb.v 
+  parameter CLKS_PER_BIT = 10; 
   //Variaveis 
   reg [0:31] Length_count              = 0;
-  reg [0:31] Bit_Index                 = 0;
+  reg [0:31] Bit_Index                 = 1;
   reg [0:31] New_Jump                  = 0;
-  reg [0:31] Clock_Count               = 0;
+  reg [0:31] Count_clock               = 0;
   reg [0:31] Count_Interframe          = 0;
   reg [0:31] Count_Overload            = 0;
   reg [0:31] Count_ActiveError         = 0;
@@ -67,10 +63,13 @@ module can_rx
   reg           Stuffing_ON         = 1;
   reg           RTR_BIT             = 1;
   reg           Data_Bit            = 1;
+  reg           Sample_Point        = 0;
+  reg           Ini                 = 0;
   //Fios
-  wire form_monitor;
+  
+  wire [0:3] form_monitor;
   wire CRC_monitor;
-
+  reg     [0:107]      ccc            = 0;
   
   	can_form_error #(.form_CLKS_PER_BIT(CLKS_PER_BIT)) CAN_FORM_ERROR_INST
   (.i_Clock(i_Clock),
@@ -80,42 +79,25 @@ module can_rx
    );
 
 	can_crc_checker #(.crc_CLKS_PER_BIT(CLKS_PER_BIT)) CAN_CRC_CHECKER_INST
-	(.i_Clock(i_Clock),
+	(.i_clock(i_Clock),
 	 .i_frame_field(Estado),
 	 .i_Data(Data_Bit),
 	 .o_CRC_monitor(CRC_monitor)
 	 );
 
-  always @(posedge i_Clock)
+
+  always @(posedge i_Sample)
     begin
+		Sample_Point=1;
       Data_Bit  <= i_Rx_Serial;
     end
-
-
 
   always @(posedge i_Clock)
     begin
 	  case (Estado)
-	   //-------------------------------------------------------------------------
-      Inicio:
-      begin
-			if (Data_Bit == 1'b0)        
-				begin
-					if((Clock_Count < (CLKS_PER_BIT/2)-1))
-						Clock_Count <= Clock_Count + 1;
-					else
-					begin
-						Clock_Count <= 0; 
-						Estado  <= Reseta_Variaveis;
-					end
-				end
-         else
-				Estado  <= Inicio;
-      end
 		//-------------------------------------------------------------------------
 		Reseta_Variaveis:
 		begin
-			Clock_Count <= Clock_Count +1;
 			CRC_Delimiter_ERROR			         <= 0;
 			ACK_Delimiter_ERROR			         <= 0;
 			CRC_Comp_ERROR                      <= 0;
@@ -128,31 +110,23 @@ module can_rx
 			Redirecionando                      <= Identificador_A;
 			Count_PassiveError                  <= 0;
 			Count_ActiveError                   <= 0;
-			Bit_Index                           <= 0;
+			Bit_Index                           <= 1;
 			New_Jump                            <= 0;
 			Count_Interframe                    <= 0;
 			Count_Overload                      <= 0;
 			Length_count                        <= 0;
 			Stuffing_ON                         <= 1;
-			Estado <= Start_Frame;
-		end
-		//-------------------------------------------------------------------------
-		Start_Frame:
-      begin
-			//$strobe("Start = %d",Data_Bit);
-			Clock_Count <= Clock_Count +1;
-			Vector_Frame[Bit_Index] <= Data_Bit; 
-			Bit_Index <= Bit_Index + 1;
-         Estado <= Stuffing_Check;
+			Vector_Frame[0]                     <= 0; 
+			Estado <= Stuffing_Check;
 		end
 	   //-------------------------------------------------------------------------
 		Stuffing_Check:
-		begin 
-			 if (Clock_Count < CLKS_PER_BIT-1)
-				Clock_Count <= Clock_Count + 1'b1;
-			 else
+		begin 				
+			 if(Sample_Point==1&&Ini==1)
 			 begin
-				Clock_Count <=0;
+
+			   Sample_Point <=0;
+				Count_clock <=0;
 				if(Stuffing_ON==1)
 				begin
 					if(i_Erro_Flag==1)
@@ -165,13 +139,19 @@ module can_rx
 				else
 					Estado <= Redirecionando;
 			 end
+			 else if(Sample_Point==1&&Ini==0&&Data_Bit==0)
+			 begin
+				Sample_Point <=0;
+				Ini<=1;
+				Vector_Frame[0] <= 0; 
+				//$strobe("Start = %d",Data_Bit);
+			 end
 		 end
 		//-------------------------------------------------------------------------
 		Identificador_A:
 		begin
 			//$display("ID_A = %d",Data_Bit);
-			//$stop;
-			Clock_Count <= Clock_Count+1;  
+			Count_clock <= Count_clock+1;  
          Vector_Frame[Bit_Index] <= Data_Bit;
 			Bit_Index <= Bit_Index + 1;	 
          if (Bit_Index < 11)
@@ -184,15 +164,10 @@ module can_rx
 		Doubt_Bits:
 		begin
 			//$display("DOUB = %d",Data_Bit);
-			Clock_Count <= Clock_Count+1;  
          Vector_Frame[Bit_Index] <= Data_Bit;
 			Bit_Index <= Bit_Index + 1'b1;
          if (Bit_Index < 13)
-			begin
-				if(form_monitor==1)
-					SRR_ERROR<=1;
 				Redirecionando   <= Doubt_Bits;
-			end
 			else
          begin  
 
@@ -210,7 +185,6 @@ module can_rx
 		Identificador_B:
 		begin
 			//$display("ID_B = %d",Data_Bit);
-			Clock_Count <= Clock_Count+1;  
          Vector_Frame[Bit_Index] <= Data_Bit;
 			Bit_Index <= Bit_Index + 1'b1; 
          if (Bit_Index < 31)
@@ -223,7 +197,6 @@ module can_rx
 		RTR_Extendido:
 		begin
 			//$display("RTR EX = %d",Data_Bit);
-			Clock_Count <= Clock_Count+1;  
          Vector_Frame[Bit_Index] <= Data_Bit;
 			Bit_Index <= Bit_Index + 1'b1;
 			RTR_BIT <= Data_Bit;
@@ -233,60 +206,35 @@ module can_rx
 		//-------------------------------------------------------------------------
 		Reserved_Bits_Extendido:
 		begin
-			if(Clock_Count==0)
-				Vector_Frame[Bit_Index] <= Data_Bit;   //pega a informação imediatamente
-			if(Clock_Count<3)                         //delay 3 clocks
-            Clock_Count         <= Clock_Count+1;  
+			Estado <= Stuffing_Check;
+			//$strobe("Res_Exte = %d",Data_Bit);
+			Vector_Frame[Bit_Index] <= Data_Bit;   //pega a informação imediatamente
+			Bit_Index <= Bit_Index + 1'b1; 
+			if (Bit_Index < 34)
+				Redirecionando   <= Reserved_Bits_Extendido;
 			else
-			begin
-				 Clock_Count         <= Clock_Count+1;  
-				 Bit_Index <= Bit_Index + 1'b1; 
-				 //Warnings
-				 if(Data_Bit==1&&Bit_Index==33)
-					 Reserved_R0_Warning <=1;
-				 if(Data_Bit==1&&Bit_Index==34)
-					 Reserved_R1_Warning <=1;
-				 //Warnings
-				 if (Bit_Index < 34)
-					Redirecionando   <= Reserved_Bits_Extendido;
-				 else
-             begin  
-				    New_Jump <= 34;
-					 Redirecionando   <= Length_Data_Field;
-             end
-				 Estado <= Stuffing_Check;
-         end 
+         begin  
+				New_Jump <= 34;
+				Redirecionando   <= Length_Data_Field;
+         end
 		end 
 		//-------------------------------------------------------------------------
 		Reserved_Bit_Normal:
 		begin
-			
-			if(Clock_Count==0)
-			begin
-				Vector_Frame[Bit_Index] <= Data_Bit;   //pega a informação imediatamente
-				//$display("Res_Norma = %d",Data_Bit);
-			end
-			if(Clock_Count<3)                         //delay 3 clocks
-            Clock_Count         <= Clock_Count+1;  
-			else
-			begin
-			
-				if(Data_Bit==1)  
-					Reserved_Bit_Normal_Warning =1;
-				
-			   Clock_Count         <= Clock_Count+1;
-				Bit_Index <= Bit_Index + 1'b1; 
-				Redirecionando   <= Length_Data_Field;
-				Estado <= Stuffing_Check;
-				New_Jump <= 14;
-				RTR_BIT <= Vector_Frame[12];
-			end  
+			Vector_Frame[Bit_Index] <= Data_Bit;   //pega a informação imediatamente
+			//$display("Res_Norma = %d",Data_Bit);
+			if(Data_Bit==1)  
+				Reserved_Bit_Normal_Warning =1;
+			Bit_Index <= Bit_Index + 1'b1; 
+			Redirecionando   <= Length_Data_Field;
+			Estado <= Stuffing_Check;
+			New_Jump <= 14;
+			RTR_BIT <= Vector_Frame[12];
 		end 
 		//-------------------------------------------------------------------------  
 		Length_Data_Field:
 		begin
 			//$display("LENG = %d",Data_Bit);
-			Clock_Count         <= Clock_Count+1;  
          Vector_Frame[Bit_Index] <= Data_Bit;
 			Length_Data[Length_count] <= Data_Bit;
 			Length_count=Length_count+1;
@@ -297,10 +245,7 @@ module can_rx
          begin  
 				//$strobe("Tamanho = %d",Length_Data);
 				if(Length_Data>8)
-				begin
-					Data_Length_ERROR <= 1;
 					Length_Data<=8;
-				end
 				New_Jump <= New_Jump+4;
 				if(RTR_BIT==0)
 					Redirecionando   <=  Data_Frame;
@@ -313,7 +258,6 @@ module can_rx
 		Data_Frame:
 		begin
 			//$display("DATA = %d",Data_Bit);
-			Clock_Count         <= Clock_Count+1;  
          Vector_Frame[Bit_Index] <= Data_Bit;
 			Bit_Index <= Bit_Index + 1'b1;	
          if (Bit_Index < New_Jump+(Length_Data*8))
@@ -328,41 +272,29 @@ module can_rx
 		//-------------------------------------------------------------------------  
 		CRC_Frame:
 		begin
-			Clock_Count         <= Clock_Count+1;  
+			//$strobe("CRC_Frame = %d",Data_Bit);  
          Vector_Frame[Bit_Index] <= Data_Bit;
 			Bit_Index <= Bit_Index + 1'b1;
          if (Bit_Index < New_Jump+15)
 				Redirecionando   <= CRC_Frame;
 			else
-			begin
 				Redirecionando   <= CRC_Delimiter;
-			end
 			Estado <= Stuffing_Check;
 		end 
 		//------------------------------------------------------------------------- 
 		CRC_Delimiter:
 		begin
-			if(CRC_monitor==1)
-				CRC_Comp_ERROR=1;
 		   Stuffing_ON=0;
-			if(Clock_Count==0)
-				Vector_Frame[Bit_Index] <= Data_Bit;   //pega a informação imediatamente
-			if(Clock_Count<3)                         //delay 3 clocks
-            Clock_Count         <= Clock_Count+1; 		
-			else
-			begin
-				Clock_Count         <= Clock_Count+1; 
-				Bit_Index <= Bit_Index + 1'b1;   	
-				if(form_monitor==1)
-					CRC_Delimiter_ERROR<=1;
-				Redirecionando   <= ACK_Frame;
-				Estado <= Stuffing_Check;
-			end
+			Vector_Frame[Bit_Index] <= Data_Bit;   //pega a informação imediatamente
+			//$strobe("CRC_Delimiter = %d",Data_Bit);
+			Bit_Index <= Bit_Index + 1'b1;   	
+			Redirecionando   <= ACK_Frame;
+			Estado <= Stuffing_Check;
 		end 
 		//-------------------------------------------------------------------------
 		ACK_Frame:
 		begin
-			Clock_Count         <= Clock_Count+1; 
+			//$strobe("ACK_Frame = %d",Data_Bit);
          Vector_Frame[Bit_Index] <= Data_Bit;
 			Bit_Index <= Bit_Index + 1'b1; 	
 			Redirecionando   <= ACK_Delimiter;
@@ -371,51 +303,30 @@ module can_rx
 		//-------------------------------------------------------------------------
 		ACK_Delimiter:
 		begin
-			if(Clock_Count==0)
-			begin
-				Vector_Frame[Bit_Index] <= Data_Bit;   //pega a informação imediatamente
-			end
-			if(Clock_Count<3)                         //delay 3 clocks
-            Clock_Count         <= Clock_Count+1;  
-			else
-			begin
-				Clock_Count         <= Clock_Count+1;
-				Bit_Index <= Bit_Index + 1'b1;
-				if(form_monitor==1)
-					ACK_Delimiter_ERROR<=1;
-				Redirecionando   <= End_Of_Frame;
-				Estado <= Stuffing_Check;					
-         end    
+			//$strobe("ACK_Delimiter = %d",Data_Bit);
+			Vector_Frame[Bit_Index] <= Data_Bit;   //pega a informação imediatamente
+			Bit_Index <= Bit_Index + 1'b1;
+			Redirecionando   <= End_Of_Frame;
+			Estado <= Stuffing_Check;					
 		 end 
 		//-------------------------------------------------------------------------    
 		End_Of_Frame:
 		begin
-		   if(Clock_Count==0)
+			Vector_Frame[Bit_Index] <= Data_Bit;
+			//$display("End = %d",Data_Bit);
+			Bit_Index <= Bit_Index + 1'b1;
+			if (Bit_Index < New_Jump+25)
 			begin
-				Vector_Frame[Bit_Index] <= Data_Bit;
-				//$display("End = %d",Data_Bit);
+				Redirecionando <= End_Of_Frame;
+				Estado <= Stuffing_Check;
 			end
-			if(Clock_Count<3)
-				Clock_Count <= Clock_Count + 1;
 			else
-			begin
-				Clock_Count <= Clock_Count + 1;
-				Bit_Index <= Bit_Index + 1'b1;
-				if(form_monitor==1)
-					EOF_ERROR=1;
-				if (Bit_Index < New_Jump+25)
-				begin
-					Redirecionando <= End_Of_Frame;
-					Estado <= Stuffing_Check;
-				end
-				else
-					Estado <= ConClusao;
-			end 
+				Estado <= ConClusao;
+			
 		end
 		//------------------------------------------------------------------------- 
 		ConClusao:
 		begin
-			 Clock_Count <= Clock_Count + 1;
 			 // INFORMACOES BASICAS
 		    if(Vector_Frame[13]==0)
 			 begin
@@ -431,41 +342,49 @@ module can_rx
 			   else
 					$write("REMOTE FRAME EXTENDED,Tamanho de Frame = %d Bits;",Bit_Index);
 			 end
-			 //Erros E warnings
-			 if (CRC_Delimiter_ERROR == 1)
+			 //ERROS E WARNINGS
+			 if (form_monitor[1] == 1)
 				$write("//*Form Error -> CRC Delimiter*//");
-			 if (ACK_Delimiter_ERROR == 1)
+			 if (form_monitor[2] == 1)
 			 	$write("//*Form Error -> ACK Delimiter*//");
-			 if (CRC_Comp_ERROR == 1)
-				$write("//*Falha na Comparacao de seguranca -> CRC*//");
-			 if (Data_Length_ERROR==1)
-				$write("//*Tamanho Invalido (>8) -> Tamanho considerado = 8*//");
-			 if (SRR_ERROR==1)
+			 if (form_monitor[0]==1&&Vector_Frame[12]==1)
 				$write("//*Form Error -> SRR Bit*//");
-			 if (Reserved_R0_Warning==1)
+			 if (form_monitor[3] == 1)
+				$write("//*Form Error -> End Of Frame*//");				
+			 if (CRC_monitor == 1)
+				$write("//*Falha na Comparacao de seguranca -> CRC*//");
+			 if (Vector_Frame[35:38]>8&&Vector_Frame[13]==1)
+				$write("//*Tamanho Invalido (>8) -> Tamanho considerado = 8*//");
+			 if (Vector_Frame[15:18]>8&&Vector_Frame[13]==0)
+				$write("//*Tamanho Invalido (>8) -> Tamanho considerado = 8*//");
+			 if (Vector_Frame[33]==1&&Vector_Frame[13]==1)
 				$write("//*Warning --> Reserved bit R0*//");
-			 if (Reserved_R1_Warning==1)
+			 if (Vector_Frame[34]==1&&Vector_Frame[13]==1)
 				$write("//*Warning --> Reserved bit R1*//");
-			 if (Reserved_Bit_Normal_Warning==1)
+			 if (Vector_Frame[14]==1&&Vector_Frame[13]==0)
 				$write("//*Warning --> Reserved bit R0*//");
-			 if (EOF_ERROR==1)
-				$write("//*Form Error -> End Of Frame*//");
+			 //ERROS E WARNINGS
 			 $display("/-->End<--//");
+			 
+			 
 			 Estado <= Stuffing_Check;
 			 Redirecionando <= Waiting;
+			 Estado <= Ocioso;
 		  end
 		//-------------------------------------------------------------------------
 		Waiting:
 		begin
-			Clock_Count <= Clock_Count + 1;
 			Estado <= Stuffing_Check;
+			Estado   <= Ocioso;
 			if(Data_Bit==1)
 			begin
+				$strobe("Interframing = %d",Data_Bit);
 				Count_Interframe<=Count_Interframe+1;
 				Redirecionando <= Waiting;
 			end
 			else
 			begin
+				$strobe("Start = %d",Data_Bit);
 				if(Count_Interframe<2)
 					Estado<=Overload_Frame;
 				else
@@ -480,7 +399,7 @@ module can_rx
 		//-------------------------------------------------------------------------	
 		Overload_Frame:
 		begin
-			Clock_Count <= Clock_Count + 1;
+			//$strobe("Overload = %d",Data_Bit);
 			Estado <= Stuffing_Check;
 			Redirecionando <=Overload_Frame;
 			if(Data_Bit==1)
@@ -495,7 +414,7 @@ module can_rx
 		//-------------------------------------------------------------------------			
 		Error_Frame:
 		begin
-			Clock_Count <= Clock_Count + 1;
+			$display("ERRO = %d",Data_Bit);
 			Count_ActiveError<=0;
 			Count_PassiveError<=0;
 			Stuffing_ON<=0;
@@ -504,12 +423,15 @@ module can_rx
 				Redirecionando <= Active_Error;
 			else
 				Redirecionando <= Passive_Error;
+			
 		end
 		//-------------------------------------------------------------------------	
 		Active_Error:
 		begin
+			ccc<=ccc+1;
+			$display("Active Error = %d",Data_Bit);
 			//$display("AKI");
-			Clock_Count <= Clock_Count + 1;
+			Count_clock <= Count_clock + 1;
 			Estado <= Stuffing_Check;
 			Redirecionando <= Active_Error;
 			if(Data_Bit==1)
@@ -519,11 +441,17 @@ module can_rx
 				$display("ACTIVE ERROR FRAME");
 				Redirecionando <= Waiting;
 			end
+			
+			if(ccc>30)
+				begin
+					
+					Estado<=Ocioso;
+				end
 		end
 		//-------------------------------------------------------------------------
 		Passive_Error:
 		begin
-			Clock_Count <= Clock_Count + 1;
+			$strobe("Passive Error = %d",Data_Bit);
 			Estado <= Stuffing_Check;
 			Redirecionando <= Passive_Error;
 			if(Data_Bit==1)

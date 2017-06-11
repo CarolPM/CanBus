@@ -1,4 +1,4 @@
-module can_crc_checker (input i_Clock, input [0:5] i_frame_field,input i_Data, output o_CRC_monitor);
+module can_crc_checker (input i_clock, input [0:5] i_frame_field,input i_Data, output o_CRC_monitor);
                              
 
 	
@@ -8,21 +8,24 @@ module can_crc_checker (input i_Clock, input [0:5] i_frame_field,input i_Data, o
    reg [14:0] CRC                      = 0;     
 	reg Exor                            = 0;
 	reg CRC_monitor                     = 0;
+	
 
 
-   always @(posedge i_Clock) 
+   always @(posedge i_clock) 
 	begin
+			
 			if(Clock_Count<crc_CLKS_PER_BIT-1)
 				Clock_Count<=Clock_Count+1;
 		   else
 			begin
-				if(i_frame_field==25)
+				//$write("%d ",i_frame_field);
+				if(i_frame_field==19)
 				begin
 					CRC<=0;
 					CRC_monitor<=0;
 					Count<=14;
 				end
-				if(i_frame_field>=0&&i_frame_field<10)
+				if(i_frame_field>=0&&i_frame_field<8)
 				begin
 					//$write("%d",i_Data);
 					Exor = i_Data ^ CRC[14];
@@ -43,8 +46,9 @@ module can_crc_checker (input i_Clock, input [0:5] i_frame_field,input i_Data, o
 					CRC[0] = Exor;
 					Clock_Count<=0;
 				end
-				if(i_frame_field==10)
+				if(i_frame_field==8)
 				begin
+					//$display("PORRA");
 					//$display("CRC -> %b",CRC);
 					if(CRC[Count]!=i_Data)
 						CRC_monitor<=1;
