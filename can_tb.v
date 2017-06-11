@@ -1,79 +1,79 @@
-`timescale 1ns/10ps
- 
 `include "can_rx.v"
 `include "can_destuff.v"
 
- 
+// Para testar uma sequencia, mude o parametro "tamanho" para o tamanho da sequencia e a proprioa sequencia na funcao "Can_Write"
+////////////////////////////////////////
+// Modulo Gerador -> Simula o Barramento
+////////////////////////////////////////
 module can_tb ();
  
-  parameter c_CLOCK_PERIOD_NS = 100;
-  parameter c_CLKS_PER_BIT    = 10;
-  parameter c_BIT_PERIOD      = 1000;
+  //Clock Teste Banch (10 Mb)
+  parameter Periodo_Clock_TB    = 100;
+  parameter Periodo_Bit_TB      = 1000;
   
-  parameter c_CLOCK_PERIOD_NS2 = 1000;
-  parameter c_CLKS_PER_BIT2   = 10;
-  parameter c_BIT_PERIOD2      = 10000;
+  //Clock Sample Point (1 Mb)
+  parameter Periodo_Clock_SP    = 1000;
+  parameter Periodo_Bit_SP      = 10000;
+  
+  //Clocks Por Bit
+  parameter Clocks_Por_Bit      = 10;
   
   
+  //Tamanho da sequencia de entrada
+  parameter Tamanho           = 381;
   
-  parameter s_DESTUFF  		   = 0;
-  parameter s_RX		   		= 1;
-  parameter Tamanho           = 87;
-  
-  reg r_Clock = 0;
-  reg Sample_Point = 0;
-  reg r_Clock2 = 0;
-  reg r_Rx_Serial = 1;
-  reg r_Ds_Serial = 1;
-  wire Ignora_Bit;
-  wire Eror_Stuffing;
+  reg Clock_TB = 0;     // Clock do Teste Banch
+  reg Clock_SP = 0;     // Clock do Sample Point
 
-  task CAN_WRITE_BYTE;
-	 input [0:Tamanho-1] i_Data;
-    integer     ii;
-    begin
-		for (ii=0; ii<Tamanho; ii=ii+1)
-			begin                       
-					r_Ds_Serial <= i_Data[ii];
-					r_Rx_Serial<= i_Data[ii];
-					#(1000);                                  //Delay maroto
-			end 
-     end
-  endtask // CAN_WRITE_BYTE
+  reg r_Rx_Serial = 1;  // Entrada Do Modulo Principal
+  reg r_Ds_Serial = 1;	// Entrada Do Bit Destuffing
+  
+  wire Ignora_Bit;		// flag para avisar o modulo principal do Destuffing  (000001)
+  wire Error_Stuffing;  // flag para avisar o modulo principal do Error Frame (000000)
+
+  task CAN_WRITE_BYTE;          // CAN_WRITE_BYTE
+  input [0:Tamanho-1] i_Data;
+  integer Count;
+  begin
+	for (Count=0; Count<Tamanho; Count=Count+1)
+		begin                       
+			r_Ds_Serial <= i_Data[Count];				// Seta entrada para o Destuffing
+			r_Rx_Serial <= i_Data[Count];           // Seta entrada para o Modulo Principal
+			#(1000);                               // Delay para simular o Clock     
+		end 
+   end
+  endtask                       // CAN_WRITE_BYTE
    
 
-	can_destuff #(.CLKS_PER_BIT(c_CLKS_PER_BIT)) CAN_DESTUFF_INST
+	can_destuff #(.CLKS_PER_BIT(Clocks_Por_Bit)) CAN_DESTUFF_INST		//Instancia Do Modulo Destuff
 	(
-		.i_Sample(r_Clock2),
-		.i_Ds_Serial(r_Ds_Serial),
-		.o_Ignora_Bit(Ignora_Bit),
-		.o_Eror_Stuffing(Eror_Stuffing)
+		.Clock_SP(Clock_SP),															//Formato Entrada(Saida)
+		.Bit_Input(r_Ds_Serial),													//Formato Entrada(Saida)
+		.Ignora_Bit(Ignora_Bit),													//Formato Entrada(Saida)
+		.Error_Stuffing(Error_Stuffing)											//Formato Entrada(Saida)
 	);
 	
-	can_rx #(.CLKS_PER_BIT(c_CLKS_PER_BIT)) CAN_RX_INST
+	can_rx #(.CLKS_PER_BIT(Clocks_Por_Bit)) CAN_RX_INST              //Instancia Do Modulo Principal
 	(
-		.i_Clock(r_Clock),
-		.i_Sample(r_Clock2),
-		.i_Rx_Serial(r_Rx_Serial),
-		.i_Erro_Flag(Eror_Stuffing),
-		.i_Ignora_bit(Ignora_Bit)
+		.Clock_TB(Clock_TB),													     //Formato Entrada(Saida)
+		.Clock_SP(Clock_SP),													     //Formato Entrada(Saida)
+		.Bit_Input(r_Rx_Serial),												  //Formato Entrada(Saida)
+		.Erro_Flag(Error_Stuffing),											  //Formato Entrada(Saida)
+		.Ignora_bit(Ignora_Bit)												     //Formato Entrada(Saida)
     );
 
    
-  always
-    #(c_CLOCK_PERIOD_NS/2) r_Clock <= !r_Clock;
+  always																// Clock Teste Banch (10 MB)
+    #(Periodo_Clock_TB/2) Clock_TB <= !Clock_TB;
 	 
-  always
-    #(c_CLOCK_PERIOD_NS2/2) r_Clock2 <= !r_Clock2;
+  always																// Clock Sample Point (1 MB)
+    #(Periodo_Clock_SP/2) Clock_SP <= !Clock_SP;
  
 
- 
-   
-  // Main Testing:
-  initial
+  initial					// Coloque a sequencia de entrada aqui
     begin
-      // Send a command to the CAN (exercise Rx)
-      @(posedge r_Clock);
-			CAN_WRITE_BYTE(87'b001010101010010101010101010101010110010010101010101010010110011011110100010111111111111); //data frame standard
+      @(posedge Clock_TB);		
+			CAN_WRITE_BYTE(381'b001010101010001001001010101010101010101010101010100101111111111111001010101010110101010101010101110110010010101010101010101010101010101001011111111111110010101010101010010010101010101010010111111111111100101010101011010101010101010111101001001010101010101001011111111111110010101010100000011111111111111001010101011111111111111000000111111110000001111111100000011111111111111111111); //data frame standard
     end
+	 
 endmodule

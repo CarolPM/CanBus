@@ -1,56 +1,56 @@
-module can_destuff (input	i_Sample,input i_Ds_Serial,output o_Ignora_Bit,output o_Eror_Stuffing);
+module can_destuff (input	Clock_SP,input Bit_Input,output Ignora_Bit,output Error_Stuffing);
 	
 	
-	parameter CLKS_PER_BIT  			= 10;
-	reg Ignora_Bit=0;
-	reg Eror_Stuffing=0;
+	parameter CLKS_PER_BIT  			= 10;   // Setada pelo gerador
+	
+	reg Ignora_Bit_Temp              = 0;    // Marca sexto bit diferente
+	reg Error_Stuffing_Temp           = 0;    // Marca sexto bit igual
+	
+	integer cont_0                   = 0;    // Conta o numero de bits dominantes
+	integer cont_1                   = 0;    // Conta o numero de bits recessivos
+	
 	
 
-	integer Clock_Count = 5;
-	integer cont_0 = 0;
-	integer cont_1 = 0;
-	//integer contr=0;
-	
 
-
-	always @(posedge i_Sample)
+	always @(posedge Clock_SP)							     // Funciona com Sample Point								
 		begin
-				if(cont_0==5||cont_1==5)
+				if(cont_0==5||cont_1==5)					  // Se ja houve 5 bits repetidos checamos o sexto
 				begin
-				
-					if(cont_0==5&&i_Ds_Serial==1)
-						Ignora_Bit=1;
-					else if(cont_1==5&&i_Ds_Serial==0)
-						Ignora_Bit=1;
-					else
-						Ignora_Bit=0;
-					if(cont_0==5&&i_Ds_Serial==0)
-						Eror_Stuffing=1;
-					else if(cont_1==5&i_Ds_Serial==1)
-						Eror_Stuffing=1;	
-					else
-						Eror_Stuffing=0;	
-					cont_0=0;
-					cont_1=0;
+					if(cont_0==5&&Bit_Input==1)			  // Se houve 5 bits dominantes e o sexto é recessivo 
+						Ignora_Bit_Temp=1;					  // Bit deve ser ignorado
+					else if(cont_1==5&&Bit_Input==0)		  // Se houve 5 bits recessivos e o sexto é dominante 
+						Ignora_Bit_Temp=1;                 // Bit deve ser ignorado
+					else											  // Se não, deixo a variavel zerada por precaução
+						Ignora_Bit_Temp=0;
+						
+					if(cont_0==5&&Bit_Input==0)			  // Se houve 5 bits dominantes e o sexto é dominante
+						Error_Stuffing_Temp=1;             // Error Frame
+					else if(cont_1==5&Bit_Input==1)       // Se houve 5 bits recessivos e o sexto é recessivos
+						Error_Stuffing_Temp=1;	           // Error Frame
+					else  										  // Se não, deixo a variavel zerada por precaução
+						Error_Stuffing_Temp=0;	
+						
+					cont_0=0;									  // Zero os contadores
+					cont_1=0;	                          // Zero os contadores
 				end
 				else
 				begin
-					Eror_Stuffing=0;
-					Ignora_Bit=0;		
-					if (i_Ds_Serial == 0)
+					Error_Stuffing_Temp=0;					  // Bit deve ser ignorado
+					Ignora_Bit_Temp=0;		              // Bit deve ser ignorado
+					if (Bit_Input == 0)
 					begin
-						cont_1 <= 0;
-						cont_0 <= cont_0 + 1;
-					end
+						cont_1 <= 0;                       // Contador "1" zerado
+						cont_0 <= cont_0 + 1;              // Contador "0" incrementado
+					end 
 					else
 					begin
-						cont_0 <= 0;
-						cont_1 <= cont_1 + 1;
+						cont_0 <= 0;                       // Contador "0" zerado
+						cont_1 <= cont_1 + 1;              // Contador "1" incrementado
 					end		
 				end						
 		end
 	
-	assign o_Ignora_Bit = Ignora_Bit;
-	assign o_Eror_Stuffing = Eror_Stuffing;
-	
+	assign Ignora_Bit = Ignora_Bit_Temp;				  // Atualizo saida
+	assign Error_Stuffing = Error_Stuffing_Temp;      // Atualizo saida
+	 
 endmodule
