@@ -10,40 +10,38 @@
 # Copying C:/intelFPGA/17.0/modelsim_ase/win32aloem/../modelsim.ini to modelsim.ini
 # Modifying modelsim.ini
 # 
-# vlog -vlog01compat -work work +incdir+C:/Users/Carol/Documents/quartusworkspace/CanBus {C:/Users/Carol/Documents/quartusworkspace/CanBus/can_rx.v}
+# vlog -vlog01compat -work work +incdir+C:/Users/Carol/Documents/quartusworkspace/CanBus {C:/Users/Carol/Documents/quartusworkspace/CanBus/can_form_error.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 02:43:16 on Jun 09,2017
-# vlog -reportprogress 300 -vlog01compat -work work "+incdir+C:/Users/Carol/Documents/quartusworkspace/CanBus" C:/Users/Carol/Documents/quartusworkspace/CanBus/can_rx.v 
+# Start time: 02:28:31 on Jun 13,2017
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+C:/Users/Carol/Documents/quartusworkspace/CanBus" C:/Users/Carol/Documents/quartusworkspace/CanBus/can_form_error.v 
 # -- Compiling module can_form_error
-# -- Compiling module can_crc_checker
-# -- Compiling module can_rx
 # 
 # Top level modules:
-# 	can_rx
-# End time: 02:43:17 on Jun 09,2017, Elapsed time: 0:00:01
+# 	can_form_error
+# End time: 02:28:31 on Jun 13,2017, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # 
-# vlog -vlog01compat -work work +incdir+C:/Users/Carol/Documents/quartusworkspace/CanBus {C:/Users/Carol/Documents/quartusworkspace/CanBus/can_tb.v}
+# vlog -vlog01compat -work work +incdir+C:/Users/Carol/Documents/quartusworkspace/CanBus {C:/Users/Carol/Documents/quartusworkspace/CanBus/can_testbench.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 02:43:17 on Jun 09,2017
-# vlog -reportprogress 300 -vlog01compat -work work "+incdir+C:/Users/Carol/Documents/quartusworkspace/CanBus" C:/Users/Carol/Documents/quartusworkspace/CanBus/can_tb.v 
+# Start time: 02:28:31 on Jun 13,2017
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+C:/Users/Carol/Documents/quartusworkspace/CanBus" C:/Users/Carol/Documents/quartusworkspace/CanBus/can_testbench.v 
 # -- Compiling module can_form_error
 # -- Compiling module can_crc_checker
-# -- Compiling module can_rx
-# -- Compiling module can_destuff
-# -- Compiling module can_tb
+# -- Compiling module can_receiver
+# -- Compiling module can_destuffing
+# -- Compiling module can_testbench
 # 
 # Top level modules:
-# 	can_tb
-# End time: 02:43:17 on Jun 09,2017, Elapsed time: 0:00:00
+# 	can_testbench
+# End time: 02:28:31 on Jun 13,2017, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # 
-# vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cycloneive_ver -L rtl_work -L work -voptargs="+acc"  can_tb
-# vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cycloneive_ver -L rtl_work -L work -voptargs=""+acc"" can_tb 
-# Start time: 02:43:17 on Jun 09,2017
-# Loading work.can_tb
-# Loading work.can_destuff
-# Loading work.can_rx
+# vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cycloneive_ver -L rtl_work -L work -voptargs="+acc"  can_testbench
+# vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cycloneive_ver -L rtl_work -L work -voptargs=""+acc"" can_testbench 
+# Start time: 02:28:31 on Jun 13,2017
+# Loading work.can_testbench
+# Loading work.can_destuffing
+# Loading work.can_receiver
 # Loading work.can_form_error
 # Loading work.can_crc_checker
 # 
@@ -53,16 +51,9 @@
 # view signals
 # .main_pane.objects.interior.cs.body.tree
 # run -all
+# Bit Stuffing Error
 # ACTIVE ERROR FRAME
-# INTERFRAME (         3)
-# DATA FRAME NORMAL,  1 Bytes de dados, Tamanho de Frame =         52 Bits;//*Warning --> Reserved bit R0*///-->End<--//
-# INTERFRAME (         9)
-# DATA FRAME EXTENDED,  1 Bytes de dados, Tamanho de Frame =         72 Bits;//*Warning --> Reserved bit R1*///-->End<--//
-# INTERFRAME (         7)
-# DATA FRAME EXTENDED,  1 Bytes de dados, Tamanho de Frame =         72 Bits;//*Warning --> Reserved bit R1*///-->End<--//
-# OVERLOAD FRAME
-# OVERLOAD FRAME
 # Break key hit
-# Simulation stop requested.
-# End time: 02:43:29 on Jun 09,2017, Elapsed time: 0:00:12
+# Break in Module can_form_error at C:/Users/Carol/Documents/quartusworkspace/CanBus/can_form_error.v line 8
+# End time: 02:29:06 on Jun 13,2017, Elapsed time: 0:00:35
 # Errors: 0, Warnings: 0

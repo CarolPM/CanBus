@@ -1,13 +1,13 @@
-Analysis & Synthesis Status : Successful - Fri May 26 03:04:57 2017
+Analysis & Synthesis Status : Successful - Tue Jun 13 02:17:55 2017
 Quartus Prime Version : 17.0.0 Build 595 04/25/2017 SJ Lite Edition
 Revision Name : CanBus
-Top-level Entity Name : can_rx
+Top-level Entity Name : can_form_error
 Family : Cyclone IV E
-Total logic elements : 582
-    Total combinational functions : 579
-    Dedicated logic registers : 193
-Total registers : 193
-Total pins : 111
+Total logic elements : 3
+    Total combinational functions : 3
+    Dedicated logic registers : 1
+Total registers : 1
+Total pins : 9
 Total virtual pins : 0
 Total memory bits : 0
 Embedded Multiplier 9-bit elements : 0

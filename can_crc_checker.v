@@ -1,13 +1,12 @@
 module can_crc_checker (input Clock_TB, input [0:5] Estado,input Bit_Entrada, output CRC_monitor);
                              
-
 	
 	parameter crc_CLKS_PER_BIT  			= 10;
 	reg [0:31] Clock_Count              = 0;
 	reg [0:31] Count                    = 14;
    reg [14:0] CRC                      = 0;     
 	reg Exor                            = 0;
-	reg CRC_monitor_Temp                     = 0;
+	reg CRC_monitor_Temp                = 0;
 	
 
 
@@ -48,7 +47,7 @@ module can_crc_checker (input Clock_TB, input [0:5] Estado,input Bit_Entrada, ou
 				end
 				if(Estado==8)
 				begin
-					//$display("PORRA");
+					
 					//$display("CRC -> %b",CRC);
 					if(CRC[Count]!=Bit_Entrada)
 						CRC_monitor_Temp<=1;
