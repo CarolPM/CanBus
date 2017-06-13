@@ -24,9 +24,9 @@ module can_rx
   parameter [0:5] ACK_Frame                           = 11;			// Pega a sequencia ACK
   parameter [0:5] Stuffing_Check                      = 12;			// Aguarda o novo bit (baseado no sample point)
   parameter [0:5] ConClusao                           = 13; 		// Imprime Informações sobre o frame
-  parameter [0:5] Passive_Error                       = 14;       // Ler os 14 bits recessivos do error passivo
+  //parameter [0:5] Passive_Error                       = 14;       // Ler os 14 bits recessivos do error passivo
   parameter [0:5] Active_Error 								= 15;			// Pega o erro ativo (12-18 bits)
-  parameter [0:5] Error_Frame							      = 16;			// Decide se o erro é Ativo ou passivo
+  //parameter [0:5] Error_Frame							      = 16;			// Decide se o erro é Ativo ou passivo
   parameter [0:5] Overload_Frame 							= 17;			// Pega o Overload (12-18 bits)
   parameter [0:5] Waiting 									   = 18;			// Interframe
   parameter [0:5] Reseta_Variaveis						   = 19;			// Zera as variaveis para um novo frame 
@@ -56,7 +56,7 @@ module can_rx
   reg           Ini                    = 0;								// Marca o primeiro bit a ser lido (fator de implementacao)
   //Fios
   
-  wire [0:3] Form_monitor;														// Fio do form error que marca os erros de formação ( um bit para cada tipo de erro)
+  wire Form_monitor;														// Fio do form error que marca os erros de formação ( um bit para cada tipo de erro)
   wire CRC_monitor;																// Fio que marca erro de CRC
 
   
@@ -108,9 +108,15 @@ module can_rx
 				if(Stuffing_ON==1)													// Se o destuffing estiver sendo levado em consideracao
 				begin	
 					if(Erro_Flag==1)													// 6 bits repetidos ? (111111 ou 000000)
-						Estado<=Error_Frame;											// Mando para estado de erro
-					else if(Ignora_bit==1)											// Bit Destuffing ? (111110 ou 000002)						
+					begin
+						$display("Erro BIt Stuffing");
+						Estado<=Active_Error;											// Mando para estado de erro
+					end
+					else if(Ignora_bit==1)											// Bit Destuffing ? (111110 ou 000002)	
+					begin
+						$display("Bit Ignorado");
 						Estado<=Stuffing_Check;										// Pulo um estado e espero o proximo bit
+					end
 					else
 						Estado <= Redirecionando;									// Se tudo OK continuo com o fluxo normal
 				end
@@ -255,12 +261,18 @@ module can_rx
 		//------------------------------------------------------------------------- 
 		CRC_Delimiter:
 		begin
+			#(100);
 			//$display("CRC_Delimiter = %d",Data_Bit); 						// Debugger 
 		   Stuffing_ON=0;																// O stuffing não é mais relevante
 			Vector_Frame[Count_Index] <= Data_Bit;								// Guardo proximo bit   						
 			Count_Index <= Count_Index + 1;   									// Incremento contador 
 			Redirecionando   <= ACK_Frame;										// Proximo passo, ACK Frame 
 			Estado <= Stuffing_Check;												// Mando esperar novo bit 
+			if(Form_monitor==1)
+			begin
+				$display("CRC_Delimiter Erro"); 						
+				Redirecionando   <= Active_Error;
+			end
 		end 
 		//-------------------------------------------------------------------------
 		ACK_Frame:
@@ -274,15 +286,31 @@ module can_rx
 		//-------------------------------------------------------------------------
 		ACK_Delimiter:
 		begin
+			#(100);
 			//$display("ACK_Delimiter = %d",Data_Bit); 						// Debugger 
 			Vector_Frame[Count_Index] <= Data_Bit;								// Guardo proximo bit   
 			Count_Index <= Count_Index + 1;   									// Incremento contador  	
 			Redirecionando   <= End_Of_Frame;									// Proximo passo, End of frame
-			Estado <= Stuffing_Check;												// Mando esperar novo bit    					
+			Estado <= Stuffing_Check;					
+			// Mando esperar novo bit
+			if(Form_monitor==1)
+			begin
+				$display("ACK_Delimiter Erro"); 	
+				Redirecionando   <= Active_Error;	
+		   end		
+			if(CRC_monitor==1)
+			begin
+				$display("Falha na Comparacao de seguranca"); 	
+				Redirecionando   <= Active_Error;	
+		   end
+			
+			
+			
 		 end 
 		//-------------------------------------------------------------------------    
 		End_Of_Frame:
 		begin
+			#(100);
 			//$display("End = %d",Data_Bit); 					         	// Debugger 
 			Vector_Frame[Count_Index] <= Data_Bit;								// Guardo proximo bit   
 			Count_Index <= Count_Index + 1;   									// Incremento contador  	
@@ -293,6 +321,12 @@ module can_rx
 			end
 			else
 				Estado <= ConClusao;													// Fim do frame, Finalizando...
+			if(Form_monitor==1)
+			begin
+				$display("End Of Frame Erro");
+				Estado <= Stuffing_Check;	
+				Redirecionando   <= Active_Error;
+			end
 			
 		end
 		//------------------------------------------------------------------------- 
@@ -313,17 +347,9 @@ module can_rx
 			   else
 					$write("REMOTE FRAME EXTENDED,Tamanho de Frame = %d Bits;",Count_Index);
 			 end
-			 //ERROS E WARNINGS
-			 if (Form_monitor[1] == 1)
-				$write("//*Form Error -> CRC Delimiter*//");
-			 if (Form_monitor[2] == 1)
-			 	$write("//*Form Error -> ACK Delimiter*//");
-			 if (Form_monitor[0]==1&&Vector_Frame[12]==1)
-				$write("//*Form Error -> SRR Bit*//");
-			 if (Form_monitor[3] == 1)
-				$write("//*Form Error -> End Of Frame*//");				
-			 if (CRC_monitor == 1)
-				$write("//*Falha na Comparacao de seguranca -> CRC*//");
+			 //ERROS E WARNINGS		
+			 if (Vector_Frame[12]==0&&Vector_Frame[13]==1)
+				$write("//*Warning --> Wrong SRR*//");
 			 if (Vector_Frame[35:38]>8&&Vector_Frame[13]==1)
 				$write("//*Tamanho Invalido (>8) -> Tamanho considerado = 8*//");
 			 if (Vector_Frame[15:18]>8&&Vector_Frame[13]==0)
@@ -381,22 +407,20 @@ module can_rx
 			Estado <= Stuffing_Check;											// Mando esperar novo bit		
 		end
 		//-------------------------------------------------------------------------			
-		Error_Frame:
+		/*Error_Frame:
 		begin
 			//$display("ERRO = %d",Data_Bit);					      	// Debuger
 			Count_ActiveError<=0;												// Auto explicativo
 			Count_PassiveError<=0;												// Auto explicativo
 			Stuffing_ON<=0;														// Stuffing não é mais relevante
-			if(Data_Bit==0)														// Se foi erro com 6 '0'
-				Redirecionando <= Active_Error;
-			else
-				Redirecionando <= Passive_Error;								// Se foi erro com 6 '1'
+			Redirecionando <= Active_Error;							
 			Estado <= Stuffing_Check;											// Mando esperar novo bit		
-		end
+		end*/
 		//-------------------------------------------------------------------------	
 		Active_Error:
 		begin
 			//$display("Active Error = %d",Data_Bit);					   // Debuger
+			Stuffing_ON=0;
 			Redirecionando <= Active_Error;
 			if(Data_Bit==1)														// Conto os bits recessivos
 				Count_ActiveError<=Count_ActiveError+1;
@@ -406,9 +430,10 @@ module can_rx
 				Redirecionando <= Waiting;
 			end
 			Estado <= Stuffing_Check;											// Mando esperar novo bit	
+			
 		end
 		//-------------------------------------------------------------------------
-		Passive_Error:
+		/*Passive_Error:
 		begin
 			//$display("Passive Error = %d",Data_Bit);
 			Redirecionando <= Passive_Error;
@@ -420,7 +445,7 @@ module can_rx
 				Redirecionando <= Waiting;
 			end
 			Estado <= Stuffing_Check;											// Mando esperar novo bit				
-		end
+		end*/
 		//-------------------------------------------------------------------------  
 		Ocioso:																		//Debuger
 		begin
