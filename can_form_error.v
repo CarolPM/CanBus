@@ -27,7 +27,7 @@ always @(posedge Clock_TB)
 				Form_monitor_Temp <= 0;
 		end	
 		//-------------------------------------------------------
-		else if(Estado ==20)														//End Of frame
+		else if(Estado ==18)														//End Of frame
 		begin
 			if(Bit_Entrada == 1'b0)												// Se algum dos bits do end of frame for 0,, temos um erro de formacao
 				Form_monitor_Temp <= 1;
