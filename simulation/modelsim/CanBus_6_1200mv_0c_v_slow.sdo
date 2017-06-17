@@ -29,152 +29,22 @@
 
 (DELAYFILE
   (SDFVERSION "2.1")
-  (DESIGN "can_form_error")
-  (DATE "06/13/2017 02:18:11")
+  (DESIGN "can_decoder")
+  (DATE "06/17/2017 16:25:20")
   (VENDOR "Altera")
   (PROGRAM "Quartus Prime")
   (VERSION "Version 17.0.0 Build 595 04/25/2017 SJ Lite Edition")
   (DIVIDER .)
   (TIMESCALE 1 ps)
 
+	// No Timing Cells with timing info are found in the compiled design. A dummy dff Timing Cell is created.
   (CELL
-    (CELLTYPE "cycloneive_io_obuf")
-    (INSTANCE Form_monitor\~output)
-    (DELAY
-      (ABSOLUTE
-        (PORT i (738:738:738) (753:753:753))
-        (IOPATH i o (2225:2225:2225) (2220:2220:2220))
-      )
-    )
+    (CELLTYPE "dff")
+    (INSTANCE * )
   )
+	// No Timing Cells with timing info are found in the compiled design. A dummy dff Timing Cell is created.
   (CELL
-    (CELLTYPE "cycloneive_io_ibuf")
-    (INSTANCE Clock_TB\~input)
-    (DELAY
-      (ABSOLUTE
-        (IOPATH i o (581:581:581) (723:723:723))
-      )
-    )
-  )
-  (CELL
-    (CELLTYPE "cycloneive_io_ibuf")
-    (INSTANCE Estado\[2\]\~input)
-    (DELAY
-      (ABSOLUTE
-        (IOPATH i o (581:581:581) (723:723:723))
-      )
-    )
-  )
-  (CELL
-    (CELLTYPE "cycloneive_io_ibuf")
-    (INSTANCE Estado\[4\]\~input)
-    (DELAY
-      (ABSOLUTE
-        (IOPATH i o (581:581:581) (723:723:723))
-      )
-    )
-  )
-  (CELL
-    (CELLTYPE "cycloneive_io_ibuf")
-    (INSTANCE Estado\[5\]\~input)
-    (DELAY
-      (ABSOLUTE
-        (IOPATH i o (581:581:581) (723:723:723))
-      )
-    )
-  )
-  (CELL
-    (CELLTYPE "cycloneive_io_ibuf")
-    (INSTANCE Estado\[1\]\~input)
-    (DELAY
-      (ABSOLUTE
-        (IOPATH i o (581:581:581) (723:723:723))
-      )
-    )
-  )
-  (CELL
-    (CELLTYPE "cycloneive_lcell_comb")
-    (INSTANCE Form_monitor_Temp\~1)
-    (DELAY
-      (ABSOLUTE
-        (PORT dataa (2829:2829:2829) (3033:3033:3033))
-        (PORT datab (2164:2164:2164) (2353:2353:2353))
-        (PORT datac (2375:2375:2375) (2567:2567:2567))
-        (PORT datad (2394:2394:2394) (2579:2579:2579))
-        (IOPATH dataa combout (307:307:307) (323:323:323))
-        (IOPATH datab combout (325:325:325) (332:332:332))
-        (IOPATH datac combout (220:220:220) (215:215:215))
-        (IOPATH datad combout (119:119:119) (106:106:106))
-      )
-    )
-  )
-  (CELL
-    (CELLTYPE "cycloneive_io_ibuf")
-    (INSTANCE Estado\[0\]\~input)
-    (DELAY
-      (ABSOLUTE
-        (IOPATH i o (581:581:581) (723:723:723))
-      )
-    )
-  )
-  (CELL
-    (CELLTYPE "cycloneive_io_ibuf")
-    (INSTANCE Bit_Entrada\~input)
-    (DELAY
-      (ABSOLUTE
-        (IOPATH i o (581:581:581) (723:723:723))
-      )
-    )
-  )
-  (CELL
-    (CELLTYPE "cycloneive_lcell_comb")
-    (INSTANCE Form_monitor_Temp\~0)
-    (DELAY
-      (ABSOLUTE
-        (PORT datab (2401:2401:2401) (2609:2609:2609))
-        (PORT datad (864:864:864) (866:866:866))
-        (IOPATH datab combout (319:319:319) (324:324:324))
-        (IOPATH datad combout (119:119:119) (106:106:106))
-      )
-    )
-  )
-  (CELL
-    (CELLTYPE "cycloneive_io_ibuf")
-    (INSTANCE Estado\[3\]\~input)
-    (DELAY
-      (ABSOLUTE
-        (IOPATH i o (581:581:581) (723:723:723))
-      )
-    )
-  )
-  (CELL
-    (CELLTYPE "cycloneive_lcell_comb")
-    (INSTANCE Form_monitor_Temp\~2)
-    (DELAY
-      (ABSOLUTE
-        (PORT dataa (186:186:186) (223:223:223))
-        (PORT datab (324:324:324) (332:332:332))
-        (PORT datac (2805:2805:2805) (3003:3003:3003))
-        (PORT datad (820:820:820) (826:826:826))
-        (IOPATH dataa combout (307:307:307) (280:280:280))
-        (IOPATH datab combout (325:325:325) (332:332:332))
-        (IOPATH datac combout (220:220:220) (215:215:215))
-        (IOPATH datad combout (119:119:119) (106:106:106))
-      )
-    )
-  )
-  (CELL
-    (CELLTYPE "dffeas")
-    (INSTANCE Form_monitor_Temp)
-    (DELAY
-      (ABSOLUTE
-        (PORT clk (972:972:972) (961:961:961))
-        (PORT d (67:67:67) (78:78:78))
-        (IOPATH (posedge clk) q (180:180:180) (180:180:180))
-      )
-    )
-    (TIMINGCHECK
-      (HOLD d (posedge clk) (144:144:144))
-    )
+    (CELLTYPE "dff")
+    (INSTANCE * )
   )
 )

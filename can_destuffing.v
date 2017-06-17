@@ -4,7 +4,7 @@ module can_destuffing (input	Clock_SP,input Bit_Input,output Ignora_Bit,output E
 	parameter CLKS_PER_BIT  			= 10;   // Setada pelo gerador
 	
 	reg Ignora_Bit_Temp              = 0;    // Marca sexto bit diferente
-	reg Error_Stuffing_Temp          = 0;    // Marca sexto bit igual
+	reg Error_Stuffing_Temp           = 0;    // Marca sexto bit igual
 	
 	integer cont_0                   = 0;    // Conta o numero de bits dominantes
 	integer cont_1                   = 0;    // Conta o numero de bits recessivos

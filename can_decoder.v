@@ -1,7 +1,7 @@
-`include "can_form_error.v"
-`include "can_crc_checker.v"
+//`include "can_form_error.v"
+//`include "can_crc_checker.v"
 
-module can_receiver
+module can_decoder
 (  input Clock_TB,
 	input Clock_SP,
    input Bit_Input,
@@ -24,14 +24,12 @@ module can_receiver
   parameter [0:5] ACK_Frame                           = 11;			// Pega a sequencia ACK
   parameter [0:5] Stuffing_Check                      = 12;			// Aguarda o novo bit (baseado no sample point)
   parameter [0:5] ConClusao                           = 13; 		// Imprime Informações sobre o frame
-  //parameter [0:5] Passive_Error                       = 14;       // Ler os 14 bits recessivos do error passivo
-  parameter [0:5] Active_Error 								= 15;			// Pega o erro ativo (12-18 bits)
-  //parameter [0:5] Error_Frame							      = 16;			// Decide se o erro é Ativo ou passivo
-  parameter [0:5] Overload_Frame 							= 17;			// Pega o Overload (12-18 bits)
-  parameter [0:5] Waiting 									   = 18;			// Interframe
-  parameter [0:5] Reseta_Variaveis						   = 19;			// Zera as variaveis para um novo frame 
-  parameter [0:5] End_Of_Frame                        = 20;			// Os 7 bits finais do frame
-  parameter [0:5] Ocioso        		                  = 21;			// Estado para debugger (Simula o barramento em espera)
+  parameter [0:5] Active_Error 								= 14;			// Pega o erro ativo (12-18 bits)
+  parameter [0:5] Overload_Frame 							= 15;			// Pega o Overload (12-18 bits)
+  parameter [0:5] Waiting 									   = 16;			// Interframe
+  parameter [0:5] Reseta_Variaveis						   = 17;			// Zera as variaveis para um novo frame 
+  parameter [0:5] End_Of_Frame                        = 18;			// Os 7 bits finais do frame
+  parameter [0:5] Ocioso        		                  = 19;			// Estado para debugger (Simula o barramento em espera)
   //Variaveis temporarias para guardar Estados
   reg [0:5]    Redirecionando       = Identificador_A;				// Fatores de implementacao
   reg [0:5]    Estado               = Stuffing_Check;             // Comeco esperando o novo Bit
@@ -52,8 +50,10 @@ module can_receiver
   reg           Stuffing_ON            = 1;							   // Bit que marca se devemos ou não considerar o Destuff
   reg           RTR_BIT                = 1;							   // Guarda o Bit RTR
   reg           Data_Bit               = 1;	                   	// Bit de entrada						
-  reg           Sample_Point           = 0;								// Sample Point (clock do Bit Timing)
+  reg  [0:32]   Sample_Point           = 0;								// Sample Point (clock do Bit Timing)
+  reg  [0:32]   Sample_Antig           = 0;
   reg           Ini                    = 0;								// Marca o primeiro bit a ser lido (fator de implementacao)
+
   //Fios
   
   wire Form_monitor;														// Fio do form error que marca os erros de formação ( um bit para cada tipo de erro)
@@ -77,9 +77,12 @@ module can_receiver
 
   always @(posedge Clock_SP)				// Liberado pelo Sample Point
     begin
-		Sample_Point=1;						// Libera o always principal
-      Data_Bit  <= Bit_Input;				// Ler novo bit
+			Sample_Point<=Sample_Point+1;						// Libera o always principal
+			Data_Bit  <= Bit_Input;				// Ler novo bit
+			if(Sample_Point==50)
+				Sample_Point<=1;
     end
+	 
 
   always @(posedge Clock_TB)				// Always principal
     begin
@@ -102,15 +105,21 @@ module can_receiver
 	   //-------------------------------------------------------------------------
 		Stuffing_Check:																// Espera a liberacao para pegar novo bit
 		begin 				
-			 if(Sample_Point==1&&Ini==1)										   // Se o sample point for liberado e não for o primeiro bit da sequencia			
+			 
+			
+			 if(Sample_Point!=Sample_Antig&&Ini==1)									      // Se o sample point for liberado e não for o primeiro bit da sequencia			
 			 begin
-			   Sample_Point <=0;														// Reseto Sample Point
+	
+				
+				Sample_Antig= Sample_Point;
+																							// Reseto Sample Point
 				if(Stuffing_ON==1)													// Se o destuffing estiver sendo levado em consideracao
 				begin	
 					if(Erro_Flag==1)													// 6 bits repetidos ? (111111 ou 000000)
 					begin
-						$display("Bit Stuffing Error");
-						Estado<=Active_Error;											// Mando para estado de erro
+						$display("Erro BIt Stuffing");
+						Estado<=Stuffing_Check;
+						Redirecionando<=Active_Error;								// Mando para estado de erro
 					end
 					else if(Ignora_bit==1)											// Bit Destuffing ? (111110 ou 000002)	
 					begin
@@ -125,7 +134,7 @@ module can_receiver
 			 end
 			 else if(Sample_Point==1&&Ini==0&&Data_Bit==0)					// Se o sample point for liberado e for o primeiro bit da sequencia igual a 0 ( pode vim varios '1' antes de comecar o frame			
 			 begin
-				Sample_Point <=0;														// Reseto Sample Point
+				Sample_Antig= Sample_Point;											// Reseto Sample Point
 				Ini<=1;																	// A a partir de agora, estamos na sequencia
 				Vector_Frame[0] <= 0; 												// Start bit guardado
 				//$strobe("Start = %d",Data_Bit);								// Debugger
@@ -224,7 +233,7 @@ module can_receiver
 				if(Length_Data>8)														// Se o tamanho for > 8, considero tamanho 8 (sera?)
 					Length_Data<=8;
 				New_Jump <= New_Jump+4;												// Novo pulo
-				if(RTR_BIT==0)
+				if(RTR_BIT==0&&Length_Data!=0)
 					Redirecionando   <=  Data_Frame;								// Se Data frame, vou pegar os dados
 				else
 					Redirecionando   <=  CRC_Frame;								// Se Remote frame, vou direto para CRC
@@ -270,9 +279,14 @@ module can_receiver
 			Estado <= Stuffing_Check;												// Mando esperar novo bit 
 			if(Form_monitor==1)
 			begin
-				$display("CRC_Delimiter Error"); 						
+				$display("CRC_Delimiter Erro"); 						
 				Redirecionando   <= Active_Error;
 			end
+			if(CRC_monitor==1)
+			begin
+				$display("Falha na Comparacao de seguranca"); 	
+				Redirecionando   <= Active_Error;	
+		   end
 		end 
 		//-------------------------------------------------------------------------
 		ACK_Frame:
@@ -295,17 +309,9 @@ module can_receiver
 			// Mando esperar novo bit
 			if(Form_monitor==1)
 			begin
-				$display("ACK_Delimiter Error"); 	
+				$display("ACK_Delimiter Erro"); 	
 				Redirecionando   <= Active_Error;	
 		   end		
-			if(CRC_monitor==1)
-			begin
-				$display("Falha na comparacao de seguranca"); 	
-				Redirecionando   <= Active_Error;	
-		   end
-			
-			
-			
 		 end 
 		//-------------------------------------------------------------------------    
 		End_Of_Frame:
@@ -323,7 +329,7 @@ module can_receiver
 				Estado <= ConClusao;													// Fim do frame, Finalizando...
 			if(Form_monitor==1)
 			begin
-				$display("End of Frame Error");
+				$display("End Of Frame Erro");
 				Estado <= Stuffing_Check;	
 				Redirecionando   <= Active_Error;
 			end
@@ -338,14 +344,14 @@ module can_receiver
 				if(Vector_Frame[12]==0)
 					$write("DATA FRAME NORMAL, %d Bytes de dados, Tamanho de Frame = %d Bits;",Length_Data,Count_Index);
 			   else
-					$write("REMOTE FRAME NORMAL,Tamanho de Frame = %d Bits;",Count_Index);
+					$write("REMOTE FRAME NORMAL,Tamanho dos Dados Pedidos = %d, Tamanho de Frame = %d Bits;",Length_Data,Count_Index);
 			 end
 			 else
 			 begin														//Frame Extendido
 			 	if(Vector_Frame[32]==0)								
 					$write("DATA FRAME EXTENDED, %d Bytes de dados, Tamanho de Frame = %d Bits;",Length_Data,Count_Index);
 			   else
-					$write("REMOTE FRAME EXTENDED,Tamanho de Frame = %d Bits;",Count_Index);
+					$write("REMOTE FRAME EXTENDED,Tamanho dos Dados Pedidos = %d, Tamanho de Frame = %d Bits;",Length_Data,Count_Index);
 			 end
 			 //ERROS E WARNINGS		
 			 if (Vector_Frame[12]==0&&Vector_Frame[13]==1)
@@ -373,13 +379,13 @@ module can_receiver
 			if(Data_Bit==1)														// Equanto bit igual a '1' (interframe)
 			begin
 				//$display("Interframing = %d",Data_Bit);					// Debuger, é bom ficar sempre comentado
-				Count_Interframe<=Count_Interframe+1;						// Conto a quantidade de bits no interframe+intermission
+				Count_Interframe=Count_Interframe+1;						// Conto a quantidade de bits no interframe+intermission
 				Redirecionando <= Waiting;										// Novo Bit
 			end
 			else
 			begin																		// Primeiro BIt 0		
 				//$display("Interframing = %d",Data_Bit);
-				if(Count_Interframe<3)											// Se houve apenas 2 ou menos bits de interframe
+				if(Count_Interframe<2)											// Se houve apenas 2 ou menos bits de interframe
 					Estado<=Overload_Frame;										// é um overload
 				else
 				begin	
@@ -387,7 +393,7 @@ module can_receiver
 					$display("INTERFRAME (%d)",Count_Interframe);		// Debuger
 					//$display("Start = %d",Data_Bit);						// Debuger
 				end
-				Count_Interframe<=0;												// Auto explicativo
+				Count_Interframe=0;												// Auto explicativo
 			end
 																	
 		end
@@ -397,56 +403,41 @@ module can_receiver
 			Redirecionando<=Overload_Frame;
 			//$display("Overload = %d",Data_Bit);					   	   // Debuger
 			if(Data_Bit==1)
-				Count_Overload<=Count_Overload+1;							// Conta quando achamos um bit recessivo
-			if(Count_Overload==7)												// 8 bits recessivos marca o fim do frame
+				Count_Overload=Count_Overload+1;							// Conta quando achamos um bit recessivo
+			if(Count_Overload==8)												// 8 bits recessivos marca o fim do frame
 			begin
 				$display("OVERLOAD FRAME");
 				Redirecionando <= Waiting;
-				Count_Overload<=0;
+				Count_Overload=0;
 			end
 			Estado <= Stuffing_Check;											// Mando esperar novo bit		
 		end
 		//-------------------------------------------------------------------------			
-		/*Error_Frame:
-		begin
-			//$display("ERRO = %d",Data_Bit);					      	// Debuger
-			Count_ActiveError<=0;												// Auto explicativo
-			Count_PassiveError<=0;												// Auto explicativo
-			Stuffing_ON<=0;														// Stuffing não é mais relevante
-			Redirecionando <= Active_Error;							
-			Estado <= Stuffing_Check;											// Mando esperar novo bit		
-		end*/
-		//-------------------------------------------------------------------------	
 		Active_Error:
 		begin
 			//$display("Active Error = %d",Data_Bit);					   // Debuger
-			Stuffing_ON=0;
-			Redirecionando <= Active_Error;
-			if(Data_Bit==1)														// Conto os bits recessivos
-				Count_ActiveError<=Count_ActiveError+1;
-			if(Count_ActiveError==7)											// 8 bits recessivos marcam o final do frame
+			if(Data_Bit==0)	
 			begin
-				$display("ACTIVE ERROR FRAME");
-				Redirecionando <= Waiting;
+				Stuffing_ON<=0;
+				Redirecionando <= Active_Error;
 			end
-			Estado <= Stuffing_Check;											// Mando esperar novo bit	
+			else 																	// Conto os bits recessivos
+			begin
+				Count_ActiveError=Count_ActiveError+1;
+				if(Count_ActiveError==8)
+				begin
+					Count_ActiveError=0;
+					$display("ACTIVE ERROR FRAME");
+					Redirecionando <= Waiting;
+					
+				end
+				
+			end
+			Estado <= Stuffing_Check;									// Mando esperar novo bi
+				
 			
 		end
 		//-------------------------------------------------------------------------
-		/*Passive_Error:
-		begin
-			//$display("Passive Error = %d",Data_Bit);
-			Redirecionando <= Passive_Error;
-			if(Data_Bit==1)														
-				Count_PassiveError<=Count_PassiveError+1;					// Conto o numero de bits recessivos
-			if(Count_PassiveError==7)											// 6+8 = 14 bits recessivos -> passive error 
-			begin
-				$display("PASSIVE ERROR FRAME");
-				Redirecionando <= Waiting;
-			end
-			Estado <= Stuffing_Check;											// Mando esperar novo bit				
-		end*/
-		//-------------------------------------------------------------------------  
 		Ocioso:																		//Debuger
 		begin
 			  Estado   <= Ocioso;

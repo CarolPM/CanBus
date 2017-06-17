@@ -17,7 +17,7 @@
 // PROGRAM "Quartus Prime"
 // VERSION "Version 17.0.0 Build 595 04/25/2017 SJ Lite Edition"
 
-// DATE "06/13/2017 02:18:11"
+// DATE "06/17/2017 16:25:20"
 
 // 
 // Device: Altera EP4CE6E22C6 Package TQFP144
@@ -29,26 +29,24 @@
 
 `timescale 1 ps/ 1 ps
 
-module can_form_error (
+module can_decoder (
 	Clock_TB,
-	Bit_Entrada,
-	Estado,
-	Form_monitor);
+	Clock_SP,
+	Bit_Input,
+	Erro_Flag,
+	Ignora_bit);
 input 	Clock_TB;
-input 	Bit_Entrada;
-input 	[0:5] Estado;
-output 	Form_monitor;
+input 	Clock_SP;
+input 	Bit_Input;
+input 	Erro_Flag;
+input 	Ignora_bit;
 
 // Design Ports Information
-// Form_monitor	=>  Location: PIN_83,	 I/O Standard: 2.5 V,	 Current Strength: Default
-// Estado[3]	=>  Location: PIN_90,	 I/O Standard: 2.5 V,	 Current Strength: Default
-// Bit_Entrada	=>  Location: PIN_91,	 I/O Standard: 2.5 V,	 Current Strength: Default
-// Estado[0]	=>  Location: PIN_74,	 I/O Standard: 2.5 V,	 Current Strength: Default
-// Estado[2]	=>  Location: PIN_99,	 I/O Standard: 2.5 V,	 Current Strength: Default
-// Estado[4]	=>  Location: PIN_76,	 I/O Standard: 2.5 V,	 Current Strength: Default
-// Estado[1]	=>  Location: PIN_75,	 I/O Standard: 2.5 V,	 Current Strength: Default
-// Estado[5]	=>  Location: PIN_80,	 I/O Standard: 2.5 V,	 Current Strength: Default
-// Clock_TB	=>  Location: PIN_77,	 I/O Standard: 2.5 V,	 Current Strength: Default
+// Clock_TB	=>  Location: PIN_84,	 I/O Standard: 2.5 V,	 Current Strength: Default
+// Clock_SP	=>  Location: PIN_38,	 I/O Standard: 2.5 V,	 Current Strength: Default
+// Bit_Input	=>  Location: PIN_111,	 I/O Standard: 2.5 V,	 Current Strength: Default
+// Erro_Flag	=>  Location: PIN_53,	 I/O Standard: 2.5 V,	 Current Strength: Default
+// Ignora_bit	=>  Location: PIN_7,	 I/O Standard: 2.5 V,	 Current Strength: Default
 
 
 wire gnd;
@@ -66,19 +64,11 @@ tri1 devoe;
 initial $sdf_annotate("CanBus_v.sdo");
 // synopsys translate_on
 
-wire \Form_monitor~output_o ;
 wire \Clock_TB~input_o ;
-wire \Estado[2]~input_o ;
-wire \Estado[4]~input_o ;
-wire \Estado[5]~input_o ;
-wire \Estado[1]~input_o ;
-wire \Form_monitor_Temp~1_combout ;
-wire \Estado[0]~input_o ;
-wire \Bit_Entrada~input_o ;
-wire \Form_monitor_Temp~0_combout ;
-wire \Estado[3]~input_o ;
-wire \Form_monitor_Temp~2_combout ;
-wire \Form_monitor_Temp~q ;
+wire \Clock_SP~input_o ;
+wire \Bit_Input~input_o ;
+wire \Erro_Flag~input_o ;
+wire \Ignora_bit~input_o ;
 
 
 hard_block auto_generated_inst(
@@ -86,20 +76,7 @@ hard_block auto_generated_inst(
 	.devclrn(devclrn),
 	.devoe(devoe));
 
-// Location: IOOBUF_X34_Y9_N23
-cycloneive_io_obuf \Form_monitor~output (
-	.i(\Form_monitor_Temp~q ),
-	.oe(vcc),
-	.seriesterminationcontrol(16'b0000000000000000),
-	.devoe(devoe),
-	.o(\Form_monitor~output_o ),
-	.obar());
-// synopsys translate_off
-defparam \Form_monitor~output .bus_hold = "false";
-defparam \Form_monitor~output .open_drain_output = "false";
-// synopsys translate_on
-
-// Location: IOIBUF_X34_Y4_N15
+// Location: IOIBUF_X34_Y9_N15
 cycloneive_io_ibuf \Clock_TB~input (
 	.i(Clock_TB),
 	.ibar(gnd),
@@ -109,147 +86,45 @@ defparam \Clock_TB~input .bus_hold = "false";
 defparam \Clock_TB~input .simulate_z_as = "z";
 // synopsys translate_on
 
-// Location: IOIBUF_X34_Y17_N15
-cycloneive_io_ibuf \Estado[2]~input (
-	.i(Estado[2]),
+// Location: IOIBUF_X1_Y0_N22
+cycloneive_io_ibuf \Clock_SP~input (
+	.i(Clock_SP),
 	.ibar(gnd),
-	.o(\Estado[2]~input_o ));
+	.o(\Clock_SP~input_o ));
 // synopsys translate_off
-defparam \Estado[2]~input .bus_hold = "false";
-defparam \Estado[2]~input .simulate_z_as = "z";
+defparam \Clock_SP~input .bus_hold = "false";
+defparam \Clock_SP~input .simulate_z_as = "z";
 // synopsys translate_on
 
-// Location: IOIBUF_X34_Y4_N22
-cycloneive_io_ibuf \Estado[4]~input (
-	.i(Estado[4]),
+// Location: IOIBUF_X30_Y24_N22
+cycloneive_io_ibuf \Bit_Input~input (
+	.i(Bit_Input),
 	.ibar(gnd),
-	.o(\Estado[4]~input_o ));
+	.o(\Bit_Input~input_o ));
 // synopsys translate_off
-defparam \Estado[4]~input .bus_hold = "false";
-defparam \Estado[4]~input .simulate_z_as = "z";
+defparam \Bit_Input~input .bus_hold = "false";
+defparam \Bit_Input~input .simulate_z_as = "z";
 // synopsys translate_on
 
-// Location: IOIBUF_X34_Y7_N8
-cycloneive_io_ibuf \Estado[5]~input (
-	.i(Estado[5]),
+// Location: IOIBUF_X16_Y0_N1
+cycloneive_io_ibuf \Erro_Flag~input (
+	.i(Erro_Flag),
 	.ibar(gnd),
-	.o(\Estado[5]~input_o ));
+	.o(\Erro_Flag~input_o ));
 // synopsys translate_off
-defparam \Estado[5]~input .bus_hold = "false";
-defparam \Estado[5]~input .simulate_z_as = "z";
+defparam \Erro_Flag~input .bus_hold = "false";
+defparam \Erro_Flag~input .simulate_z_as = "z";
 // synopsys translate_on
 
-// Location: IOIBUF_X34_Y3_N22
-cycloneive_io_ibuf \Estado[1]~input (
-	.i(Estado[1]),
+// Location: IOIBUF_X0_Y21_N8
+cycloneive_io_ibuf \Ignora_bit~input (
+	.i(Ignora_bit),
 	.ibar(gnd),
-	.o(\Estado[1]~input_o ));
+	.o(\Ignora_bit~input_o ));
 // synopsys translate_off
-defparam \Estado[1]~input .bus_hold = "false";
-defparam \Estado[1]~input .simulate_z_as = "z";
+defparam \Ignora_bit~input .bus_hold = "false";
+defparam \Ignora_bit~input .simulate_z_as = "z";
 // synopsys translate_on
-
-// Location: LCCOMB_X33_Y4_N12
-cycloneive_lcell_comb \Form_monitor_Temp~1 (
-// Equation(s):
-// \Form_monitor_Temp~1_combout  = (\Estado[2]~input_o  & (!\Estado[1]~input_o  & (\Estado[4]~input_o  $ (\Estado[5]~input_o )))) # (!\Estado[2]~input_o  & (!\Estado[4]~input_o  & (!\Estado[5]~input_o  & \Estado[1]~input_o )))
-
-	.dataa(\Estado[2]~input_o ),
-	.datab(\Estado[4]~input_o ),
-	.datac(\Estado[5]~input_o ),
-	.datad(\Estado[1]~input_o ),
-	.cin(gnd),
-	.combout(\Form_monitor_Temp~1_combout ),
-	.cout());
-// synopsys translate_off
-defparam \Form_monitor_Temp~1 .lut_mask = 16'h0128;
-defparam \Form_monitor_Temp~1 .sum_lutc_input = "datac";
-// synopsys translate_on
-
-// Location: IOIBUF_X34_Y2_N15
-cycloneive_io_ibuf \Estado[0]~input (
-	.i(Estado[0]),
-	.ibar(gnd),
-	.o(\Estado[0]~input_o ));
-// synopsys translate_off
-defparam \Estado[0]~input .bus_hold = "false";
-defparam \Estado[0]~input .simulate_z_as = "z";
-// synopsys translate_on
-
-// Location: IOIBUF_X34_Y12_N1
-cycloneive_io_ibuf \Bit_Entrada~input (
-	.i(Bit_Entrada),
-	.ibar(gnd),
-	.o(\Bit_Entrada~input_o ));
-// synopsys translate_off
-defparam \Bit_Entrada~input .bus_hold = "false";
-defparam \Bit_Entrada~input .simulate_z_as = "z";
-// synopsys translate_on
-
-// Location: LCCOMB_X33_Y4_N10
-cycloneive_lcell_comb \Form_monitor_Temp~0 (
-// Equation(s):
-// \Form_monitor_Temp~0_combout  = (\Estado[0]~input_o ) # (\Bit_Entrada~input_o )
-
-	.dataa(gnd),
-	.datab(\Estado[0]~input_o ),
-	.datac(gnd),
-	.datad(\Bit_Entrada~input_o ),
-	.cin(gnd),
-	.combout(\Form_monitor_Temp~0_combout ),
-	.cout());
-// synopsys translate_off
-defparam \Form_monitor_Temp~0 .lut_mask = 16'hFFCC;
-defparam \Form_monitor_Temp~0 .sum_lutc_input = "datac";
-// synopsys translate_on
-
-// Location: IOIBUF_X34_Y12_N8
-cycloneive_io_ibuf \Estado[3]~input (
-	.i(Estado[3]),
-	.ibar(gnd),
-	.o(\Estado[3]~input_o ));
-// synopsys translate_off
-defparam \Estado[3]~input .bus_hold = "false";
-defparam \Estado[3]~input .simulate_z_as = "z";
-// synopsys translate_on
-
-// Location: LCCOMB_X33_Y4_N0
-cycloneive_lcell_comb \Form_monitor_Temp~2 (
-// Equation(s):
-// \Form_monitor_Temp~2_combout  = (\Form_monitor_Temp~1_combout  & (!\Form_monitor_Temp~0_combout  & (\Estado[2]~input_o  $ (\Estado[3]~input_o ))))
-
-	.dataa(\Form_monitor_Temp~1_combout ),
-	.datab(\Form_monitor_Temp~0_combout ),
-	.datac(\Estado[2]~input_o ),
-	.datad(\Estado[3]~input_o ),
-	.cin(gnd),
-	.combout(\Form_monitor_Temp~2_combout ),
-	.cout());
-// synopsys translate_off
-defparam \Form_monitor_Temp~2 .lut_mask = 16'h0220;
-defparam \Form_monitor_Temp~2 .sum_lutc_input = "datac";
-// synopsys translate_on
-
-// Location: FF_X33_Y4_N1
-dffeas Form_monitor_Temp(
-	.clk(\Clock_TB~input_o ),
-	.d(\Form_monitor_Temp~2_combout ),
-	.asdata(vcc),
-	.clrn(vcc),
-	.aload(gnd),
-	.sclr(gnd),
-	.sload(gnd),
-	.ena(vcc),
-	.devclrn(devclrn),
-	.devpor(devpor),
-	.q(\Form_monitor_Temp~q ),
-	.prn(vcc));
-// synopsys translate_off
-defparam Form_monitor_Temp.is_wysiwyg = "true";
-defparam Form_monitor_Temp.power_up = "low";
-// synopsys translate_on
-
-assign Form_monitor = \Form_monitor~output_o ;
 
 endmodule
 

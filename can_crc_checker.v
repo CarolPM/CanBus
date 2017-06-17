@@ -21,7 +21,7 @@ module can_crc_checker (input Clock_TB, input [0:5] Estado,input Bit_Entrada, ou
 				//$write("%d ",Estado);
 				if(Estado==17)
 				begin
-					CRC<=0;
+					CRC=0;
 					CRC_monitor_Temp<=0;
 					Count<=14;
 				end

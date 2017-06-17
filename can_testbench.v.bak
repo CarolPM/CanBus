@@ -1,4 +1,4 @@
-`include "can_decoder.v"
+`include "can_receiver.v"
 `include "can_destuffing.v"
 
 // Para testar uma sequencia, mude o parametro "tamanho" para o tamanho da sequencia e a proprioa sequencia na funcao "Can_Write"
@@ -20,7 +20,7 @@ module can_testbench ();
   
   
   //Tamanho da sequencia de entrada
-  parameter Tamanho           = 130;
+  parameter Tamanho           = 42;
   
   reg Clock_TB = 0;     // Clock do Teste Banch
   reg Clock_SP = 0;     // Clock do Sample Point
@@ -53,7 +53,7 @@ module can_testbench ();
 		.Error_Stuffing(Error_Stuffing)											//Formato Entrada(Saida)
 	);
 	
-	can_decoder #(.CLKS_PER_BIT(Clocks_Por_Bit)) CAN_DECODER_INST              //Instancia Do Modulo Principal
+	can_receiver #(.CLKS_PER_BIT(Clocks_Por_Bit)) CAN_RECEIVER_INST              //Instancia Do Modulo Principal
 	(
 		.Clock_TB(Clock_TB),													     //Formato Entrada(Saida)
 		.Clock_SP(Clock_SP),													     //Formato Entrada(Saida)
@@ -73,7 +73,7 @@ module can_testbench ();
   initial					// Coloque a sequencia de entrada aqui
     begin
       @(posedge Clock_TB);		
-			CAN_WRITE_BYTE(130'b0101010101011000010101101110100010100000011111111111111111111111111111111111111111111111111111111111111111111111111111111111111111); //data frame standard
+			CAN_WRITE_BYTE(42'b001010101010001001000000111111111111111111); //data frame standard
     end
 	 
 endmodule

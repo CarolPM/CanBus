@@ -1,3 +1,3 @@
 Warning (10268): Verilog HDL information at can_destuffing.v(15): always construct contains both blocking and non-blocking assignments File: C:/Users/Carol/Documents/quartusworkspace/CanBus/can_destuffing.v Line: 15
-Warning (10268): Verilog HDL information at can_receiver.v(78): always construct contains both blocking and non-blocking assignments File: C:/Users/Carol/Documents/quartusworkspace/CanBus/can_receiver.v Line: 78
-Warning (10268): Verilog HDL information at can_receiver.v(84): always construct contains both blocking and non-blocking assignments File: C:/Users/Carol/Documents/quartusworkspace/CanBus/can_receiver.v Line: 84
+Warning (10268): Verilog HDL information at can_crc_checker.v(14): always construct contains both blocking and non-blocking assignments File: C:/Users/Carol/Documents/quartusworkspace/CanBus/can_crc_checker.v Line: 14
+Warning (10268): Verilog HDL information at can_decoder.v(87): always construct contains both blocking and non-blocking assignments File: C:/Users/Carol/Documents/quartusworkspace/CanBus/can_decoder.v Line: 87
