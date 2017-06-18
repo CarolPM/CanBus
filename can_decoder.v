@@ -49,6 +49,7 @@ module can_decoder
   reg [0:31] Count_Data                = 0;								// Contador para vetor de dados		  
   reg [0:31] Count_Interframe          = 0;								// Contador para o interframe
   reg [0:31] Count_Overload            = 0;								// Contador para o overload
+  reg [0:31] Count_Error_Sobre         = 0;								// Contador para a sobreposicao do Erro
   reg [0:31] Count_ActiveError         = 0;								// Contador para o erro ativo
   reg [0:31] Count_PassiveError        = 0;								// Contador para o erro passivo
   //Sequencia de bits (Frame)
@@ -148,7 +149,7 @@ module can_decoder
 				else
 					Estado <= Redirecionando;										// Se não estou mais levando em consideracao o destuffing entao, so continuo com o fluxo normal
 			 end
-			 else if(Sample_Point==1&&Ini==0&&Data_Bit==0)					// Se o sample point for liberado e for o primeiro bit da sequencia igual a 0 ( pode vim varios '1' antes de comecar o frame			
+			 else if(Ini==0&&Data_Bit==0)											//  primeiro bit da sequencia igual a 0 ( pode vim varios '1' antes de comecar o frame			
 			 begin
 				Sample_Antig= Sample_Point;										// Atualizo Sample temporario
 				Ini<=1;																	// A a partir de agora, estamos na sequencia
@@ -464,6 +465,7 @@ module can_decoder
 			//$display("Active Error = %d",Data_Bit);					   // Debuger
 			if(Data_Bit==0)	
 			begin
+				Count_Error_Sobre=Count_Error_Sobre+1;
 				Stuffing_ON<=0;
 				Redirecionando <= Active_Error;
 			end
@@ -473,7 +475,8 @@ module can_decoder
 				if(Count_ActiveError==8)
 				begin
 					Count_ActiveError=0;
-					$display("ACTIVE ERROR FRAME");
+					$display("ACTIVE ERROR FRAME COM BITS DE SOBREPOSICAO = %d ",Count_Error_Sobre-6);
+					Count_Error_Sobre=0;
 					Redirecionando <= Waiting;
 					
 				end
