@@ -59,7 +59,13 @@ module can_testbench ();
 		.Clock_SP(Clock_SP),													     //Formato Entrada(Saida)
 		.Bit_Input(r_Rx_Serial),												  //Formato Entrada(Saida)
 		.Erro_Flag(Error_Stuffing),											  //Formato Entrada(Saida)
-		.Ignora_bit(Ignora_Bit)												     //Formato Entrada(Saida)
+		.Ignora_bit(Ignora_Bit),												     //Formato Entrada(Saida)
+		.o_Output_On(),
+		.o_Data_Flag(),
+		.o_Estendido_Flag(),
+		.o_Data_Lenth(),
+		.o_ID_Field(),
+		.o_Data_Field()
     );
 
    

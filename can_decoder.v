@@ -2,11 +2,17 @@
 //`include "can_crc_checker.v"
 
 module can_decoder
-(  input Clock_TB,
-	input Clock_SP,
-   input Bit_Input,
-	input Erro_Flag,
-	input Ignora_bit
+(  input Clock_TB,																//Clock do teste Banch (10MB)
+	input Clock_SP,																//Clock do Sample Point (~1MB)
+   input Bit_Input,															   //Proximo Bit
+	input Erro_Flag,																//O proximo Bit tem erro de Bit Stuffing
+	input Ignora_bit,																//O proximo bit deve ser ignorado
+	output o_Output_On,															//Saida Pronta (Frame Valido disponivel)
+	output o_Data_Flag,															//Frame data ?
+	output o_Estendido_Flag,													//Estendido ?
+	output [0:3]  o_Data_Lenth,												//Tamanho Data
+	output [0:28] o_ID_Field,													//Identificador	
+	output [0:63] o_Data_Field													//Dado
 );
    
   //Estados  --> Não mude
@@ -38,7 +44,9 @@ module can_decoder
   //Variaveis 
   reg [0:31] New_Jump                  = 0;								// Guarda o pulo de index (varia para frames normais e extendidos)
   reg [0:31] Count_Length              = 0;								// Contador pata a sequencia que determina o tamanho
-  reg [0:31] Count_Index               = 1;								// Contador para o indice do vetor principal							
+  reg [0:31] Count_Index               = 1;								// Contador para o indice do vetor principal			
+  reg [0:31] Count_ID                  = 0;								// Contador para vetor ID			
+  reg [0:31] Count_Data                = 0;								// Contador para vetor de dados		  
   reg [0:31] Count_Interframe          = 0;								// Contador para o interframe
   reg [0:31] Count_Overload            = 0;								// Contador para o overload
   reg [0:31] Count_ActiveError         = 0;								// Contador para o erro ativo
@@ -53,11 +61,21 @@ module can_decoder
   reg  [0:32]   Sample_Point           = 0;								// Sample Point (clock do Bit Timing)
   reg  [0:32]   Sample_Antig           = 0;
   reg           Ini                    = 0;								// Marca o primeiro bit a ser lido (fator de implementacao)
+  reg  [0:199]  Final_Frame            = 0;
 
   //Fios
   
-  wire Form_monitor;														// Fio do form error que marca os erros de formação ( um bit para cada tipo de erro)
+  wire Form_monitor;														      // Fio do form error que marca os erros de formação ( um bit para cada tipo de erro)
   wire CRC_monitor;																// Fio que marca erro de CRC
+  
+  reg Data_Flag         			      = 0;							   //Registrador Temporario da Saida
+  reg Estendido_Flag                   = 0;							   //Registrador Temporario da Saida
+  reg [0:3] Data_Lenth                 = 0;							   //Registrador Temporario da Saida
+  reg [0:28] ID_Field                  = 0;							   //Registrador Temporario da Saida
+  reg [0:63] Data_Field                = 0;							   //Registrador Temporario da Saida
+  reg Output_On                        = 0;							   //Registrador Temporario da Saida
+	
+	
 
   
   	can_form_error #(.form_CLKS_PER_BIT(CLKS_PER_BIT)) CAN_FORM_ERROR_INST
@@ -75,11 +93,11 @@ module can_decoder
 	 );
 
 
-  always @(posedge Clock_SP)				// Liberado pelo Sample Point
+  always @(posedge Clock_SP)									// Liberado pelo Sample Point
     begin
 			Sample_Point<=Sample_Point+1;						// Libera o always principal
-			Data_Bit  <= Bit_Input;				// Ler novo bit
-			if(Sample_Point==50)
+			Data_Bit  <= Bit_Input;								// Ler novo bit
+			if(Sample_Point==50)									// Mantem o sample point diferente do Sample_Antig (uma variavel não pode ser modificada em 2 always diferente, logo, é necessario uma variavel temporaria para simular o estado da primeira)
 				Sample_Point<=1;
     end
 	 
@@ -91,7 +109,10 @@ module can_decoder
 		Reseta_Variaveis:
 		begin																				// Reinicia variaveis
 			Redirecionando                      <= Identificador_A;		// Fator de implementação
-			Count_PassiveError                  <= 0;                   // Auto Explicativo							
+			Count_PassiveError                  <= 0;                   // Auto Explicativo					
+			Count_Data									<= 0;                   // Auto Explicativo				  
+			Output_On									<= 0;                   // Auto Explicativo				
+			Count_ID										<= 0;                   // Auto Explicativo				
 			Count_ActiveError                   <= 0;                   // Auto Explicativo
 			Count_Index                         <= 1;                   // Auto Explicativo
 			Count_Interframe                    <= 0;                   // Auto Explicativo
@@ -105,20 +126,15 @@ module can_decoder
 	   //-------------------------------------------------------------------------
 		Stuffing_Check:																// Espera a liberacao para pegar novo bit
 		begin 				
-			 
-			
-			 if(Sample_Point!=Sample_Antig&&Ini==1)									      // Se o sample point for liberado e não for o primeiro bit da sequencia			
+			 if(Sample_Point!=Sample_Antig&&Ini==1)							// Se o sample point for liberado e não for o primeiro bit da sequencia			
 			 begin
-	
-				
-				Sample_Antig= Sample_Point;
-																							// Reseto Sample Point
+				Sample_Antig= Sample_Point;										// Atualizo Sample temporario
 				if(Stuffing_ON==1)													// Se o destuffing estiver sendo levado em consideracao
 				begin	
 					if(Erro_Flag==1)													// 6 bits repetidos ? (111111 ou 000000)
 					begin
 						$display("Erro BIt Stuffing");
-						Estado<=Stuffing_Check;
+						Estado<=Stuffing_Check;										// Espero proximo bit
 						Redirecionando<=Active_Error;								// Mando para estado de erro
 					end
 					else if(Ignora_bit==1)											// Bit Destuffing ? (111110 ou 000002)	
@@ -134,7 +150,7 @@ module can_decoder
 			 end
 			 else if(Sample_Point==1&&Ini==0&&Data_Bit==0)					// Se o sample point for liberado e for o primeiro bit da sequencia igual a 0 ( pode vim varios '1' antes de comecar o frame			
 			 begin
-				Sample_Antig= Sample_Point;											// Reseto Sample Point
+				Sample_Antig= Sample_Point;										// Atualizo Sample temporario
 				Ini<=1;																	// A a partir de agora, estamos na sequencia
 				Vector_Frame[0] <= 0; 												// Start bit guardado
 				//$strobe("Start = %d",Data_Bit);								// Debugger
@@ -145,7 +161,9 @@ module can_decoder
 		begin
 			//$display("ID_A = %d",Data_Bit); 								   // Debugger
          Vector_Frame[Count_Index] <= Data_Bit;								// Guardo proximo bit
-			Count_Index <= Count_Index + 1;	 									// Incremento contador
+			Count_Index <= Count_Index + 1;	 									// Contador do Vetor Principal
+			ID_Field[Count_ID]<= Data_Bit;										// MOntando o campo ID	
+			Count_ID<=Count_ID+1;													// Contador do campo ID	
          if (Count_Index < 11)
 				Redirecionando   <= Identificador_A;							// pegando 11 bits do ID_A
 			else
@@ -174,7 +192,9 @@ module can_decoder
 		begin
 			//$display("ID_B = %d",Data_Bit); 								   // Debugger
          Vector_Frame[Count_Index] <= Data_Bit;								// Guardo proximo bit
-			Count_Index <= Count_Index + 1;							         // Incremento contador 
+			Count_Index <= Count_Index + 1;	 									// Contador do Vetor Principal
+			ID_Field[Count_ID]<= Data_Bit;										// MOntando o campo ID	
+			Count_ID<=Count_ID+1;													// Contador do campo ID	
          if (Count_Index < 31)									            // pegando os 18 bits do ID_B
              Redirecionando   <= Identificador_B;							
 			else
@@ -245,8 +265,10 @@ module can_decoder
 		begin
 			//$display("DATA = %d",Data_Bit); 							      // Debugger
          Vector_Frame[Count_Index] <= Data_Bit;								// Guardo proximo bit
-			Count_Index <= Count_Index + 1;										// Incremento contador  	
-         if (Count_Index < New_Jump+(Length_Data*8))						// Leio os bits relativos a data, tamanho em bytes vezes 8 bits
+			Count_Index <= Count_Index + 1;	                           // Incremento contador vetor principal
+			Data_Field[Count_Data]<=Data_Bit;									// MOntando vetor DATA
+		   Count_Data<=Count_Data+1;								          	// Incremento contador DATA
+         if (Count_Index < New_Jump+(Length_Data*8))			  			// Leio os bits relativos a data, tamanho em bytes vezes 8 bits
 				Redirecionando   <= Data_Frame;									// Continuo pegando o data
 			else
          begin  
@@ -270,23 +292,26 @@ module can_decoder
 		//------------------------------------------------------------------------- 
 		CRC_Delimiter:
 		begin
-			#(100);
+			#(100);																		// Espera resposta do Modulo Form Error 
 			//$display("CRC_Delimiter = %d",Data_Bit); 						// Debugger 
 		   Stuffing_ON=0;																// O stuffing não é mais relevante
 			Vector_Frame[Count_Index] <= Data_Bit;								// Guardo proximo bit   						
 			Count_Index <= Count_Index + 1;   									// Incremento contador 
 			Redirecionando   <= ACK_Frame;										// Proximo passo, ACK Frame 
 			Estado <= Stuffing_Check;												// Mando esperar novo bit 
-			if(Form_monitor==1)
+			if(Form_monitor==1)														// Erro de formação, redirecionado para estado de erro
 			begin
 				$display("CRC_Delimiter Erro"); 						
 				Redirecionando   <= Active_Error;
 			end
-			if(CRC_monitor==1)
+			else
 			begin
-				$display("Falha na Comparacao de seguranca"); 	
-				Redirecionando   <= Active_Error;	
-		   end
+				if(CRC_monitor==1)												   // Erro de CRC, redirecionado para estado de erro
+				begin
+					$display("Falha na Comparacao de seguranca"); 	
+					Redirecionando   <= Active_Error;	
+				end
+			end
 		end 
 		//-------------------------------------------------------------------------
 		ACK_Frame:
@@ -300,14 +325,14 @@ module can_decoder
 		//-------------------------------------------------------------------------
 		ACK_Delimiter:
 		begin
-			#(100);
+			#(100);																		// Espera resposta do Modulo Form Error (100 = 1 decimo de 1 MB)
 			//$display("ACK_Delimiter = %d",Data_Bit); 						// Debugger 
 			Vector_Frame[Count_Index] <= Data_Bit;								// Guardo proximo bit   
 			Count_Index <= Count_Index + 1;   									// Incremento contador  	
 			Redirecionando   <= End_Of_Frame;									// Proximo passo, End of frame
 			Estado <= Stuffing_Check;					
 			// Mando esperar novo bit
-			if(Form_monitor==1)
+			if(Form_monitor==1)														// Erro de formação, redirecionado para estado de erro
 			begin
 				$display("ACK_Delimiter Erro"); 	
 				Redirecionando   <= Active_Error;	
@@ -316,7 +341,7 @@ module can_decoder
 		//-------------------------------------------------------------------------    
 		End_Of_Frame:
 		begin
-			#(100);
+			#(100);																		// Espera resposta do Modulo Form Error 
 			//$display("End = %d",Data_Bit); 					         	// Debugger 
 			Vector_Frame[Count_Index] <= Data_Bit;								// Guardo proximo bit   
 			Count_Index <= Count_Index + 1;   									// Incremento contador  	
@@ -327,7 +352,7 @@ module can_decoder
 			end
 			else
 				Estado <= ConClusao;													// Fim do frame, Finalizando...
-			if(Form_monitor==1)
+			if(Form_monitor==1)														// Erro de formação, redirecionado para estado de erro
 			begin
 				$display("End Of Frame Erro");
 				Estado <= Stuffing_Check;	
@@ -338,20 +363,35 @@ module can_decoder
 		//------------------------------------------------------------------------- 
 		ConClusao:
 		begin
+			 Output_On=1;
 			 // INFORMACOES BASICAS
 		    if(Vector_Frame[13]==0)								//Frame Normal
 			 begin
+				Estendido_Flag=0;
 				if(Vector_Frame[12]==0)
+				begin
 					$write("DATA FRAME NORMAL, %d Bytes de dados, Tamanho de Frame = %d Bits;",Length_Data,Count_Index);
+					Data_Flag=1;
+				end
 			   else
+				begin
 					$write("REMOTE FRAME NORMAL,Tamanho dos Dados Pedidos = %d, Tamanho de Frame = %d Bits;",Length_Data,Count_Index);
+					Data_Flag=0;
+				end
 			 end
 			 else
 			 begin														//Frame Extendido
-			 	if(Vector_Frame[32]==0)								
+			   Estendido_Flag=1;
+			 	if(Vector_Frame[32]==0)		
+				begin
 					$write("DATA FRAME EXTENDED, %d Bytes de dados, Tamanho de Frame = %d Bits;",Length_Data,Count_Index);
+					Data_Flag=1;
+				end
 			   else
+				begin
 					$write("REMOTE FRAME EXTENDED,Tamanho dos Dados Pedidos = %d, Tamanho de Frame = %d Bits;",Length_Data,Count_Index);
+					Data_Flag=0;
+				end
 			 end
 			 //ERROS E WARNINGS		
 			 if (Vector_Frame[12]==0&&Vector_Frame[13]==1)
@@ -371,6 +411,12 @@ module can_decoder
 			 Estado <= Stuffing_Check;											// Mando esperar novo bit
 			 Redirecionando <= Waiting;										// Proximo passo, interframe
 			 //Estado <= Ocioso;													// Debuger, pegar apenas o primeiro frame, comentar para pegar sequencias, não comentar para um unico frame
+			 //$display("%b",Data_Flag);
+			 //$display("%b",Estendido_Flag);
+			 //$display("%b",Length_Data);
+			 //$display("%b",ID_Field);
+			 //$display("%b",Data_Field);
+			 //$display("%b",Output_On);
 		  end
 		//-------------------------------------------------------------------------
 		Waiting:																		// Interframe+intermission
@@ -446,4 +492,12 @@ module can_decoder
       endcase
     end   
 
+	 assign o_Data_Flag       = Data_Flag;
+	 assign o_Estendido_Flag  = Estendido_Flag;
+	 assign o_Data_Lenth      = Length_Data ;
+	 assign o_ID_Field        = ID_Field;
+	 assign o_Data_Field      = Data_Field ;
+	 assign o_Output_On       = Output_On ;
+
+	
   endmodule 
